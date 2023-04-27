@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "349682548526",
+    "project_id": "amzoodmart",
+    "storage_bucket": "amzoodmart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349682548526:android:1488b7ce3f936c75e504bf",
+        "android_client_info": {
+          "package_name": "com.example.amzoodmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349682548526-om8u4bipk7rfq06qo1j9ac2b64noud23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtSMC_y5Y720L9t_fKPMJaFoZRH84UPWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349682548526-om8u4bipk7rfq06qo1j9ac2b64noud23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
