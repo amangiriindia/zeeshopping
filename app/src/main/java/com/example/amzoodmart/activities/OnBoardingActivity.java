@@ -1,4 +1,4 @@
-package com.example.amzoodmart;
+package com.example.amzoodmart.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -13,6 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.amzoodmart.R;
+import com.example.amzoodmart.adapters.SliderAdapter;
 
 public class OnBoardingActivity extends AppCompatActivity {
 

@@ -5,4 +5,6 @@
     <string name="second_slide">Fast Delivery</string>
     <string name="third_slide">Good Service</string>
     <string name="description">An Amzood app with good service and fast delivery is a digital platform that enables customers to shop for products online, place orders, and have them delivered to their doorstep quickly and efficiently.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

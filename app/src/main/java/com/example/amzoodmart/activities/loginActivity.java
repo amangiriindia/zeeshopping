@@ -1,4 +1,4 @@
-package com.example.amzoodmart;
+package com.example.amzoodmart.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.amzoodmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -54,7 +55,7 @@ public class loginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(loginActivity.this, "Successfuly Login", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(loginActivity.this,MainActivity2.class));
+                                    startActivity(new Intent(loginActivity.this,MainActivity.class));
                                 }else {
                                     Toast.makeText(loginActivity.this, "Wrong Username and  Password!", Toast.LENGTH_SHORT).show();
                                 }
