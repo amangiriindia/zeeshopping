@@ -7,4 +7,9 @@
     <string name="description">An Amzood app with good service and fast delivery is a digital platform that enables customers to shop for products online, place orders, and have them delivered to their doorstep quickly and efficiently.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="New">new</string>
+    <string name="product_name">Product Name</string>
+    <string name="_90">90</string>
+    <string name="price">Price: $</string>
+    <string name="todo">TODO</string>
 </resources>
