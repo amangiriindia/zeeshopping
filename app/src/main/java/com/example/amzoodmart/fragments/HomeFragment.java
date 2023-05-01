@@ -1,15 +1,18 @@
 package com.example.amzoodmart.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -18,8 +21,10 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.CategoryAdapter;
 import com.example.amzoodmart.adapters.NewProductAdapter;
+import com.example.amzoodmart.adapters.PopularProductAdapter;
 import com.example.amzoodmart.models.CategoryModel;
 import com.example.amzoodmart.models.NewProductsModel;
+import com.example.amzoodmart.models.PopularProductsModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,7 +34,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+
+
     RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview;
+
     //Category recycleview
     CategoryAdapter categoryAdapter;
     List<CategoryModel> categoryModelList;
@@ -38,6 +46,9 @@ public class HomeFragment extends Fragment {
     NewProductAdapter newProductAdapter;
     List<NewProductsModel> newProductsModelList;
 
+    //Popular  products
+    PopularProductAdapter popularProductAdapter;
+    List<PopularProductsModel> popularProductsModelList;
     //FireStore
     FirebaseFirestore db;
     public HomeFragment() {
@@ -118,6 +129,32 @@ public class HomeFragment extends Fragment {
                        // Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+        //popular Product
+        popularRecyclerview.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        popularProductsModelList =new ArrayList<>();
+        popularProductAdapter =new PopularProductAdapter(getContext(), popularProductsModelList);
+        popularRecyclerview.setAdapter(popularProductAdapter);
+
+        db.collection("AllProducts")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+
+                            PopularProductsModel popularProductsModel =document.toObject(PopularProductsModel.class);
+                            popularProductsModelList.add(popularProductsModel);
+                            popularProductAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    else{
+                        // Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
         return root;
     }
