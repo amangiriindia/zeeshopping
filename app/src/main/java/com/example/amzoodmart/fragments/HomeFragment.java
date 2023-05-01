@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 
@@ -35,7 +36,8 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 
-
+  LinearLayout linearLayout;
+   ProgressDialog progressDialog;
     RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview;
 
     //Category recycleview
@@ -63,13 +65,14 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_home2, container, false);
 
-
+        progressDialog =new ProgressDialog(getActivity());
         catRecyclerView =root.findViewById(R.id.rec_category);
         newProductRecyclerView =root.findViewById(R.id.new_product_rec);
         popularRecyclerview =root.findViewById(R.id.popular_rec);
         db =FirebaseFirestore.getInstance();
 
-
+         linearLayout =root.findViewById(R.id.home_layout);
+         linearLayout.setVisibility(View.GONE);
         //image slider
         ImageSlider imageSlider =root.findViewById(R.id.image_slider);
         List<SlideModel> slideModels =new ArrayList<>();
@@ -79,6 +82,11 @@ public class HomeFragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.banner3,"70% OFF", ScaleTypes.CENTER_CROP));
 
         imageSlider.setImageList(slideModels);
+
+        progressDialog.setTitle("Welcome To Amzood Mart");
+        progressDialog.setMessage("please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
 
         // Category
@@ -97,6 +105,8 @@ public class HomeFragment extends Fragment {
                             CategoryModel categoryModel =document.toObject(CategoryModel.class);
                             categoryModelList.add(categoryModel);
                             categoryAdapter.notifyDataSetChanged();
+                            linearLayout.setVisibility(View.VISIBLE);
+                            progressDialog.dismiss();
                         }
                     }
                   else {
