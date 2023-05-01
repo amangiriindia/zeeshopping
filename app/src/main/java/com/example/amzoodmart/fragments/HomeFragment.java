@@ -29,7 +29,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView catRecyclerView,newProductRecyclerView;
+    RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview;
     //Category recycleview
     CategoryAdapter categoryAdapter;
     List<CategoryModel> categoryModelList;
@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
 
         catRecyclerView =root.findViewById(R.id.rec_category);
         newProductRecyclerView =root.findViewById(R.id.new_product_rec);
+        popularRecyclerview =root.findViewById(R.id.popular_rec);
         db =FirebaseFirestore.getInstance();
 
 
