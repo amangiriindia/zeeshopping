@@ -2,6 +2,7 @@ package com.example.amzoodmart.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.adapters.CategoryAdapter;
 import com.example.amzoodmart.adapters.NewProductAdapter;
 import com.example.amzoodmart.adapters.PopularProductAdapter;
@@ -35,9 +38,9 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-
-  LinearLayout linearLayout;
-   ProgressDialog progressDialog;
+    TextView catShowAll,popularShowAll,newProductShowAll;
+    LinearLayout linearLayout;
+    ProgressDialog progressDialog;
     RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview;
 
     //Category recycleview
@@ -64,12 +67,42 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_home2, container, false);
+        db =FirebaseFirestore.getInstance();
+
 
         progressDialog =new ProgressDialog(getActivity());
         catRecyclerView =root.findViewById(R.id.rec_category);
         newProductRecyclerView =root.findViewById(R.id.new_product_rec);
         popularRecyclerview =root.findViewById(R.id.popular_rec);
-        db =FirebaseFirestore.getInstance();
+
+
+        catShowAll =root.findViewById(R.id.category_see_all);
+        popularShowAll = root.findViewById(R.id.popular_see_all);
+        newProductShowAll =root.findViewById(R.id.newProducts_see_all);
+
+       catShowAll.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent =new Intent(getContext(), ShowAllActivity.class);
+               startActivity(intent);
+           }
+       });
+
+        popularShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getContext(), ShowAllActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        newProductShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getContext(), ShowAllActivity.class);
+                startActivity(intent);
+            }
+        });
 
          linearLayout =root.findViewById(R.id.home_layout);
          linearLayout.setVisibility(View.GONE);
