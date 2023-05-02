@@ -1,6 +1,8 @@
 package com.example.amzoodmart.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.models.CategoryModel;
 
 import java.util.List;
@@ -33,9 +36,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(list.get(position).getImg_url()).into(holder.catImg);
         holder.catName.setText(list.get(position).getName());
+
+        //for show category
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(context, ShowAllActivity.class);
+                intent.putExtra("type",list.get(position).getType());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
