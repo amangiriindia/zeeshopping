@@ -2,6 +2,7 @@ package com.example.amzoodmart.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class DetailedActivity extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class DetailedActivity extends AppCompatActivity {
     TextView rating,name,description,price,quantity;
     Button addToCart,buyNow;
     ImageView addItems,removeItems;
+    Toolbar toolbar;
     int totalQuantity =1;
     int totalPrice =0;
 
@@ -49,6 +52,9 @@ public class DetailedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
 
+        toolbar =findViewById(R.id.detailed_toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         firestore =FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         final Object obj =getIntent().getSerializableExtra("detailed");

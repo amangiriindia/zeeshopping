@@ -2,6 +2,7 @@ package com.example.amzoodmart.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,18 +20,25 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ShowAllActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ShowAllAdapter showAllAdapter;
     List<ShowAllModel> showAllModelList;
+    Toolbar toolbar;
     FirebaseFirestore firestore;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all);
+
+        toolbar =findViewById(R.id.show_all_toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         String type =getIntent().getStringExtra("type");
         firestore =FirebaseFirestore.getInstance();
