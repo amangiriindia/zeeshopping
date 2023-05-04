@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.amzoodmart.R;
@@ -59,6 +60,12 @@ public class CartActivity extends AppCompatActivity {
         toolbar =findViewById(R.id.my_cart_toolbar_menu);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // GET DATA FROM MY CLASS ADAPTER
         LocalBroadcastManager.getInstance(this)

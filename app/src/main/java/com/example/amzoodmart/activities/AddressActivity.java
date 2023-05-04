@@ -47,6 +47,12 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         toolbar =findViewById(R.id.address_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         firestore =FirebaseFirestore.getInstance();
         auth =FirebaseAuth.getInstance();
