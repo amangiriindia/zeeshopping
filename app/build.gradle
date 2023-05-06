@@ -47,5 +47,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     // FOR RAZORPAY
     implementation 'com.razorpay:checkout:1.6.26'
+//    for image view
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 
 }

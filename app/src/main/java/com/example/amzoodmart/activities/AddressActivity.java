@@ -91,20 +91,36 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
             @Override
             public void onClick(View view) {
                 double amount =0.0;
+                String  productName ="";
+                String productImgUrl ="";
+                String productDesc ="";
                 if(obj instanceof NewProductsModel){
                     NewProductsModel newProductsModel =(NewProductsModel) obj;
                     amount =newProductsModel.getPrice();
+                    productName =newProductsModel.getName();
+                    productImgUrl =newProductsModel.getImg_url();
+                    productDesc =newProductsModel.getDescription();
+
                 }
                 if(obj instanceof PopularProductsModel){
                     PopularProductsModel popularProductsModel =(PopularProductsModel) obj;
                     amount =popularProductsModel.getPrice();
+                    productName =popularProductsModel.getName();
+                    productImgUrl =popularProductsModel.getImg_url();
+                    productDesc =popularProductsModel.getDescription();
                 }
                 if(obj instanceof ShowAllModel){
                     ShowAllModel showAllModel =(ShowAllModel) obj;
                     amount =showAllModel.getPrice();
+                    productName =showAllModel.getName();
+                    productImgUrl =showAllModel.getImg_url();
+                    productDesc =showAllModel.getDescription();
                 }
                 Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);
                 intent.putExtra("amount",amount);
+                intent.putExtra("productName",productName);
+                intent.putExtra("productImgUrl",productImgUrl);
+                intent.putExtra("productDesc",productDesc);
                 startActivity(intent);
 
             }

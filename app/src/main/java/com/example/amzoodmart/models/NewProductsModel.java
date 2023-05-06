@@ -9,6 +9,7 @@ public class NewProductsModel implements Serializable {
     int price;
     String img_url;
 
+
     public NewProductsModel() {
     }
 
