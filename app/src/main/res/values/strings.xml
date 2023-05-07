@@ -12,4 +12,6 @@
     <string name="_90">90</string>
     <string name="price">Price: $</string>
     <string name="todo">TODO</string>
+    <string name="openDrawer">Open navigation drawer</string>
+    <string name="closeDrawer">Close navigation</string>
 </resources>
