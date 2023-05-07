@@ -1,5 +1,6 @@
 package com.example.amzoodmart.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -14,11 +15,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
@@ -27,10 +38,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     String  productName ="";
     String productImgUrl ="";
     String productDesc ="";
+   static String orderId =randomOrderId();
+    String userName =" ",userNumber =" ",userDistict =" ",userAddDeatail =" ",userCity =" ",userCode="";
 
     Button paymentBtn,cashOnDel;
     TextView subTotal,name,total;
     ImageView pro_img;
+    FirebaseFirestore firestore ;
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +60,20 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 finish();
             }
         });
+        //data base
+        firestore =FirebaseFirestore.getInstance();
+        auth =FirebaseAuth.getInstance();
        //geting value for the intent
        amount=getIntent().getDoubleExtra("amount",0.0);
        productName= getIntent().getStringExtra("productName");
        productImgUrl= getIntent().getStringExtra("productImgUrl");
        productDesc= getIntent().getStringExtra("productDesc");
+       userName= getIntent().getStringExtra("userName");
+       userNumber= getIntent().getStringExtra("userNumber");
+       userDistict= getIntent().getStringExtra("userDistict");
+       userAddDeatail= getIntent().getStringExtra("userAddDeatail");
+       userCity= getIntent().getStringExtra("userCity");
+       userCode= getIntent().getStringExtra("userCode");
 
 
         subTotal =findViewById(R.id.sub_total);
@@ -65,7 +89,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         Glide.with(this).load(productImgUrl).into(pro_img);
 
 
+       cashOnDel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               comfirmOrderCod();
 
+           }
+       });
 
 
 
@@ -73,11 +103,101 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             @Override
             public void onClick(View view) {
                 paymentMethod();
+
             }
         });
 
 
 
+    }
+
+    private void comfirmOrderOnline() {
+
+        String saveCurrentTime,saveCurrentDate;
+        Calendar calForDate =Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
+        saveCurrentDate =currentDate.format(calForDate.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+        saveCurrentTime =currentTime.format(calForDate.getTime());
+
+        final HashMap<String,String> cartMap = new HashMap<>();
+        cartMap.put("productName" ,productName);
+        cartMap.put("productPrice",amount+"");
+        cartMap.put("productDesc" ,productDesc);
+        cartMap.put("productImgUrl" ,productImgUrl);
+        cartMap.put("Method" ,"Online Payment Mode");
+        cartMap.put("userName",userName);
+        cartMap.put("userNumber",userNumber);
+        cartMap.put("userDistict",userDistict);
+        cartMap.put("userAddress_detailed",userAddDeatail);
+        cartMap.put("orderId",orderId);
+        cartMap.put("userCity",userCity);
+        cartMap.put("userCode",userCode);
+        cartMap.put("currentTime" ,saveCurrentTime);
+        cartMap.put("currentDate",saveCurrentDate);
+
+
+        firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+    }
+
+    private void comfirmOrderCod() {
+        String saveCurrentTime,saveCurrentDate;
+        Calendar calForDate =Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
+        saveCurrentDate =currentDate.format(calForDate.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+        saveCurrentTime =currentTime.format(calForDate.getTime());
+
+        final HashMap<String,String> cartMap = new HashMap<>();
+        cartMap.put("productName" ,productName);
+        cartMap.put("productPrice",amount+"");
+        cartMap.put("productDesc" ,productDesc);
+        cartMap.put("productImgUrl" ,productImgUrl);
+        cartMap.put("Method" ,"Cash On Delevary");
+        cartMap.put("userName",userName);
+        cartMap.put("userNumber",userNumber);
+        cartMap.put("userDistict",userDistict);
+        cartMap.put("userAddress_detailed",userAddDeatail);
+        cartMap.put("orderId",orderId);
+        cartMap.put("userCity",userCity);
+        cartMap.put("userCode",userCode);
+        cartMap.put("currentTime" ,saveCurrentTime);
+        cartMap.put("currentDate",saveCurrentDate);
+
+
+       firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+    }
+
+    public static String randomOrderId() {
+        String s ="";
+        Random random = new Random();
+        s += "ORDERIDAMZ";
+
+        for (int i = 0; i < 3; i++) {
+            char randomChar = (char) (random.nextInt(26) + 'A');
+            s += randomChar;
+        }
+        for (int i = 0; i < 5; i++) {
+            int randomNumber = random.nextInt(9);
+            s += randomNumber;
+        }
+        return s;
     }
 
     private void paymentMethod() {
@@ -93,7 +213,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             options.put("description", productName);
             //Image to be display
             options.put("image", productImgUrl);
-            //options.put("order_id", "order_9A33XWu170gUtm");
+            //options.put("order_id", orderId);
             // Currency type
             options.put("currency", "INR");
             //double total = Double.parseDouble(mAmountText.getText().toString());
@@ -103,9 +223,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             options.put("amount", amount);
             JSONObject preFill = new JSONObject();
             //email
-            preFill.put("email", "developer.kharag@gmail.com");
+            preFill.put("name", userName);
             //contact
-            preFill.put("contact", "7489347378");
+            preFill.put("contact", userNumber);
+            preFill.put("orderId",orderId);
 
             options.put("prefill", preFill);
 
@@ -118,7 +239,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+        comfirmOrderOnline();
+
     }
     @Override
     public void onPaymentError(int i, String s) {

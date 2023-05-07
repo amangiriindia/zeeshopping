@@ -70,6 +70,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             super(itemView);
             address =itemView.findViewById(R.id.address_add);
             radioButton =itemView.findViewById(R.id.select_address);
+
         }
     }
     public  interface  SelectedAddress{

@@ -33,6 +33,8 @@ import java.util.Objects;
 public class AddressActivity extends AppCompatActivity implements AddressAdapter.SelectedAddress {
 
     Button addAddress;
+
+     String userName =" ",userNumber =" ",userDistict =" ",userAddDeatail =" ",userCity =" ",userCode="";
     RecyclerView recyclerView;
     private AddressAdapter addressAdapter;
     private List<AddressModel> addressModelList;
@@ -59,8 +61,17 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
         //get data form detailed activity
         Object obj =getIntent().getSerializableExtra("item");
+        userName= getIntent().getStringExtra("userName");
+        userNumber= getIntent().getStringExtra("userNumber");
+        userDistict= getIntent().getStringExtra("userDistict");
+        userAddDeatail= getIntent().getStringExtra("userAddDeatail");
+        userCity= getIntent().getStringExtra("userCity");
+        userCode= getIntent().getStringExtra("userCode");
+
 
         firestore =FirebaseFirestore.getInstance();
+
+
         auth =FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.address_recycler);
@@ -82,12 +93,22 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
                                 AddressModel addressModel =doc.toObject(AddressModel.class);
                                 addressModelList.add(addressModel);
+
                                 addressAdapter.notifyDataSetChanged();
+
+                                userName =addressModel.getUserName();
+                                userNumber =addressModel.getUserNumber();
+                                userCity =addressModel.getUserCity();
+                                userDistict =addressModel.getUserDistict();
+                                userAddDeatail =addressModel.getUserAddress_detailed();
+                                userCode =addressModel.getUserCode();
                             }
                         }
                     }
                 });
         paymentBtn.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
                 double amount =0.0;
@@ -116,12 +137,20 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productImgUrl =showAllModel.getImg_url();
                     productDesc =showAllModel.getDescription();
                 }
+
                 Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);
                 intent.putExtra("amount",amount);
                 intent.putExtra("productName",productName);
                 intent.putExtra("productImgUrl",productImgUrl);
                 intent.putExtra("productDesc",productDesc);
+                intent.putExtra("userName",userName);
+                intent.putExtra("userNumber",userNumber);
+                intent.putExtra("userDistict",userDistict);
+                intent.putExtra("userAddDeatail",userAddDeatail);
+                intent.putExtra("userCity",userCity);
+                intent.putExtra("userCode",userCode);
                 startActivity(intent);
+
 
             }
         });

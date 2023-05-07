@@ -25,9 +25,11 @@ import java.util.Objects;
 
 public class AddAddressActivity extends AppCompatActivity {
 
-    EditText name,address,city,postalCode,phoneNumber;
+    EditText name,address,city,postalCode,phoneNumber,distict,detailed;
+    String final_address =" ";
     Toolbar toolbar;
     Button addAdresssBtn;
+    static boolean  flag =true;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     @SuppressLint("MissingInflatedId")
@@ -54,6 +56,8 @@ public class AddAddressActivity extends AppCompatActivity {
         city =findViewById(R.id.ad_city);
         postalCode =findViewById(R.id.ad_code);
         phoneNumber =findViewById(R.id.ad_phone);
+        distict =findViewById(R.id.ad_district);
+        detailed =findViewById(R.id.ad_detailed);
         addAdresssBtn =findViewById(R.id.ad_add_address);
 
         addAdresssBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +68,10 @@ public class AddAddressActivity extends AppCompatActivity {
                 String userAddress =address.getText().toString();
                 String userCode =postalCode.getText().toString();
                 String userNumber =phoneNumber.getText().toString();
+                String userDistict =distict.getText().toString();
+                String userAddDeatail =detailed.getText().toString();
 
-                String final_address =" ";
+
                 if(!userName.isEmpty()){
                     final_address += userName+", ";
                 }
@@ -78,11 +84,24 @@ public class AddAddressActivity extends AppCompatActivity {
                 if(!userCode.isEmpty()){
                     final_address += userCode+", ";
                 }
+                if(!userDistict.isEmpty()){
+                    final_address += userDistict+", ";
+                }
+                if(!userAddDeatail.isEmpty()){
+                    final_address += userAddDeatail+", ";
+                }
                 if(!userNumber.isEmpty()){
                     final_address += userNumber+".";
                 }
-                if(!userName.isEmpty() && !userCity.isEmpty() && !userAddress.isEmpty() && !userCode.isEmpty() &&!userNumber.isEmpty()  ){
+                if(!userName.isEmpty() && !userCity.isEmpty() && !userAddress.isEmpty() && !userCode.isEmpty() &&!userNumber.isEmpty()  &&!userDistict.isEmpty() &&!userAddDeatail.isEmpty() ){
                     Map<String,String> map =new HashMap<>();
+
+                    map.put("userName",userName);
+                    map.put("userNumber",userNumber);
+                    map.put("userDistict",userDistict);
+                    map.put("userAddress_detailed",userAddDeatail);
+                    map.put("userCity",userCity);
+                    map.put("userCode",userCode);
                     map.put("userAddress",final_address);
 
                     firestore.collection("CurrentUser.").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
@@ -91,7 +110,15 @@ public class AddAddressActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(AddAddressActivity.this, "Address Added", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(AddAddressActivity.this,AddressActivity.class));
+                                        Intent intent =new Intent(AddAddressActivity.this,AddressActivity.class);
+                                        intent.putExtra("userName",userName);
+                                        intent.putExtra("userNumber",userNumber);
+                                        intent.putExtra("userDistict",userDistict);
+                                        intent.putExtra("userAdd_deatil",userAddDeatail);
+                                        intent.putExtra("userCity",userCity);
+                                        intent.putExtra("userCode",userCode);
+
+                                        startActivity(intent);
                                         finish();
                                     }
                                 }

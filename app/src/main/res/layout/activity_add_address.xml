@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_address_toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#8ff7fd"
         android:minHeight="?attr/actionBarSize"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Add Address"/>
+        app:title="Add Address" />
 
 
     <TextView
@@ -31,24 +31,24 @@
         android:textColor="@color/textHeading"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ad_name"
         app:layout_constraintTop_toBottomOf="@+id/add_address_toolbar"
         tools:ignore="HardcodedText" />
+
 
     <EditText
         android:id="@+id/ad_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="26dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="Name"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/ad_address"
-        app:layout_constraintStart_toStartOf="@+id/ad_address"
+        app:layout_constraintEnd_toEndOf="@+id/ad_phone"
+        app:layout_constraintStart_toStartOf="@+id/ad_phone"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="HardcodedText,RtlHardcoded,TextFields,UnknownIdInLayout" />
@@ -57,34 +57,67 @@
         android:id="@+id/ad_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
         android:elevation="3dp"
-        android:hint="Local Address"
+        android:hint="Local Landmark"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/ad_city"
-        app:layout_constraintStart_toStartOf="@+id/ad_city"
-        app:layout_constraintTop_toBottomOf="@+id/ad_name"
+        app:layout_constraintEnd_toEndOf="@+id/ad_code"
+        app:layout_constraintStart_toStartOf="@+id/ad_code"
+        app:layout_constraintTop_toBottomOf="@+id/ad_city"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="HardcodedText,RtlHardcoded,TextFields" />
-
 
     <EditText
         android:id="@+id/ad_city"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
         android:elevation="3dp"
-        android:hint="City"
+        android:hint="Village/City"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/ad_code"
-        app:layout_constraintStart_toStartOf="@+id/ad_code"
-        app:layout_constraintTop_toBottomOf="@+id/ad_address"
+        app:layout_constraintEnd_toEndOf="@+id/ad_address"
+        app:layout_constraintStart_toStartOf="@+id/ad_address"
+        app:layout_constraintTop_toBottomOf="@+id/ad_phone"
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
+
+    <EditText
+        android:id="@+id/ad_district"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="District"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/ad_detailed"
+        app:layout_constraintStart_toStartOf="@+id/ad_detailed"
+        app:layout_constraintTop_toBottomOf="@+id/ad_code"
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="Autofill,HardcodedText,RtlHardcoded,TextFields" />
+
+    <EditText
+        android:id="@+id/ad_detailed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="29dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="Address Detailed"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ad_district"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
@@ -92,7 +125,7 @@
         android:id="@+id/ad_code"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="21dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
@@ -100,9 +133,9 @@
         android:hint="Pin Code"
         android:inputType="number"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/ad_phone"
-        app:layout_constraintStart_toStartOf="@+id/ad_phone"
-        app:layout_constraintTop_toBottomOf="@+id/ad_city"
+        app:layout_constraintEnd_toEndOf="@+id/ad_district"
+        app:layout_constraintStart_toStartOf="@+id/ad_district"
+        app:layout_constraintTop_toBottomOf="@+id/ad_address"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
@@ -110,8 +143,7 @@
         android:id="@+id/ad_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
@@ -119,8 +151,9 @@
         android:hint="Phone Number"
         android:inputType="phone"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ad_code"
+        app:layout_constraintEnd_toEndOf="@+id/ad_city"
+        app:layout_constraintStart_toStartOf="@+id/ad_city"
+        app:layout_constraintTop_toBottomOf="@+id/ad_name"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
@@ -128,15 +161,17 @@
         android:id="@+id/ad_add_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="135dp"
         android:background="@color/bule"
         android:padding="15dp"
         android:text="Add Address"
         android:textAllCaps="false"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ad_detailed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ad_phone"
+        app:layout_constraintTop_toBottomOf="@+id/ad_detailed"
         app:layout_constraintWidth_percent=".4"
         tools:ignore="HardcodedText" />
 
