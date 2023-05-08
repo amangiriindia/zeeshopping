@@ -3,6 +3,7 @@ package com.example.amzoodmart.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -105,8 +106,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
+       MenuItem menuItem=menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search here...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        return true;
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -116,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
         int id =item.getItemId();
         if(id == R.id.menu_search){
             Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.menu_my_cart) {
+        }
+        else if (id == R.id.menu_my_cart) {
             startActivity(new Intent(MainActivity.this,CartActivity.class));
 
         }
