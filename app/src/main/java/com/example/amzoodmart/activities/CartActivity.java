@@ -37,8 +37,8 @@ import java.util.Objects;
 
 public class CartActivity extends AppCompatActivity {
 
-    int overAllTotalAmount;
-    TextView overAllAmount;
+    //int overAllTotalAmount;
+    //TextView overAllAmount;
     Toolbar toolbar;
 
     RecyclerView recyclerView;
@@ -67,11 +67,11 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        // GET DATA FROM MY CLASS ADAPTER
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(mMessageReceiver ,new IntentFilter("MyTotalAmount"));
+//        // GET DATA FROM MY CLASS ADAPTER
+//        LocalBroadcastManager.getInstance(this)
+//                .registerReceiver(mMessageReceiver ,new IntentFilter("MyTotalAmount"));
 
-        overAllAmount =findViewById(R.id.textView);
+     //   overAllAmount =findViewById(R.id.my_cart_total_price);
         recyclerView =findViewById(R.id.cart_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartModelsList =new ArrayList<>();
@@ -95,12 +95,12 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
     }
-    public BroadcastReceiver mMessageReceiver =new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int totalBill =intent.getIntExtra("totalAmount",0);
-            overAllAmount.setText("Total Amount :"+totalBill+"$");
-        }
-    };
+//    public BroadcastReceiver mMessageReceiver =new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            int totalBill =intent.getIntExtra("totalAmount",0);
+//            overAllAmount.setText("Total Amount :"+totalBill+"$");
+//        }
+//    };
 
 }
