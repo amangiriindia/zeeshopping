@@ -45,7 +45,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
         productImage =findViewById(R.id.order_item_image);
         productName =findViewById(R.id.order_item_name);
-        productDesc =findViewById(R.id.order_item_description);
+        //productDesc =findViewById(R.id.order_item_description);
         productPrice =findViewById(R.id.order_item_price);
         productQuantity=findViewById(R.id.order_item_quantity);
         toolbar =findViewById(R.id.myOrder_toolbar);

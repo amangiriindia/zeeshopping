@@ -38,7 +38,7 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
         Glide.with(context).load(myOrderModelList.get(position).getProductImgUrl()).into(holder.productImg);
         holder.productName.setText(myOrderModelList.get(position).getProductName());
         holder.productQunatity.setText(myOrderModelList.get(position).getProductQuantity());
-        holder.productDesc.setText(myOrderModelList.get(position).getProductDesc());
+        //holder.productDesc.setText(myOrderModelList.get(position).getProductDesc());
         holder.productPrice.setText(myOrderModelList.get(position).getProductPrice());
 
     }
@@ -56,7 +56,7 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
             productImg =itemView.findViewById(R.id.order_item_image);
             productName =itemView.findViewById(R.id.order_item_name);
             productPrice =itemView.findViewById(R.id.order_item_price);
-            productDesc =itemView.findViewById(R.id.order_item_description);
+           // productDesc =itemView.findViewById(R.id.order_item_description);
             productQunatity =itemView.findViewById(R.id.order_item_quantity);
         }
     }
