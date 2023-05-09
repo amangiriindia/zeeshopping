@@ -30,7 +30,15 @@ public class loginActivity extends AppCompatActivity {
         password =findViewById(R.id.password);
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(loginActivity.this,MainActivity.class));
+            finish();
+        }
+    }
 
     public void signin(View view){
 

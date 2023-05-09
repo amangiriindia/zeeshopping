@@ -27,10 +27,11 @@ public class RegistationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registation);
         mAuth =FirebaseAuth.getInstance();
-//        if(mAuth.getCurrentUser()  != null) {
-//            startActivity(new Intent(RegistationActivity.this, MainActivity2.class));
-//            finish();
-//        }
+
+        if(mAuth.getCurrentUser()  != null) {
+            startActivity(new Intent(RegistationActivity.this, MainActivity.class));
+           finish();
+       }
 
      name =findViewById(R.id.name);
      email = findViewById(R.id.email);

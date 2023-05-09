@@ -15,6 +15,9 @@
         android:theme="@style/Base.Theme.AmzoodMart"
         tools:targetApi="31">
         <activity
+            android:name=".activities.MyOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.PaymentActivity"
             android:exported="false" />
         <activity
@@ -58,10 +61,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_94nUqrlHSjdFu6"/>
+            android:value="rzp_test_94nUqrlHSjdFu6" />
     </application>
 
 </manifest>

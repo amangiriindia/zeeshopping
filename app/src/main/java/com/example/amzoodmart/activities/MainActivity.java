@@ -63,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }else if (id ==R.id.nav_order_items) {
-
-                Toast.makeText(MainActivity.this, "order", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this,MyOrderActivity.class));
 
                 }else if (id ==R.id.nav_about_items) {
                     Toast.makeText(MainActivity.this, "about", Toast.LENGTH_SHORT).show();
