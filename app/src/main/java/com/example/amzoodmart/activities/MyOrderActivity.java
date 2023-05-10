@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.amzoodmart.R;
@@ -31,6 +33,7 @@ import java.util.Objects;
 public class MyOrderActivity extends AppCompatActivity {
     ImageView productImage;
     TextView productName,productDesc,productQuantity,productPrice;
+    LinearLayout linearLayout;
     Toolbar toolbar;
     RecyclerView recyclerView;
     myOrderAdapter OrderAdapter ;
@@ -43,6 +46,8 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
 
+
+        linearLayout =findViewById(R.id.layout_order_item);
         productImage =findViewById(R.id.order_item_image);
         productName =findViewById(R.id.order_item_name);
         //productDesc =findViewById(R.id.order_item_description);
@@ -84,5 +89,11 @@ public class MyOrderActivity extends AppCompatActivity {
                     }
                 });
 
+
     }
+    public void orderItem(View view){
+        startActivity(new Intent(MyOrderActivity.this,OrderTrackingActivity.class));
+    }
+
+
 }

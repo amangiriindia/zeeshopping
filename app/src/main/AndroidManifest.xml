@@ -15,6 +15,9 @@
         android:theme="@style/Base.Theme.AmzoodMart"
         tools:targetApi="31">
         <activity
+            android:name=".activities.OrderTrackingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MyOrderActivity"
             android:exported="false" />
         <activity
