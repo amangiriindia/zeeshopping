@@ -41,6 +41,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
         holder.newName.setText(list.get(position).getName());
         holder.newPrice.setText(String.valueOf(list.get(position).getPrice()));
 
+       // String s =list.get(position).getImg_url();
+
         //for move to detail page
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +51,7 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
                 intent.putExtra("detailed",list.get(position));
                 context.startActivity(intent);
             }
+
         });
 
     }

@@ -31,11 +31,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class MyOrderActivity extends AppCompatActivity {
-    ImageView productImage;
-    TextView productName,productDesc,productQuantity,productPrice;
+
+     String productName ="",productPrice="",productQty="",productImgUrl="";
     LinearLayout linearLayout;
+
     Toolbar toolbar;
     RecyclerView recyclerView;
+    MyOrderModel myOrderModel;
     myOrderAdapter OrderAdapter ;
     List<MyOrderModel> myOrderModelList;
     FirebaseFirestore firestore;
@@ -46,13 +48,15 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
 
+      //  myOrderModel =new MyOrderModel();
+
+       // productPrice =myOrderModel.getProductPrice().toString();
+     //   productImgUrl =myOrderModel.getProductImgUrl().toString();
+      //  productQty =myOrderModel.getProductQuantity().toString();
+       // productName =myOrderModel.getProductName().toString();
+
 
         linearLayout =findViewById(R.id.layout_order_item);
-        productImage =findViewById(R.id.order_item_image);
-        productName =findViewById(R.id.order_item_name);
-        //productDesc =findViewById(R.id.order_item_description);
-        productPrice =findViewById(R.id.order_item_price);
-        productQuantity=findViewById(R.id.order_item_quantity);
         toolbar =findViewById(R.id.myOrder_toolbar);
         recyclerView =findViewById(R.id.myorder_rec);
         firestore =FirebaseFirestore.getInstance();
@@ -92,7 +96,13 @@ public class MyOrderActivity extends AppCompatActivity {
 
     }
     public void orderItem(View view){
-        startActivity(new Intent(MyOrderActivity.this,OrderTrackingActivity.class));
+        Intent intent =new Intent(MyOrderActivity.this,OrderTrackingActivity.class);
+       // intent.putExtra("ProductName",productName);
+      //  intent.putExtra("ProductPrice",);
+      //  intent.putExtra("ProductQuantity",myOrderModel.getProductQuantity().toString());
+      //  intent.putExtra("ProductImgUrl",myOrderModel.getProductImgUrl().toString());
+        startActivity(intent);
+
     }
 
 

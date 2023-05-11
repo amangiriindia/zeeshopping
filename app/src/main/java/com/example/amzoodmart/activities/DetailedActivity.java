@@ -36,6 +36,7 @@ public class DetailedActivity extends AppCompatActivity {
     Button addToCart,buyNow;
     ImageView addItems,removeItems;
     Toolbar toolbar;
+    String ImgUrl="";
     int totalQuantity =1;
     int totalPrice =0;
 
@@ -95,6 +96,7 @@ public class DetailedActivity extends AppCompatActivity {
             description.setText(newProductsModel.getDescription());
             price.setText(String.valueOf(newProductsModel.getPrice()));
 
+           ImgUrl = newProductsModel.getImg_url();
             totalPrice =newProductsModel.getPrice() *totalQuantity;
 
         }
@@ -105,7 +107,7 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(popularProductsModel.getRating());
             description.setText(popularProductsModel.getDescription());
             price.setText(String.valueOf(popularProductsModel.getPrice()));
-
+           ImgUrl = popularProductsModel.getImg_url();
             totalPrice =popularProductsModel.getPrice() *totalQuantity;
         }
         //Show All
@@ -115,7 +117,7 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(showAllModel.getRating());
             description.setText(showAllModel.getDescription());
             price.setText(String.valueOf(showAllModel.getPrice()));
-
+             ImgUrl =showAllModel.getImg_url();
             totalPrice =showAllModel.getPrice() *totalQuantity;
 
 
@@ -209,6 +211,7 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("currentDate",saveCurrentDate);
         cartMap.put("totalQuantity" ,quantity.getText().toString());
         cartMap.put("totalPrice",totalPrice);
+        cartMap.put("productImgurl",ImgUrl);
 
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
                 .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

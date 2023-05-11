@@ -1,29 +1,45 @@
 package com.example.amzoodmart.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.models.MyCartModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder> {
     Context context;
     List<MyCartModel> list;
+    FirebaseFirestore firestore;
+    FirebaseAuth auth;
+
     int totalAmount =0;
 
     public MyCartAdapter(Context context, List<MyCartModel> list) {
         this.context = context;
         this.list = list;
+        auth =FirebaseAuth.getInstance();
+        firestore =FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -33,16 +49,66 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyCartAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyCartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         //holder.date.setText(list.get(position).getCurrentDate());
        // holder.time.setText(list.get(position).getCurrentTime());
+       Glide.with(context).load(list.get(position).getProductImgurl()).into(holder.img);
         holder.price.setText(list.get(position).getProductPrice());
         holder.name.setText(list.get(position).getProductName());
-       // holder.totalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
+       //holder.totalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
         holder.totalQuantity.setText(list.get(position).getTotalQuantity());
 
-        //Total Amount pass to cart Activity
+        holder.removeCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an instance of the AlertDialog.Builder using the custom style
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+                builder.setTitle("Delete Cart Item");
+                builder.setMessage("Are you sure you want to delete?");
+
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        firestore.collection("AddToCart")
+                                .document(auth.getCurrentUser().getUid())
+                                .collection("User")
+                                .document(list.get(position).getDocumentId())
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Document deleted successfully
+
+                                        // Remove the item from the list
+                                        list.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, list.size());
+                                        Toast.makeText(context, "Cart item deleted successfully", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                        // Perform delete operation or any desired action
+
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User canceled the delete operation
+                        Toast.makeText(context, "Delete operation canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+       // Total Amount pass to cart Activity
 //        totalAmount =totalAmount +list.get(position).getTotalPrice();
 //        Intent intent =new Intent("MyTotalAmount");
 //        intent.putExtra("totalAmount",totalAmount);
@@ -56,14 +122,20 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     }
     public static class  ViewHolder extends RecyclerView.ViewHolder {
         TextView name,price,date,time,totalQuantity,totalPrice;
+        ImageView img;
+        Button removeCart,qtyMin,qtyMax;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name =itemView.findViewById(R.id.product_name);
             price =itemView.findViewById(R.id.product_price);
+            img =itemView.findViewById(R.id.product_image);
+            removeCart =itemView.findViewById(R.id.btn_remove);
            // date =itemView.findViewById(R.id.current_date);
            // time =itemView.findViewById(R.id.current_time);
+            qtyMin =itemView.findViewById(R.id.btn_minus);
+            qtyMax =itemView.findViewById(R.id.btn_plus);
             totalQuantity =itemView.findViewById(R.id.product_quantity);
-           // totalPrice =itemView.findViewById(R.id.total_price);
+           //totalPrice =itemView.findViewById(R.id.total_price);
         }
     }
 

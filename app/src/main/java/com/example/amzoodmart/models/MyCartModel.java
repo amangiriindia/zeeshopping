@@ -2,22 +2,41 @@ package com.example.amzoodmart.models;
 
 public class MyCartModel {
     String currentTime;
+    String productImgurl;
     String currentDate;
     String productName;
     String productPrice;
     String totalQuantity;
     int totalPrice;
+    String documentId;
 
     public MyCartModel() {
     }
 
-    public MyCartModel(String currentTime, String currentDate, String productName, String productPrice, String totalQuantity, int totalPrice) {
+    public MyCartModel(String currentTime, String productImgurl, String currentDate, String productName, String productPrice, String totalQuantity, int totalPrice) {
         this.currentTime = currentTime;
+        this.productImgurl = productImgurl;
         this.currentDate = currentDate;
-        this.productName= productName;
+        this.productName = productName;
         this.productPrice = productPrice;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getProductImgurl() {
+        return productImgurl;
+    }
+
+    public void setProductImgurl(String productImgurl) {
+        this.productImgurl = productImgurl;
     }
 
     public String getCurrentTime() {
@@ -68,3 +87,4 @@ public class MyCartModel {
         this.totalPrice = totalPrice;
     }
 }
+

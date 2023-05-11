@@ -156,20 +156,20 @@ public class HomeFragment extends Fragment {
         newProductAdapter =new NewProductAdapter(getContext(), newProductsModelList);
         newProductRecyclerView.setAdapter(newProductAdapter);
 
-        db.collection("NewProduct")
+
+        db.collection("ShowAll")
+                .whereEqualTo("product_status", "newProduct")  // Add your where condition here
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         for (QueryDocumentSnapshot document : querySnapshot) {
-
-                            NewProductsModel newProductsModel =document.toObject(NewProductsModel.class);
+                            NewProductsModel newProductsModel = document.toObject(NewProductsModel.class);
                             newProductsModelList.add(newProductsModel);
                             newProductAdapter.notifyDataSetChanged();
                         }
-                    }
-                     else{
-                       // Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Handle the task failure
                     }
                 });
 
@@ -180,22 +180,22 @@ public class HomeFragment extends Fragment {
         popularProductAdapter =new PopularProductAdapter(getContext(), popularProductsModelList);
         popularRecyclerview.setAdapter(popularProductAdapter);
 
-        db.collection("AllProducts")
+        db.collection("ShowAll")
+                .whereEqualTo("product_status", "popular")  // Replace fieldName and fieldValue with your actual field and value
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         for (QueryDocumentSnapshot document : querySnapshot) {
-
-                            PopularProductsModel popularProductsModel =document.toObject(PopularProductsModel.class);
+                            PopularProductsModel popularProductsModel = document.toObject(PopularProductsModel.class);
                             popularProductsModelList.add(popularProductsModel);
                             popularProductAdapter.notifyDataSetChanged();
                         }
-                    }
-                    else{
-                        // Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Handle the failure case
                     }
                 });
+
 
 
 

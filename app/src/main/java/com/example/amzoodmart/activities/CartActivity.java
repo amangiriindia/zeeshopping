@@ -38,7 +38,7 @@ import java.util.Objects;
 public class CartActivity extends AppCompatActivity {
 
     //int overAllTotalAmount;
-    //TextView overAllAmount;
+    TextView overAllAmount;
     Toolbar toolbar;
 
     RecyclerView recyclerView;
@@ -67,11 +67,13 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-//        // GET DATA FROM MY CLASS ADAPTER
-//        LocalBroadcastManager.getInstance(this)
+        overAllAmount =findViewById(R.id.cart_buy_now);
+
+       // GET DATA FROM MY CLASS ADAPTER
+//       LocalBroadcastManager.getInstance(this)
 //                .registerReceiver(mMessageReceiver ,new IntentFilter("MyTotalAmount"));
 
-     //   overAllAmount =findViewById(R.id.my_cart_total_price);
+
         recyclerView =findViewById(R.id.cart_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartModelsList =new ArrayList<>();
@@ -85,7 +87,10 @@ public class CartActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for (DocumentSnapshot doc :task.getResult().getDocuments()){
 
+                                String documentId =doc.getId();
+
                                 MyCartModel myCartModel =doc.toObject(MyCartModel.class);
+                                myCartModel.setDocumentId(documentId);
                                 cartModelsList.add(myCartModel);
                                 cartAdapter.notifyDataSetChanged();
                             }
@@ -99,7 +104,7 @@ public class CartActivity extends AppCompatActivity {
 //        @Override
 //        public void onReceive(Context context, Intent intent) {
 //            int totalBill =intent.getIntExtra("totalAmount",0);
-//            overAllAmount.setText("Total Amount :"+totalBill+"$");
+//            overAllAmount.setText("Total Amount :"+totalBill);
 //        }
 //    };
 
