@@ -33,6 +33,8 @@ import java.util.Objects;
 public class AddressActivity extends AppCompatActivity implements AddressAdapter.SelectedAddress {
 
     Button addAddress;
+    String cartProductName ="",cartProductImgUrl ="";
+    int cartProductPrice =0;
 
      String userName =" ",userNumber =" ",userDistict =" ",userAddDeatail =" ",userCity =" ",userCode="";
     RecyclerView recyclerView;
@@ -68,6 +70,11 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         userCity= getIntent().getStringExtra("userCity");
         userCode= getIntent().getStringExtra("userCode");
 
+
+        // get data form cart
+        cartProductName =getIntent().getStringExtra("cartProductName");
+        cartProductImgUrl =getIntent().getStringExtra("cartProductImg");
+        cartProductPrice =getIntent().getIntExtra("cartProductPrice",0);
 
         firestore =FirebaseFirestore.getInstance();
 
@@ -123,19 +130,23 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productDesc =newProductsModel.getDescription();
 
                 }
-                if(obj instanceof PopularProductsModel){
+              else if(obj instanceof PopularProductsModel){
                     PopularProductsModel popularProductsModel =(PopularProductsModel) obj;
                     amount =popularProductsModel.getPrice();
                     productName =popularProductsModel.getName();
                     productImgUrl =popularProductsModel.getImg_url();
                     productDesc =popularProductsModel.getDescription();
                 }
-                if(obj instanceof ShowAllModel){
+               else if(obj instanceof ShowAllModel){
                     ShowAllModel showAllModel =(ShowAllModel) obj;
                     amount =showAllModel.getPrice();
                     productName =showAllModel.getName();
                     productImgUrl =showAllModel.getImg_url();
                     productDesc =showAllModel.getDescription();
+                }else{
+                    productName =cartProductName;
+                    amount =cartProductPrice;
+                    productImgUrl =cartProductImgUrl;
                 }
 
                 Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);

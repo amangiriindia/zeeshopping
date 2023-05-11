@@ -34,6 +34,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     FirebaseAuth auth;
 
     int totalAmount =0;
+    String pname ="";
 
     public MyCartAdapter(Context context, List<MyCartModel> list) {
         this.context = context;
@@ -104,9 +105,11 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         });
         // Total Amount pass to cart Activity
      totalAmount =totalAmount +list.get(position).getTotalPrice();
+     pname =pname +(list.get(position).getProductName()+", ");
 
        Intent intent =new Intent("MyTotalAmount");
        intent.putExtra("totalAmount",totalAmount);
+       intent.putExtra("pname",pname);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
     }

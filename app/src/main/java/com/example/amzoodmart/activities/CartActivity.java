@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.amzoodmart.R;
@@ -38,8 +39,11 @@ import java.util.Objects;
 public class CartActivity extends AppCompatActivity {
 
     //int overAllTotalAmount;
+    String cartProductName ="",cartProductImg;
+    int carttotalPrice =0;
     TextView overAllAmount;
     Toolbar toolbar;
+    Button buyNow;
 
     RecyclerView recyclerView;
     List<MyCartModel> cartModelsList;
@@ -68,13 +72,25 @@ public class CartActivity extends AppCompatActivity {
         });
 
         overAllAmount =findViewById(R.id.my_cart_total_price);
+        buyNow =findViewById(R.id.cart_buy_now);
+        cartProductImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdQ-pKb8VBKhKYBj-6o2mM0h3i6dzV6tGbrGykMoC0Hw&usqp=CAU&ec=48665699";
+
 
        // GET DATA FROM MY CLASS ADAPTER
         IntentFilter intentFilter = new IntentFilter("MyTotalAmount");
         LocalBroadcastManager.getInstance(this).registerReceiver(totalAmountReceiver, intentFilter);
 
 
-
+        buyNow.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+        Intent intent =new Intent(CartActivity.this,AddressActivity.class);
+        intent.putExtra("cartProductName",cartProductName);
+        intent.putExtra("cartProductImg",cartProductImg);
+        intent.putExtra("cartProductPrice",carttotalPrice);
+        startActivity(intent);
+        }
+      });
 
 
         recyclerView =findViewById(R.id.cart_rec);
@@ -108,7 +124,10 @@ private BroadcastReceiver totalAmountReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if ("MyTotalAmount".equals(intent.getAction())) {
                 int totalAmount = intent.getIntExtra("totalAmount", 0);
+                String productName =intent.getStringExtra("pname");
                 overAllAmount.setText(String.valueOf(totalAmount));
+                cartProductName =productName;
+                carttotalPrice =totalAmount;
                 // Handle the received totalAmount value
             }
         }
