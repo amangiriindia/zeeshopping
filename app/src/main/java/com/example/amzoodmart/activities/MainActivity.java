@@ -18,8 +18,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.fragments.HomeFragment;
+import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FirebaseAuth auth;
+    ShowAllModel model;
+    ShowAllAdapter adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 if(id ==R.id.nav_home_items){
                     loadFragment(homeFragment);
                 } else if (id ==R.id.nav_category_items) {
-                    Toast.makeText(MainActivity.this, "categoty", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, ShowAllActivity.class));
                 }else if (id ==R.id.nav_cart_items) {
                     startActivity(new Intent(MainActivity.this,CartActivity.class));
 
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,MyOrderActivity.class));
 
                 }else if (id ==R.id.nav_about_items) {
-                    Toast.makeText(MainActivity.this, "about", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this,AboutUsActivity.class));
 
                 }else if (id ==R.id.nav_logout_items) {
                     auth.signOut();
@@ -104,23 +109,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-       MenuItem menuItem=menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Search here...");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+      getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
 
     @Override
@@ -128,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         int id =item.getItemId();
         if(id == R.id.menu_search){
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this,ShowAllActivity.class));
         }
         else if (id == R.id.menu_my_cart) {
             startActivity(new Intent(MainActivity.this,CartActivity.class));

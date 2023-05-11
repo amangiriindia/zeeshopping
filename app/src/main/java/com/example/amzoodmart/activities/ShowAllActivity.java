@@ -2,12 +2,15 @@ package com.example.amzoodmart.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.amzoodmart.R;
@@ -54,6 +57,8 @@ public class ShowAllActivity extends AppCompatActivity {
         showAllModelList =new ArrayList<>();
         showAllAdapter = new ShowAllAdapter(this,showAllModelList);
         recyclerView.setAdapter(showAllAdapter);
+
+
 
 
 
@@ -175,6 +180,50 @@ public class ShowAllActivity extends AppCompatActivity {
                     });
 
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search,menu);
+        MenuItem item=menu.findItem(R.id.all_search_menu);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mySearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mySearch(newText);
+                return false;
+            }
+        });
+    return super.onCreateOptionsMenu(menu);
+    }
+
+    private void mySearch(String newText) {
+        firestore.collection("ShowAll")
+                .whereEqualTo("type", newText.toLowerCase())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<ShowAllModel> searchResults = new ArrayList<>();
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                ShowAllModel showAllModel = doc.toObject(ShowAllModel.class);
+                                searchResults.add(showAllModel);
+                            }
+                            // Process the search results
+                            // You can display the search results or perform any other actions here
+                        } else {
+                            // Handle any errors that occurred during the query
+                        }
+                    }
+                });
 
     }
 }

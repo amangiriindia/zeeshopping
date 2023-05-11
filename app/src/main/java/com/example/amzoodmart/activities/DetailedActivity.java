@@ -206,10 +206,10 @@ public class DetailedActivity extends AppCompatActivity {
 
         final HashMap<String,Object> cartMap = new HashMap<>();
         cartMap.put("productName" ,name.getText().toString());
-        cartMap.put("productPrice",price.getText().toString());
+        cartMap.put("productPrice",price.getText());
         cartMap.put("currentTime" ,saveCurrentTime);
         cartMap.put("currentDate",saveCurrentDate);
-        cartMap.put("totalQuantity" ,quantity.getText().toString());
+        cartMap.put("totalQuantity" ,quantity.getText());
         cartMap.put("totalPrice",totalPrice);
         cartMap.put("productImgurl",ImgUrl);
 

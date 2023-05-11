@@ -67,11 +67,14 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        overAllAmount =findViewById(R.id.cart_buy_now);
+        overAllAmount =findViewById(R.id.my_cart_total_price);
 
        // GET DATA FROM MY CLASS ADAPTER
-//       LocalBroadcastManager.getInstance(this)
-//                .registerReceiver(mMessageReceiver ,new IntentFilter("MyTotalAmount"));
+        IntentFilter intentFilter = new IntentFilter("MyTotalAmount");
+        LocalBroadcastManager.getInstance(this).registerReceiver(totalAmountReceiver, intentFilter);
+
+
+
 
 
         recyclerView =findViewById(R.id.cart_rec);
@@ -100,12 +103,22 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
     }
-//    public BroadcastReceiver mMessageReceiver =new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            int totalBill =intent.getIntExtra("totalAmount",0);
-//            overAllAmount.setText("Total Amount :"+totalBill);
-//        }
-//    };
+private BroadcastReceiver totalAmountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("MyTotalAmount".equals(intent.getAction())) {
+                int totalAmount = intent.getIntExtra("totalAmount", 0);
+                overAllAmount.setText(String.valueOf(totalAmount));
+                // Handle the received totalAmount value
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the BroadcastReceiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(totalAmountReceiver);
+    }
 
 }

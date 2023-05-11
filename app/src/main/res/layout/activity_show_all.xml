@@ -8,6 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/show_all_toolbar"
+        app:menu="@menu/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +17,8 @@
         app:title="All Product"
         android:background="#8ff7fd"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"/>
+        android:theme="?attr/actionBarTheme"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_all_rec"

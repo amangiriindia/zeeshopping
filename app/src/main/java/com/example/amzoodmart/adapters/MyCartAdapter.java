@@ -51,12 +51,9 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyCartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        //holder.date.setText(list.get(position).getCurrentDate());
-       // holder.time.setText(list.get(position).getCurrentTime());
        Glide.with(context).load(list.get(position).getProductImgurl()).into(holder.img);
         holder.price.setText(list.get(position).getProductPrice());
         holder.name.setText(list.get(position).getProductName());
-       //holder.totalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
         holder.totalQuantity.setText(list.get(position).getTotalQuantity());
 
         holder.removeCart.setOnClickListener(new View.OnClickListener() {
@@ -86,10 +83,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                                         notifyItemRemoved(position);
                                         notifyItemRangeChanged(position, list.size());
                                         Toast.makeText(context, "Cart item deleted successfully", Toast.LENGTH_SHORT).show();
-
                                     }
                                 });
-                        // Perform delete operation or any desired action
 
                     }
                 });
@@ -107,12 +102,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
             }
         });
+        // Total Amount pass to cart Activity
+     totalAmount =totalAmount +list.get(position).getTotalPrice();
 
-       // Total Amount pass to cart Activity
-//        totalAmount =totalAmount +list.get(position).getTotalPrice();
-//        Intent intent =new Intent("MyTotalAmount");
-//        intent.putExtra("totalAmount",totalAmount);
-//        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+       Intent intent =new Intent("MyTotalAmount");
+       intent.putExtra("totalAmount",totalAmount);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
     }
 
@@ -121,21 +116,16 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         return list.size();
     }
     public static class  ViewHolder extends RecyclerView.ViewHolder {
-        TextView name,price,date,time,totalQuantity,totalPrice;
+        TextView name,price,totalQuantity;
         ImageView img;
-        Button removeCart,qtyMin,qtyMax;
+        Button removeCart;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name =itemView.findViewById(R.id.product_name);
             price =itemView.findViewById(R.id.product_price);
             img =itemView.findViewById(R.id.product_image);
             removeCart =itemView.findViewById(R.id.btn_remove);
-           // date =itemView.findViewById(R.id.current_date);
-           // time =itemView.findViewById(R.id.current_time);
-            qtyMin =itemView.findViewById(R.id.btn_minus);
-            qtyMax =itemView.findViewById(R.id.btn_plus);
             totalQuantity =itemView.findViewById(R.id.product_quantity);
-           //totalPrice =itemView.findViewById(R.id.total_price);
         }
     }
 

@@ -8,8 +8,7 @@
         android:id="@+id/menu_search"
         android:title="Search"
         android:icon="@drawable/nav_search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always"
         />
 
     <item
