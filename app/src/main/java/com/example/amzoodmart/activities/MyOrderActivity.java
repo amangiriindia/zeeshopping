@@ -3,11 +3,15 @@ package com.example.amzoodmart.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +23,7 @@ import com.example.amzoodmart.adapters.MyCartAdapter;
 import com.example.amzoodmart.adapters.myOrderAdapter;
 import com.example.amzoodmart.models.MyCartModel;
 import com.example.amzoodmart.models.MyOrderModel;
+import com.example.amzoodmart.models.NewProductsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +37,10 @@ import java.util.Objects;
 
 public class MyOrderActivity extends AppCompatActivity {
 
-     String productName ="",productPrice="",productQty="",productImgUrl="";
-    LinearLayout linearLayout;
 
+    LinearLayout linearLayout;
     Toolbar toolbar;
     RecyclerView recyclerView;
-    MyOrderModel myOrderModel;
     myOrderAdapter OrderAdapter ;
     List<MyOrderModel> myOrderModelList;
     FirebaseFirestore firestore;
@@ -48,19 +51,19 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
 
-      //  myOrderModel =new MyOrderModel();
 
-       // productPrice =myOrderModel.getProductPrice().toString();
-     //   productImgUrl =myOrderModel.getProductImgUrl().toString();
-      //  productQty =myOrderModel.getProductQuantity().toString();
-       // productName =myOrderModel.getProductName().toString();
+        // Create an instance of the broadcast receiver
+        IntentFilter intentFilter = new IntentFilter("MyTotalAmount");
+        LocalBroadcastManager.getInstance(this).registerReceiver(totalAmountReceiver, intentFilter);
 
 
         linearLayout =findViewById(R.id.layout_order_item);
         toolbar =findViewById(R.id.myOrder_toolbar);
         recyclerView =findViewById(R.id.myorder_rec);
+
         firestore =FirebaseFirestore.getInstance();
         auth =FirebaseAuth.getInstance();
+
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -93,17 +96,35 @@ public class MyOrderActivity extends AppCompatActivity {
                     }
                 });
 
-
-    }
-    public void orderItem(View view){
-        Intent intent =new Intent(MyOrderActivity.this,OrderTrackingActivity.class);
-       // intent.putExtra("ProductName",productName);
-      //  intent.putExtra("ProductPrice",);
-      //  intent.putExtra("ProductQuantity",myOrderModel.getProductQuantity().toString());
-      //  intent.putExtra("ProductImgUrl",myOrderModel.getProductImgUrl().toString());
-        startActivity(intent);
-
     }
 
+    private BroadcastReceiver totalAmountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("MyTotalAmount".equals(intent.getAction())) {
+
+                Intent i =new Intent(MyOrderActivity.this,OrderTrackingActivity.class);
+                i.putExtra("orderId",intent.getStringExtra("orderId"));
+                i.putExtra("orderName",intent.getStringExtra("orderName"));
+                i.putExtra("orderPrice",intent.getStringExtra("orderPrice"));
+                i.putExtra("orderQty",intent.getStringExtra("orderQty"));
+                i.putExtra("orderPayment",intent.getStringExtra("orderPayment"));
+                i.putExtra("orderStatus",intent.getStringExtra("orderStatus"));
+                i.putExtra("orderDate",intent.getStringExtra("orderDate"));
+                i.putExtra("orderImgUrl",intent.getStringExtra("orderImgUrl"));
+                i.putExtra("orderAddress",intent.getStringExtra("orderAddress"));
+
+                startActivity(i);
+
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the BroadcastReceiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(totalAmountReceiver);
+    }
 
 }

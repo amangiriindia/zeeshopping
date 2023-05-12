@@ -127,7 +127,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         final HashMap<String,Object> cartMap = new HashMap<>();
         cartMap.put("productName" ,productName);
         cartMap.put("productPrice",productAmount+"");
-        cartMap.put("productQty",productQty+"");
+        cartMap.put("productQuantity",productQty+"");
         cartMap.put("productDesc" ,productDesc);
         cartMap.put("productImgUrl" ,productImgUrl);
         cartMap.put("Method" ,"Online Payment Mode");
@@ -166,9 +166,9 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("productName" ,productName);
         cartMap.put("productPrice",productAmount+"");
         cartMap.put("productDesc" ,productDesc);
-        cartMap.put("productQty",productQty+"");
+        cartMap.put("productQuantity",productQty+"");
         cartMap.put("productImgUrl" ,productImgUrl);
-        cartMap.put("Method" ,"Cash On Delevary");
+        cartMap.put("Method" ,"Cash On Delevery");
         cartMap.put("orderStatus","Ordered");
         cartMap.put("userName",userName);
         cartMap.put("userNumber",userNumber);

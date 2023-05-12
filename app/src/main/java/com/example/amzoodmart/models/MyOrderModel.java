@@ -1,13 +1,18 @@
 package com.example.amzoodmart.models;
 
+import java.io.Serializable;
+
 public class MyOrderModel {
-    String Method,currentDate,currentTime,orderId,productDesc,productImgUrl,productName,productPrice,userCity,userCode,userDistict,userName,userNumber,productQuantity;
+    String Method,currentDate,currentTime,orderId,productDesc,productImgUrl,productName,productPrice,orderStatus;
+    String userCity,userCode,userDistict,userName,userNumber,productQuantity,userAddress_detailed;
 
 
     public MyOrderModel() {
     }
 
-    public MyOrderModel(String method, String currentDate, String currentTime, String orderId, String productDesc, String productImgUrl, String productName, String productPrice, String userCity, String userCode, String userDistict, String userName, String userNumber,String productQuantity) {
+    public MyOrderModel(String method, String currentDate, String currentTime, String orderId, String productDesc, String productImgUrl,
+                        String productName, String productPrice, String userCity, String userCode, String userDistict,
+                        String userName, String userNumber,String productQuantity,String userAddress_detailed,String orderStatus) {
         this.Method = method;
         this.currentDate = currentDate;
         this.currentTime = currentTime;
@@ -22,6 +27,24 @@ public class MyOrderModel {
         this.userName = userName;
         this.userNumber = userNumber;
         this.productQuantity =productQuantity;
+        this.userAddress_detailed =userAddress_detailed;
+        this.orderStatus =orderStatus;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public String getUserAddress_detailed() {
+        return userAddress_detailed;
+    }
+
+    public void setUserAddress_detailed(String userAddress_detailed) {
+        this.userAddress_detailed = userAddress_detailed;
     }
 
     public String getMethod() {
