@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class MyOrderModel {
     String Method,currentDate,currentTime,orderId,productDesc,productImgUrl,productName,productPrice,orderStatus;
-    String userCity,userCode,userDistict,userName,userNumber,productQuantity,userAddress_detailed;
+    String userCity,userCode,userDistict,userName,userNumber,productQuantity,userAddress_detailed, documentId;
 
 
     public MyOrderModel() {
@@ -29,6 +29,14 @@ public class MyOrderModel {
         this.productQuantity =productQuantity;
         this.userAddress_detailed =userAddress_detailed;
         this.orderStatus =orderStatus;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getOrderStatus() {

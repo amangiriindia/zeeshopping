@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -147,7 +148,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PaymentActivity.this,OrderConfirmActivity.class));
                         finish();
                     }
                 });
@@ -185,7 +187,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(PaymentActivity.this, "Comfirm Ordered", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PaymentActivity.this,OrderConfirmActivity.class));
                         finish();
                     }
                 });

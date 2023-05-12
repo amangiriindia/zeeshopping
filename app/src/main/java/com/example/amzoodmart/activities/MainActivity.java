@@ -3,16 +3,21 @@ package com.example.amzoodmart.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,6 +26,7 @@ import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.fragments.HomeFragment;
 import com.example.amzoodmart.models.ShowAllModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,9 +80,32 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,AboutUsActivity.class));
 
                 }else if (id ==R.id.nav_logout_items) {
-                    auth.signOut();
-                    startActivity(new Intent(MainActivity.this,RegistationActivity.class));
-                    finish();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.AlertDialogCustom));
+                    builder.setTitle("Logout");
+                    builder.setMessage("Are you sure you want to logout?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            auth.signOut();
+                            startActivity(new Intent(MainActivity.this,RegistationActivity.class));
+                            finish();
+                            // Perform delete operation or other actions here
+                        }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User canceled the delete operation
+                            Toast.makeText(MainActivity.this, "Logout  cancel successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
 

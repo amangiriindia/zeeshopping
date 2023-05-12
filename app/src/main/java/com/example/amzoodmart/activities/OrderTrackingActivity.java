@@ -1,5 +1,6 @@
 package com.example.amzoodmart.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -9,13 +10,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.models.MyOrderModel;
 import com.example.amzoodmart.models.NewProductsModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class OrderTrackingActivity extends AppCompatActivity {
@@ -23,7 +36,10 @@ public class OrderTrackingActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn_cancel;
     ImageView imageView;
+    String doucmentId ="";
     TextView order_name,order_id,order_price,order_qty,order_payment,order_status,order_date,order_address;
+    FirebaseFirestore firestore;
+    FirebaseAuth auth;
 
 
     @SuppressLint("MissingInflatedId")
@@ -32,6 +48,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
+        firestore =FirebaseFirestore.getInstance();
+        auth =FirebaseAuth.getInstance();
 
         order_id =findViewById(R.id.order_id);
         order_name =findViewById(R.id.order_name);
@@ -65,7 +83,31 @@ public class OrderTrackingActivity extends AppCompatActivity {
         order_date.setText(getIntent().getStringExtra("orderDate"));
         order_address.setText(getIntent().getStringExtra("orderAddress"));
         Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
+        doucmentId =getIntent().getStringExtra("orderId");
 
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DocumentReference documentRef = firestore.collection("OrderDetail")
+                        .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                        .collection("User")
+                        .document(doucmentId); // Replace 'documentId' with the ID of the specific document you want to update
+
+
+                documentRef.update("orderStatus", "cancel")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(OrderTrackingActivity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+
+
+
+            }
+        });
 
 
     }

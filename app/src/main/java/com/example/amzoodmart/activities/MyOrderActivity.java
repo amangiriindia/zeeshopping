@@ -83,16 +83,17 @@ public class MyOrderActivity extends AppCompatActivity {
                 .collection("User").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (DocumentSnapshot doc :task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
 
-                                MyOrderModel myOrderModel =doc.toObject(MyOrderModel.class);
+                                String documentId = doc.getId();
+
+                                MyOrderModel myOrderModel = doc.toObject(MyOrderModel.class);
+                                myOrderModel.setDocumentId(documentId);
                                 myOrderModelList.add(myOrderModel);
                                 OrderAdapter.notifyDataSetChanged();
                             }
                         }
-
-
                     }
                 });
 
@@ -113,6 +114,7 @@ public class MyOrderActivity extends AppCompatActivity {
                 i.putExtra("orderDate",intent.getStringExtra("orderDate"));
                 i.putExtra("orderImgUrl",intent.getStringExtra("orderImgUrl"));
                 i.putExtra("orderAddress",intent.getStringExtra("orderAddress"));
+                i.putExtra("orderId",intent.getStringExtra("orderId"));
 
                 startActivity(i);
 

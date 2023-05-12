@@ -66,6 +66,7 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
                 intent.putExtra("orderStatus",myOrderModelList.get(position).getOrderStatus());
                 intent.putExtra("orderDate",myOrderModelList.get(position).getCurrentDate());
                 intent.putExtra("orderImgUrl",myOrderModelList.get(position).getProductImgUrl());
+                intent.putExtra("orderId",myOrderModelList.get(position).getDocumentId());
                 intent.putExtra("orderAddress",address);
 
 
