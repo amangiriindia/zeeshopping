@@ -121,6 +121,7 @@ public class DetailedActivity extends AppCompatActivity {
             totalPrice =showAllModel.getPrice() *totalQuantity;
 
 
+
         }
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -138,12 +139,15 @@ public class DetailedActivity extends AppCompatActivity {
                 Intent intent =new Intent(DetailedActivity.this,AddressActivity.class);
                 if(newProductsModel !=null){
                     intent.putExtra("item",newProductsModel);
+                    intent.putExtra("Qty",totalQuantity);
                 }
                 if(popularProductsModel !=null){
                     intent.putExtra("item",popularProductsModel);
+                    intent.putExtra("Qty",totalQuantity);
                 }
                 if(showAllModel != null){
                     intent.putExtra("item",showAllModel);
+                    intent.putExtra("Qty",totalQuantity);
                 }
                 startActivity(intent);
             }
@@ -209,7 +213,7 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("productPrice",price.getText());
         cartMap.put("currentTime" ,saveCurrentTime);
         cartMap.put("currentDate",saveCurrentDate);
-        cartMap.put("totalQuantity" ,quantity.getText());
+        cartMap.put("totalQuantity" ,totalQuantity);
         cartMap.put("totalPrice",totalPrice);
         cartMap.put("productImgurl",ImgUrl);
 

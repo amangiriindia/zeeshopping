@@ -33,7 +33,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     FirebaseFirestore firestore;
     FirebaseAuth auth;
 
-    int totalAmount =0;
+    int totalAmount =0,totalQty =0;
     String pname ="";
 
     public MyCartAdapter(Context context, List<MyCartModel> list) {
@@ -55,7 +55,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
        Glide.with(context).load(list.get(position).getProductImgurl()).into(holder.img);
         holder.price.setText(list.get(position).getProductPrice());
         holder.name.setText(list.get(position).getProductName());
-        holder.totalQuantity.setText(list.get(position).getTotalQuantity());
+        holder.totalQuantity.setText(String.valueOf(list.get(position).getTotalQuantity()));
 
         holder.removeCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +104,15 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             }
         });
         // Total Amount pass to cart Activity
-     totalAmount =totalAmount +list.get(position).getTotalPrice();
-     pname =pname +(list.get(position).getProductName()+", ");
+        totalAmount =totalAmount +list.get(position).getTotalPrice();
+        pname =pname +(list.get(position).getProductName()+", ");
+        totalQty =totalQty + list.get(position).getTotalQuantity();
 
        Intent intent =new Intent("MyTotalAmount");
        intent.putExtra("totalAmount",totalAmount);
        intent.putExtra("pname",pname);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+       intent.putExtra("Qty",totalQty);
+       LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
     }
 

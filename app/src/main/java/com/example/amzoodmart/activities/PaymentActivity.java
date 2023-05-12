@@ -34,7 +34,8 @@ import java.util.Random;
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
     Toolbar toolbar;
-    double amount =0.0;
+    double productAmount =0.0;
+    int productQty =0;
     String  productName ="";
     String productImgUrl ="";
     String productDesc ="";
@@ -64,16 +65,18 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         firestore =FirebaseFirestore.getInstance();
         auth =FirebaseAuth.getInstance();
        //geting value for the intent
-       amount=getIntent().getDoubleExtra("amount",0.0);
+       productAmount=getIntent().getDoubleExtra("amount",0.0);
        productName= getIntent().getStringExtra("productName");
        productImgUrl= getIntent().getStringExtra("productImgUrl");
        productDesc= getIntent().getStringExtra("productDesc");
+       productQty =getIntent().getIntExtra("productQty",0);
        userName= getIntent().getStringExtra("userName");
        userNumber= getIntent().getStringExtra("userNumber");
        userDistict= getIntent().getStringExtra("userDistict");
        userAddDeatail= getIntent().getStringExtra("userAddDeatail");
        userCity= getIntent().getStringExtra("userCity");
        userCode= getIntent().getStringExtra("userCode");
+
 
 
         subTotal =findViewById(R.id.sub_total);
@@ -83,8 +86,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cashOnDel =findViewById(R.id.cod_btn);
         paymentBtn =findViewById(R.id.pay_btn);
 
-        subTotal.setText(amount+"");
-        total.setText(amount+"");
+        subTotal.setText(productAmount+"");
+        total.setText(productAmount+"");
         name.setText(productName.toString());
         Glide.with(this).load(productImgUrl).into(pro_img);
 
@@ -102,7 +105,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                paymentMethod();
+                paymentMethod(productAmount);
 
             }
         });
@@ -121,12 +124,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime =currentTime.format(calForDate.getTime());
 
-        final HashMap<String,String> cartMap = new HashMap<>();
+        final HashMap<String,Object> cartMap = new HashMap<>();
         cartMap.put("productName" ,productName);
-        cartMap.put("productPrice",amount+"");
+        cartMap.put("productPrice",productAmount+"");
+        cartMap.put("productQty",productQty+"");
         cartMap.put("productDesc" ,productDesc);
         cartMap.put("productImgUrl" ,productImgUrl);
         cartMap.put("Method" ,"Online Payment Mode");
+        cartMap.put("orderStatus","Ordered");
         cartMap.put("userName",userName);
         cartMap.put("userNumber",userNumber);
         cartMap.put("userDistict",userDistict);
@@ -157,12 +162,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime =currentTime.format(calForDate.getTime());
 
-        final HashMap<String,String> cartMap = new HashMap<>();
+        final HashMap<String,Object> cartMap = new HashMap<>();
         cartMap.put("productName" ,productName);
-        cartMap.put("productPrice",amount+"");
+        cartMap.put("productPrice",productAmount+"");
         cartMap.put("productDesc" ,productDesc);
+        cartMap.put("productQty",productQty+"");
         cartMap.put("productImgUrl" ,productImgUrl);
         cartMap.put("Method" ,"Cash On Delevary");
+        cartMap.put("orderStatus","Ordered");
         cartMap.put("userName",userName);
         cartMap.put("userNumber",userNumber);
         cartMap.put("userDistict",userDistict);
@@ -200,7 +207,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         return s;
     }
 
-    private void paymentMethod() {
+    private void paymentMethod(double amount) {
         Checkout checkout = new Checkout();
 
         final Activity activity = PaymentActivity.this;
@@ -217,9 +224,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             // Currency type
             options.put("currency", "INR");
             //double total = Double.parseDouble(mAmountText.getText().toString());
-            //multiply with 100 to get exact amount in rupee
-            amount = amount * 100;
             //amount
+            amount =amount*100;
             options.put("amount", amount);
             JSONObject preFill = new JSONObject();
             //email

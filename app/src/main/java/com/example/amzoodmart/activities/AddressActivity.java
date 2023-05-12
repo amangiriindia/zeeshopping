@@ -34,7 +34,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
     Button addAddress;
     String cartProductName ="",cartProductImgUrl ="";
-    int cartProductPrice =0;
+    int cartProductPrice =0,cartProductQty =0,qty=0;
 
      String userName =" ",userNumber =" ",userDistict =" ",userAddDeatail =" ",userCity =" ",userCode="";
     RecyclerView recyclerView;
@@ -63,6 +63,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
         //get data form detailed activity
         Object obj =getIntent().getSerializableExtra("item");
+        qty =getIntent().getIntExtra("Qty",0);
         userName= getIntent().getStringExtra("userName");
         userNumber= getIntent().getStringExtra("userNumber");
         userDistict= getIntent().getStringExtra("userDistict");
@@ -75,6 +76,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         cartProductName =getIntent().getStringExtra("cartProductName");
         cartProductImgUrl =getIntent().getStringExtra("cartProductImg");
         cartProductPrice =getIntent().getIntExtra("cartProductPrice",0);
+        cartProductQty =getIntent().getIntExtra("cartProductQty",0);
 
         firestore =FirebaseFirestore.getInstance();
 
@@ -122,12 +124,14 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 String  productName ="";
                 String productImgUrl ="";
                 String productDesc ="";
+                int productQty =1;
                 if(obj instanceof NewProductsModel){
                     NewProductsModel newProductsModel =(NewProductsModel) obj;
                     amount =newProductsModel.getPrice();
                     productName =newProductsModel.getName();
                     productImgUrl =newProductsModel.getImg_url();
                     productDesc =newProductsModel.getDescription();
+                    productQty=qty;
 
                 }
               else if(obj instanceof PopularProductsModel){
@@ -136,6 +140,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productName =popularProductsModel.getName();
                     productImgUrl =popularProductsModel.getImg_url();
                     productDesc =popularProductsModel.getDescription();
+                    productQty =qty;
                 }
                else if(obj instanceof ShowAllModel){
                     ShowAllModel showAllModel =(ShowAllModel) obj;
@@ -143,10 +148,12 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productName =showAllModel.getName();
                     productImgUrl =showAllModel.getImg_url();
                     productDesc =showAllModel.getDescription();
+                    productQty=qty;
                 }else{
                     productName =cartProductName;
                     amount =cartProductPrice;
                     productImgUrl =cartProductImgUrl;
+                    productQty =cartProductQty;
                 }
 
                 Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);
@@ -154,6 +161,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 intent.putExtra("productName",productName);
                 intent.putExtra("productImgUrl",productImgUrl);
                 intent.putExtra("productDesc",productDesc);
+                intent.putExtra("productQty",productQty);
                 intent.putExtra("userName",userName);
                 intent.putExtra("userNumber",userNumber);
                 intent.putExtra("userDistict",userDistict);

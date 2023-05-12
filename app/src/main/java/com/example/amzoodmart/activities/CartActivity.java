@@ -40,7 +40,7 @@ public class CartActivity extends AppCompatActivity {
 
     //int overAllTotalAmount;
     String cartProductName ="",cartProductImg;
-    int carttotalPrice =0;
+    int carttotalPrice =0,cartTotalQty =0;
     TextView overAllAmount;
     Toolbar toolbar;
     Button buyNow;
@@ -88,6 +88,7 @@ public class CartActivity extends AppCompatActivity {
         intent.putExtra("cartProductName",cartProductName);
         intent.putExtra("cartProductImg",cartProductImg);
         intent.putExtra("cartProductPrice",carttotalPrice);
+        intent.putExtra("cartProductQty",cartTotalQty);
         startActivity(intent);
         }
       });
@@ -124,10 +125,12 @@ private BroadcastReceiver totalAmountReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if ("MyTotalAmount".equals(intent.getAction())) {
                 int totalAmount = intent.getIntExtra("totalAmount", 0);
+                int qty =intent.getIntExtra("Qty",0);
                 String productName =intent.getStringExtra("pname");
                 overAllAmount.setText(String.valueOf(totalAmount));
                 cartProductName =productName;
                 carttotalPrice =totalAmount;
+                cartTotalQty =qty;
                 // Handle the received totalAmount value
             }
         }
