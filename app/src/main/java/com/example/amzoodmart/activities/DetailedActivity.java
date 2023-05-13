@@ -82,6 +82,22 @@ public class DetailedActivity extends AppCompatActivity {
         description=findViewById(R.id.detailed_desc);
         price =findViewById(R.id.detailed_price);
 
+        Intent intent = getIntent();
+        String slider_imgUrl = intent.getStringExtra("img_url");
+        String slider_name = intent.getStringExtra("name");
+        double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
+        String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
+        String slider_rating = intent.getStringExtra("rating"); // Provide a default value if needed
+        String slider_description = intent.getStringExtra("description");
+
+        Glide.with(this).load(slider_imgUrl).into(detailedImg); // Assuming you are using Glide for image loading
+        name.setText(slider_name);
+        price.setText(String.valueOf(slider_price));
+        rating.setText(slider_rating);
+        description.setText(slider_description);
+
+
+
         addToCart =findViewById(R.id.add_to_cart);
         buyNow =findViewById(R.id.buy_now);
 

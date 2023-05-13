@@ -5,23 +5,28 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.activities.DetailedActivity;
 import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.adapters.CategoryAdapter;
 import com.example.amzoodmart.adapters.NewProductAdapter;
@@ -29,6 +34,10 @@ import com.example.amzoodmart.adapters.PopularProductAdapter;
 import com.example.amzoodmart.models.CategoryModel;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -115,6 +124,37 @@ public class HomeFragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.banner3,"70% OFF", ScaleTypes.CENTER_CROP));
 
         imageSlider.setImageList(slideModels);
+        imageSlider.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemSelected(int i) {
+
+            }
+
+            @Override
+            public void doubleClick(int i) {
+                switch (i) {
+                    case 0:
+                        DocumentReference docRef = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
+                        gotoDetailed(docRef);
+                        break;
+                    case 1:
+                        DocumentReference docRef1 = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
+                        gotoDetailed(docRef1);
+                        break;
+                    case 2:
+                        DocumentReference docRef2 = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
+                        gotoDetailed(docRef2);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
+
+
+
+
 
         progressDialog.setTitle("Welcome To Amzood Mart");
         progressDialog.setMessage("please wait...");
@@ -200,5 +240,38 @@ public class HomeFragment extends Fragment {
 
 
         return root;
+    }
+
+    private void gotoDetailed(DocumentReference docRef) {
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String imgUrl = document.getString("img_url");
+                        String name = document.getString("name");
+                        double price = document.getDouble("price");
+                        String productStatus = document.getString("product_status");
+                        String rating = document.getString("rating");
+                        String type = document.getString("type");
+                        String description =document.getString("description");
+
+                        // Use the retrieved field values as needed
+                        Intent intent =new Intent(getContext(), DetailedActivity.class);
+                        intent.putExtra("img_url",imgUrl);
+                        intent.putExtra("name",name);
+                        intent.putExtra("price",price);
+                        intent.putExtra("product_status",productStatus);
+                        intent.putExtra("rating",rating);
+                        intent.putExtra("description",description);
+                        startActivity(intent);
+
+                    } else {
+                        // Document does not exist
+                    }
+                }
+            }
+        });
     }
 }

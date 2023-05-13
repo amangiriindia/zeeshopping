@@ -26,6 +26,10 @@ import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.fragments.HomeFragment;
 import com.example.amzoodmart.models.ShowAllModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseOptions;
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     ShowAllModel model;
     ShowAllAdapter adapter;
+    GoogleSignInOptions googleSignInOptions;
+    GoogleSignInClient googleSignInClient;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -113,7 +119,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//GOOGLE LOGIN
+        googleSignInOptions =new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+        GoogleSignInAccount account =GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            String Name =account.getDisplayName();
+            String mail =account.getEmail();
+        }
 
 
        homeFragment =new HomeFragment();
