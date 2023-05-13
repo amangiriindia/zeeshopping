@@ -78,11 +78,13 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id ==R.id.nav_cart_items) {
                     startActivity(new Intent(MainActivity.this,CartActivity.class));
 
-
                 }else if (id ==R.id.nav_order_items) {
                     startActivity(new Intent(MainActivity.this,MyOrderActivity.class));
 
-                }else if (id ==R.id.nav_about_items) {
+                } else if (id ==R.id.nav_support_items) {
+                    startActivity(new Intent(MainActivity.this,custmerSupportActivity.class));
+
+                } else if (id ==R.id.nav_about_items) {
                     startActivity(new Intent(MainActivity.this,AboutUsActivity.class));
 
                 }else if (id ==R.id.nav_logout_items) {
