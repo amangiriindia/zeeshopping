@@ -1,8 +1,5 @@
 package com.example.amzoodmart.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,15 +11,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.SliderAdapter;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
     ViewPager viewPager;
-   Button btn;
+   Button btn,nextBtn;
     LinearLayout dotsLayout;
     SliderAdapter sliderAdapter;
+
 
     TextView[] dots;
     Animation animation;
@@ -39,20 +40,31 @@ public class OnBoardingActivity extends AppCompatActivity {
         //hide toolbar
         //getSupportActionBar().hide();
 
-
+         nextBtn =findViewById(R.id.next_btn);
         viewPager =findViewById(R.id.slider);
         dotsLayout =findViewById(R.id.dots);
         btn =findViewById(R.id.get_started_btn);
         addDots(0);
         viewPager.addOnPageChangeListener(changeListener);
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPage = viewPager.getCurrentItem();
+                int nextPage = currentPage + 1;
+                viewPager.setCurrentItem(nextPage);
+            }
+        });
+
         //call Adapter
         sliderAdapter =new SliderAdapter(this);
         viewPager.setAdapter(sliderAdapter);
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OnBoardingActivity.this,RegistationActivity.class));
+                startActivity(new Intent(OnBoardingActivity.this,loginActivity.class));
                 finish();
             }
         });

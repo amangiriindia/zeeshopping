@@ -1,18 +1,19 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.Users;
@@ -27,7 +28,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GithubAuthProvider;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class loginActivity extends AppCompatActivity {
@@ -38,6 +38,7 @@ public class loginActivity extends AppCompatActivity {
     Button signUp_google;
     GoogleSignInClient mgoogleSignInClient;
     ProgressDialog progressDialog ;
+    SharedPreferences sharedPreferences;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,29 +66,20 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-//        googleSignInOptions =new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//
-//        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
-//        signUp_google.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SignIn();
-//            }
-//        });
+      // FOR ONBORDING SCREEN
+        sharedPreferences =getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
+        boolean isFirstTime =sharedPreferences.getBoolean("firstTime",true);
+        if(isFirstTime){
+            SharedPreferences.Editor editor =sharedPreferences.edit();
+            editor.putBoolean("firstTime",false);
+            editor.commit();
+            Intent intent =new Intent(loginActivity.this,OnBoardingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
-//    private void SignIn() {
-//        Intent intent= googleSignInClient.getSignInIntent();
-//        startActivityForResult(intent,100);
-//    }
+
 
     int RC_SIGN_IN =40;
 
@@ -136,11 +128,6 @@ public class loginActivity extends AppCompatActivity {
                 });
     }
 
-    private void HomeActivity() {
-        finish();
-        Intent intent =new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     protected void onStart() {

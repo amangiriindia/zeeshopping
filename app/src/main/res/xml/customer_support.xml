@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <faq>
+        <question>How can I contact customer support?</question>
+        <answer>You can contact our customer support team by calling our toll-free number at 1-800-123-4567 or by sending an email to support@example.com.</answer>
+    </faq>
+    <faq>
+        <question>What are your business hours?</question>
+        <answer>Our business hours are from Monday to Friday, 9:00 AM to 5:00 PM local time.</answer>
+    </faq>
+    <faq>
+        <question>How long does it take to receive a response from customer support?</question>
+        <answer>We strive to respond to all customer inquiries within 24 hours. However, during peak times, it may take slightly longer.</answer>
+    </faq>
+    <faq>
+        <question>Can I return or exchange a product?</question>
+        <answer>Yes, you can return or exchange a product within 30 days of purchase. Please refer to our returns and exchanges policy on our website for more information.</answer>
+    </faq>
+    <!-- Add more FAQs here -->
+</resources>

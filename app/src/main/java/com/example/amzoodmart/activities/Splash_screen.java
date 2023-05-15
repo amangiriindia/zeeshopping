@@ -1,12 +1,10 @@
 package com.example.amzoodmart.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amzoodmart.R;
 
@@ -16,16 +14,11 @@ public class Splash_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-//        SystemClock.sleep(3000);
-//        Intent i;
-//        i = new Intent(Splash_screen.this,RegistationActivity.class);
-//        startActivity(i);
-//        finish();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Start your main activity
-                Intent intent = new Intent(Splash_screen.this, RegistationActivity.class);
+                Intent intent = new Intent(Splash_screen.this, loginActivity.class);
                 startActivity(intent);
 
                 // Close the splash activity

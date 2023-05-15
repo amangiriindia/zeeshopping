@@ -15,27 +15,73 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Custmer Support" />
+        app:title="Customer Support" />
+
+
+
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/support_toolbar">
 
-     <Button
-         android:id="@+id/send_email_btn"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="Send Email"
-         android:textColor="@color/white"
-         android:layout_marginTop="200dp"
-         android:layout_gravity="center"
-         android:backgroundTint="@color/pink"/>
+      >
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:text="Customer Support Assistance"
+            android:textColor="@color/textHeading"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/problemEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your problem"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginTop="40dp"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:hint="Type your message"
+            android:gravity="start"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_bg"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/send_email_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="40dp"
+            android:backgroundTint="@color/pink"
+            android:text="Send Email"
+            android:textColor="@color/white" />
+
+
 
     </LinearLayout>
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

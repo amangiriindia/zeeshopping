@@ -1,15 +1,14 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amzoodmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +20,7 @@ public class RegistationActivity extends AppCompatActivity {
 
     EditText email,name,password;
     FirebaseAuth mAuth;
-    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +35,8 @@ public class RegistationActivity extends AppCompatActivity {
      name =findViewById(R.id.name);
      email = findViewById(R.id.email);
      password =findViewById(R.id.password);
-     sharedPreferences =getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
-     boolean isFirstTime =sharedPreferences.getBoolean("firstTime",true);
-     if(isFirstTime){
-         SharedPreferences.Editor editor =sharedPreferences.edit();
-         editor.putBoolean("firstTime",false);
-         editor.commit();
-         Intent intent =new Intent(RegistationActivity.this,OnBoardingActivity.class);
-         startActivity(intent);
-         finish();
-     }
+
+
     }
 
     public void signup(View view){

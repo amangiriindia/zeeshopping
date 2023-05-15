@@ -14,4 +14,11 @@
     <string name="todo">TODO</string>
     <string name="openDrawer">Open navigation drawer</string>
     <string name="closeDrawer">Close navigation</string>
+    <string-array name="spinnerlist">
+        <item> This is question </item>
+        <item>This is answer</item>
+    </string-array>
+
+
+
 </resources>

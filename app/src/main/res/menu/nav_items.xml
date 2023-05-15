@@ -9,7 +9,7 @@
     <item
         android:id="@+id/nav_cart_items"
         android:title="My Cart"
-        android:icon="@drawable/mycart"/>
+        android:icon="@drawable/menu_shopping"/>
     <item
         android:id="@+id/nav_order_items"
         android:title="My Order"
@@ -17,15 +17,16 @@
     <item
         android:id="@+id/nav_category_items"
         android:title="Category"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"/>
+        android:icon="@drawable/mycart"/>
+
+    <item
+        android:id="@+id/nav_support_items"
+        android:title="Contact Us"
+        android:icon="@drawable/contact_us_icon"/>
     <item
         android:id="@+id/nav_about_items"
         android:title="About Us"
-        android:icon="@drawable/menu_shopping"/>
-    <item
-        android:id="@+id/nav_support_items"
-        android:title="Support"
-        android:icon="@drawable/nav_fav"/>
+        android:icon="@drawable/about_us_icon"/>
     <item
         android:id="@+id/nav_logout_items"
         android:title="Logout"
