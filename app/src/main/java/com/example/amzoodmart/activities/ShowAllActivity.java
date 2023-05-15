@@ -1,17 +1,17 @@
 package com.example.amzoodmart.activities;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
@@ -212,18 +212,17 @@ public class ShowAllActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<ShowAllModel> searchResults = new ArrayList<>();
+                            showAllModelList.clear(); // Clear the existing list
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                                 ShowAllModel showAllModel = doc.toObject(ShowAllModel.class);
-                                searchResults.add(showAllModel);
+                                showAllModelList.add(showAllModel); // Add the search results to the list
                             }
-                            // Process the search results
-                            // You can display the search results or perform any other actions here
+                            showAllAdapter.notifyDataSetChanged(); // Notify the adapter about the changes
                         } else {
                             // Handle any errors that occurred during the query
                         }
                     }
                 });
-
     }
+
 }
