@@ -16,14 +16,11 @@ import com.example.amzoodmart.models.AddressModel;
 
 import java.util.List;
 
-public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder >{
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
 
     Context context;
     List<AddressModel> addressModelList;
     SelectedAddress selectedAddress;
-
-
-    private RadioButton selecteRadioBtn;
 
     public AddressAdapter(Context context, List<AddressModel> addressModelList, SelectedAddress selectedAddress) {
         this.context = context;
@@ -34,26 +31,36 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     @NonNull
     @Override
     public AddressAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull AddressAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        AddressModel addressModel = addressModelList.get(position);
+        holder.address.setText(addressModel.getUserAddress());
+        holder.radioButton.setChecked(addressModel.isSelected());
 
-        holder.address.setText(addressModelList.get(position).getUserAddress());
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (AddressModel address:addressModelList){
+                for (AddressModel address : addressModelList) {
+                    address.setSelected(false);
+                }
+                addressModel.setSelected(true);
+                notifyDataSetChanged();
+                selectedAddress.setAddress(addressModel.getUserAddress());
+            }
+        });
+        holder.radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (AddressModel address : addressModelList) {
                     address.setSelected(false);
                 }
                 addressModelList.get(position).setSelected(true);
-                if(selecteRadioBtn !=null){
-                    selecteRadioBtn.setChecked(false);
-                }
-                selecteRadioBtn =(RadioButton) view;
-                selecteRadioBtn.setChecked(true);
+                notifyDataSetChanged();
                 selectedAddress.setAddress(addressModelList.get(position).getUserAddress());
+                selectedAddress.onRadioButtonSelected(true);
             }
         });
     }
@@ -62,19 +69,24 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     public int getItemCount() {
         return addressModelList.size();
     }
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView address;
         RadioButton radioButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            address =itemView.findViewById(R.id.address_add);
-            radioButton =itemView.findViewById(R.id.select_address);
-
+            address = itemView.findViewById(R.id.address_add);
+            radioButton = itemView.findViewById(R.id.select_address);
         }
     }
-    public  interface  SelectedAddress{
-        void setAddress(String address);
-    }
 
+    public interface SelectedAddress {
+        void setAddress(String address);
+        void onRadioButtonSelected(boolean flag);
+    }
 }
+
+
+

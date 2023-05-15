@@ -2,7 +2,10 @@ package com.example.amzoodmart.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +38,25 @@ public class RegistationActivity extends AppCompatActivity {
      name =findViewById(R.id.name);
      email = findViewById(R.id.email);
      password =findViewById(R.id.password);
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                    email.setError("Invalid EmailAddress");
+                    return;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
     }
@@ -45,19 +67,19 @@ public class RegistationActivity extends AppCompatActivity {
         String userPassword =password.getText().toString();
 
         if(TextUtils.isEmpty(userName)){
-            Toast.makeText(this, "Enter Name!", Toast.LENGTH_SHORT).show();
+            name.setError("Enter Name!");
             return;
         }
         if(TextUtils.isEmpty(userEmail)){
-            Toast.makeText(this, "Enter Email!", Toast.LENGTH_SHORT).show();
+            email.setError("Enter Email!");
             return;
         }
         if(TextUtils.isEmpty(userPassword)){
-            Toast.makeText(this, "Enter Password!", Toast.LENGTH_SHORT).show();
+            password.setError("Enter Password!");
             return;
         }
         if(userPassword.length()<6){
-            Toast.makeText(this, "Password too short, enter minimum 6 chracter", Toast.LENGTH_SHORT).show();
+            password.setError("Password too short!");
             return;
         }
         mAuth.createUserWithEmailAndPassword(userEmail,userPassword)

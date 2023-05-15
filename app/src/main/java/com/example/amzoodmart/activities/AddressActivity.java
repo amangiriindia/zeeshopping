@@ -1,21 +1,21 @@
 package com.example.amzoodmart.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.AddressAdapter;
 import com.example.amzoodmart.models.AddressModel;
-import com.example.amzoodmart.models.MyCartModel;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
 import com.example.amzoodmart.models.ShowAllModel;
@@ -43,6 +43,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     Button addAddressBtn,paymentBtn;
+    boolean flagAddress ;
     Toolbar toolbar ;
     String mAddress ="";
 
@@ -115,8 +116,9 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                         }
                     }
                 });
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
 
+
+        paymentBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -156,19 +158,23 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productQty =cartProductQty;
                 }
 
-                Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);
-                intent.putExtra("amount",amount);
-                intent.putExtra("productName",productName);
-                intent.putExtra("productImgUrl",productImgUrl);
-                intent.putExtra("productDesc",productDesc);
-                intent.putExtra("productQty",productQty);
-                intent.putExtra("userName",userName);
-                intent.putExtra("userNumber",userNumber);
-                intent.putExtra("userDistict",userDistict);
-                intent.putExtra("userAddDeatail",userAddDeatail);
-                intent.putExtra("userCity",userCity);
-                intent.putExtra("userCode",userCode);
-                startActivity(intent);
+               if(flagAddress){
+                   Intent intent =new Intent(AddressActivity.this,PaymentActivity.class);
+                   intent.putExtra("amount",amount);
+                   intent.putExtra("productName",productName);
+                   intent.putExtra("productImgUrl",productImgUrl);
+                   intent.putExtra("productDesc",productDesc);
+                   intent.putExtra("productQty",productQty);
+                   intent.putExtra("userName",userName);
+                   intent.putExtra("userNumber",userNumber);
+                   intent.putExtra("userDistict",userDistict);
+                   intent.putExtra("userAddDeatail",userAddDeatail);
+                   intent.putExtra("userCity",userCity);
+                   intent.putExtra("userCode",userCode);
+                   startActivity(intent);
+               }else {
+                   Toast.makeText(AddressActivity.this, "Please Add Address!", Toast.LENGTH_SHORT).show();
+               }
 
 
             }
@@ -184,6 +190,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     }
 
     @Override
+    public void onRadioButtonSelected(boolean flag) {
+        // Handle the flag value here
+        flagAddress =flag;
+
+    }
+
+@Override
     public void setAddress(String address) {
         mAddress =address;
     }

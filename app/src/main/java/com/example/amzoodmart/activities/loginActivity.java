@@ -1,14 +1,20 @@
 package com.example.amzoodmart.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +45,7 @@ public class loginActivity extends AppCompatActivity {
     GoogleSignInClient mgoogleSignInClient;
     ProgressDialog progressDialog ;
     SharedPreferences sharedPreferences;
+    TextView forgotPassword;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,29 @@ public class loginActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password =findViewById(R.id.password);
         signUp_google =findViewById(R.id.sign_up_google);
+        forgotPassword = findViewById(R.id.forgot_password);
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                    email.setError("Invalid EmailAddress");
+                    return;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
 
         progressDialog =new ProgressDialog(loginActivity.this);
         progressDialog.setTitle("Creating account");
@@ -77,6 +107,52 @@ public class loginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder builder =new AlertDialog.Builder(loginActivity.this);
+                View dialogView =getLayoutInflater().inflate(R.layout.dialog_forgot,null);
+                EditText emailBox =dialogView.findViewById(R.id.emailBox);
+
+                builder.setView(dialogView);
+                AlertDialog dialog =builder.create();
+
+                dialogView.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String userEmail = emailBox.getText().toString();
+                        if(TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+                            Toast.makeText(loginActivity.this, "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        mAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                               if(task.isSuccessful()) {
+                                   Toast.makeText(loginActivity.this, "Check your Email", Toast.LENGTH_SHORT).show();
+                                   dialog.dismiss();
+                               }else {
+                                   Toast.makeText(loginActivity.this, "Unable to send,failed", Toast.LENGTH_SHORT).show();
+                               }
+                            }
+                        });
+                    }
+                });
+                dialogView.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                if(dialog.getWindow() != null){
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                }
+                dialog.show();
+            }
+        });
+
     }
 
 
@@ -126,6 +202,12 @@ public class loginActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+
+
+
+
     }
 
 
@@ -133,7 +215,6 @@ public class loginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
-            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(loginActivity.this,MainActivity.class));
             finish();
         }
@@ -145,15 +226,15 @@ public class loginActivity extends AppCompatActivity {
         String userPassword =password.getText().toString();
 
         if(TextUtils.isEmpty(userEmail)){
-            Toast.makeText(this, "Enter Email!", Toast.LENGTH_SHORT).show();
+            email.setError("Enter Email!");
             return;
         }
         if(TextUtils.isEmpty(userPassword)){
-            Toast.makeText(this, "Enter Password!", Toast.LENGTH_SHORT).show();
+            password.setError("Enter Password!");
             return;
         }
         if(userPassword.length()<6){
-            Toast.makeText(this, "Password too short, enter minimum 6 chracter", Toast.LENGTH_SHORT).show();
+            password.setError("Enter Valid Password!");
             return;
         }
         mAuth.signInWithEmailAndPassword(userEmail,userPassword)
@@ -161,7 +242,7 @@ public class loginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(loginActivity.this, "Successfuly Login", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(loginActivity.this, "Login Successfully ", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(loginActivity.this,MainActivity.class));
                                 }else {
                                     Toast.makeText(loginActivity.this, "Wrong Username and  Password!", Toast.LENGTH_SHORT).show();
