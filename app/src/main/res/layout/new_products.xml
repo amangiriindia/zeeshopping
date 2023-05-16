@@ -31,6 +31,7 @@
             android:background="@color/blue"
             android:fontFamily="@font/amethysta"
             android:padding="6dp"
+
             android:text="@string/New"
             android:textColor="@color/white"
             android:textSize="13sp"

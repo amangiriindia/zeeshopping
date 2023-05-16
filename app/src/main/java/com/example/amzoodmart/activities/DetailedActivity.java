@@ -1,16 +1,21 @@
 package com.example.amzoodmart.activities;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
@@ -48,11 +53,26 @@ public class DetailedActivity extends AppCompatActivity {
     ShowAllModel showAllModel =null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    static float ratingValue=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
+
+
+        TextView ratingTextView = findViewById(R.id.rating);
+
+
+
+        // ratingValue = 4.2f; // Replace with your actual rating value
+    //   ratingTextView.setText(String.valueOf(ratingValue));
+
+
+
+
+
+
 
         toolbar =findViewById(R.id.detailed_toolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +98,7 @@ public class DetailedActivity extends AppCompatActivity {
         detailedImg =findViewById(R.id.detailed_img);
         quantity =findViewById(R.id.quantity);
         name =findViewById(R.id.detailed_name);
-        rating =findViewById(R.id.rating);
+        //rating =findViewById(R.id.rating);
         description=findViewById(R.id.detailed_desc);
         price =findViewById(R.id.detailed_price);
 
@@ -87,14 +107,16 @@ public class DetailedActivity extends AppCompatActivity {
         String slider_name = intent.getStringExtra("name");
         double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
         String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
-        String slider_rating = intent.getStringExtra("rating"); // Provide a default value if needed
+       double slider_rating = intent.getDoubleExtra("rating",0.0); // Provide a default value if needed
         String slider_description = intent.getStringExtra("description");
 
         Glide.with(this).load(slider_imgUrl).into(detailedImg); // Assuming you are using Glide for image loading
         name.setText(slider_name);
         price.setText("₹ "+String.valueOf(slider_price));
-        rating.setText(slider_rating);
+       ratingTextView.setText(String.valueOf(slider_rating));
         description.setText(slider_description);
+        ratingValue =(float) slider_rating;
+        setRating(ratingValue);
 
 
 
@@ -108,33 +130,39 @@ public class DetailedActivity extends AppCompatActivity {
         if(newProductsModel != null){
             Glide.with(getApplicationContext()).load(newProductsModel.getImg_url()).into(detailedImg);
             name.setText(newProductsModel.getName());
-            rating.setText(newProductsModel.getRating());
+           ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
             price.setText("₹ "+String.valueOf(newProductsModel.getPrice()));
 
            ImgUrl = newProductsModel.getImg_url();
             totalPrice =newProductsModel.getPrice() *totalQuantity;
+            ratingValue =(float) newProductsModel.getRating();
+            setRating(ratingValue);
 
         }
         //popular Products
         if(popularProductsModel != null){
             Glide.with(getApplicationContext()).load(popularProductsModel.getImg_url()).into(detailedImg);
             name.setText(popularProductsModel.getName());
-            rating.setText(popularProductsModel.getRating());
+            ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
             price.setText("₹ "+String.valueOf(popularProductsModel.getPrice()));
            ImgUrl = popularProductsModel.getImg_url();
             totalPrice =popularProductsModel.getPrice() *totalQuantity;
+            ratingValue =(float) popularProductsModel.getRating();
+            setRating(ratingValue);
         }
         //Show All
         if(showAllModel != null){
             Glide.with(getApplicationContext()).load(showAllModel.getImg_url()).into(detailedImg);
             name.setText(showAllModel.getName());
-            rating.setText(showAllModel.getRating());
+            ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
             price.setText("₹ "+String.valueOf(showAllModel.getPrice()));
              ImgUrl =showAllModel.getImg_url();
             totalPrice =showAllModel.getPrice() *totalQuantity;
+            ratingValue =(float) +showAllModel.getRating();
+            setRating(ratingValue);
 
 
 
@@ -214,6 +242,34 @@ public class DetailedActivity extends AppCompatActivity {
         });
 
     }
+
+    public void setRating(float ratingValue){
+        RatingBar ratingBar = findViewById(R.id.my_rating);
+        int maxStars = 5; // Set the maximum number of stars
+        ratingBar.setMax(maxStars);
+
+// Set the rating value for the RatingBar
+        float stepSize = 1.0f; // Set the step size
+        float rating = ratingValue / stepSize;
+        ratingBar.setRating(rating);
+
+// Customize the progress drawable
+        Drawable progressDrawable = ratingBar.getProgressDrawable();
+        if (progressDrawable instanceof LayerDrawable) {
+            LayerDrawable stars = (LayerDrawable) progressDrawable;
+            Drawable filledStars = stars.getDrawable(2);
+            Drawable halfFilledStars = stars.getDrawable(1);
+            Drawable emptyStars = stars.getDrawable(0);
+
+            filledStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
+            halfFilledStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
+            emptyStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
+        }
+
+// Set the progress drawable back to the RatingBar
+        ratingBar.setProgressDrawable(progressDrawable);
+    }
+
 
     private void addToCart() {
         String saveCurrentTime,saveCurrentDate;

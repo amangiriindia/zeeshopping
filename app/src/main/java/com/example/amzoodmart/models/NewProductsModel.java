@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class NewProductsModel implements Serializable {
     String description;
     String name;
-    String rating;
+    double rating;
     int price;
     String img_url;
 
@@ -13,7 +13,7 @@ public class NewProductsModel implements Serializable {
     public NewProductsModel() {
     }
 
-    public NewProductsModel(String description, String name, String rating, int price,String img_url) {
+    public NewProductsModel(String description, String name, double rating, int price,String img_url) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -37,11 +37,11 @@ public class NewProductsModel implements Serializable {
         this.name = name;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

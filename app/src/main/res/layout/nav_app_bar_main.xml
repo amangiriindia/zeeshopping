@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/nav_toolbar"
-            android:background="@color/pink"/>
+            android:background="@color/colorPrimary"/>
 
     </com.google.android.material.appbar.AppBarLayout>
     <include layout="@layout/nav_content_main"/>

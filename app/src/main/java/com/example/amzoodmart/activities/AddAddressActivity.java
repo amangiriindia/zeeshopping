@@ -1,16 +1,17 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.amzoodmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,6 +71,30 @@ public class AddAddressActivity extends AppCompatActivity {
                 String userNumber =phoneNumber.getText().toString();
                 String userDistict =distict.getText().toString();
                 String userAddDeatail =detailed.getText().toString();
+
+                if(TextUtils.isEmpty(userName)){
+                    name.setError("Enter Name!");
+                    return;
+                }if(TextUtils.isEmpty(userAddress)){
+                    address.setError("Enter your Address!");
+                    return;
+                }if(TextUtils.isEmpty(userCity)){
+                    city.setError("Enter City!");
+                    return;
+                }if(TextUtils.isEmpty(userCode)){
+                    postalCode.setError("Enter Pin Code!");
+                    return;
+                }if(TextUtils.isEmpty(userNumber)){
+                    phoneNumber.setError("Enter Phone Number!");
+                    return;
+                }if(TextUtils.isEmpty(userDistict)){
+                    distict.setError("Enter Distict!");
+                    return;
+                }if(TextUtils.isEmpty(userAddDeatail)){
+                    detailed.setError("Enter Detailed Address!");
+                    return;
+                }
+
 
 
                 if(!userName.isEmpty()){

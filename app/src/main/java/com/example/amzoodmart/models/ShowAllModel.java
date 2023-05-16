@@ -6,7 +6,7 @@ public class ShowAllModel implements Serializable {
 
     String description;
     String name;
-    String rating;
+    double rating;
     int price;
     String img_url;
     String type;
@@ -30,11 +30,11 @@ public class ShowAllModel implements Serializable {
         this.name = name;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -62,7 +62,7 @@ public class ShowAllModel implements Serializable {
         this.type = type;
     }
 
-    public ShowAllModel(String description, String name, String rating, int price, String img_url, String type) {
+    public ShowAllModel(String description, String name, double rating, int price, String img_url, String type) {
         this.description = description;
         this.name = name;
         this.rating = rating;

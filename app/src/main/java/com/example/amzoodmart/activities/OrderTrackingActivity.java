@@ -1,7 +1,10 @@
 package com.example.amzoodmart.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,21 +83,53 @@ public class OrderTrackingActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DocumentReference documentRef = firestore.collection("OrderDetail")
-                        .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                        .collection("User")
-                        .document(doucmentId); // Replace 'documentId' with the ID of the specific document you want to update
 
 
-                documentRef.update("orderStatus", "cancel")
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(OrderTrackingActivity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
-                                order_status.setText("cancel");
-                                finish();
-                            }
-                        });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(OrderTrackingActivity.this, R.style.AlertDialogCustom));
+                builder.setTitle("Order Cancel");
+                builder.setMessage("Are you sure you want to cancel order?");
+
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // Perform delete operation or other actions here
+                        DocumentReference documentRef = firestore.collection("OrderDetail")
+                                .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                                .collection("User")
+                                .document(doucmentId); // Replace 'documentId' with the ID of the specific document you want to update
+
+
+                        documentRef.update("orderStatus", "cancel")
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(OrderTrackingActivity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
+                                        order_status.setText("cancel");
+                                        finish();
+                                    }
+                                });
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User canceled the delete operation
+                        Toast.makeText(OrderTrackingActivity.this, "Order not cancel! ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+
+
+
+
+
 
 
 
