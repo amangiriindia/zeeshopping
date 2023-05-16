@@ -26,7 +26,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
     Button btn_cancel;
     ImageView imageView;
     String doucmentId ="";
-    TextView order_name,order_id,order_price,order_qty,order_payment,order_status,order_date,order_address;
+    TextView order_name,order_id,order_price,order_qty,order_payment,order_status,order_date,order_address,order_total;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
 
@@ -50,6 +50,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
         order_address =findViewById(R.id.order_address);
         btn_cancel =findViewById(R.id.order_cancel_btn);
         imageView =findViewById(R.id.order_product_img);
+        order_total =findViewById(R.id.order_total);
 
         //Toolbar
         toolbar =findViewById(R.id.order_detailed_toolbar);
@@ -64,15 +65,16 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
        String imgUrl = getIntent().getStringExtra("orderImgUrl");
         order_id.setText(getIntent().getStringExtra("orderId"));
+        order_total.setText("₹ "+getIntent().getStringExtra("orderPrice"));
         order_name.setText(getIntent().getStringExtra("orderName"));
-        order_price.setText(getIntent().getStringExtra("orderPrice"));
+        order_price.setText("₹ "+getIntent().getStringExtra("orderPrice"));
         order_qty.setText(getIntent().getStringExtra("orderQty"));
         order_payment.setText(getIntent().getStringExtra("orderPayment"));
         order_status.setText(getIntent().getStringExtra("orderStatus"));
         order_date.setText(getIntent().getStringExtra("orderDate"));
         order_address.setText(getIntent().getStringExtra("orderAddress"));
         Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
-        doucmentId =getIntent().getStringExtra("orderId");
+        doucmentId =getIntent().getStringExtra("documentId");
 
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {

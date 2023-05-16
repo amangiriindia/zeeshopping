@@ -1,9 +1,5 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +7,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
@@ -92,7 +92,7 @@ public class DetailedActivity extends AppCompatActivity {
 
         Glide.with(this).load(slider_imgUrl).into(detailedImg); // Assuming you are using Glide for image loading
         name.setText(slider_name);
-        price.setText(String.valueOf(slider_price));
+        price.setText("₹ "+String.valueOf(slider_price));
         rating.setText(slider_rating);
         description.setText(slider_description);
 
@@ -110,7 +110,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(newProductsModel.getName());
             rating.setText(newProductsModel.getRating());
             description.setText(newProductsModel.getDescription());
-            price.setText(String.valueOf(newProductsModel.getPrice()));
+            price.setText("₹ "+String.valueOf(newProductsModel.getPrice()));
 
            ImgUrl = newProductsModel.getImg_url();
             totalPrice =newProductsModel.getPrice() *totalQuantity;
@@ -122,7 +122,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(popularProductsModel.getName());
             rating.setText(popularProductsModel.getRating());
             description.setText(popularProductsModel.getDescription());
-            price.setText(String.valueOf(popularProductsModel.getPrice()));
+            price.setText("₹ "+String.valueOf(popularProductsModel.getPrice()));
            ImgUrl = popularProductsModel.getImg_url();
             totalPrice =popularProductsModel.getPrice() *totalQuantity;
         }
@@ -132,7 +132,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(showAllModel.getName());
             rating.setText(showAllModel.getRating());
             description.setText(showAllModel.getDescription());
-            price.setText(String.valueOf(showAllModel.getPrice()));
+            price.setText("₹ "+String.valueOf(showAllModel.getPrice()));
              ImgUrl =showAllModel.getImg_url();
             totalPrice =showAllModel.getPrice() *totalQuantity;
 

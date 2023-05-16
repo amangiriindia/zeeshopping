@@ -1,6 +1,15 @@
 package com.example.amzoodmart.activities;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,22 +17,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.text.InputFilter;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.adapters.MyCartAdapter;
 import com.example.amzoodmart.models.MyCartModel;
-import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -127,7 +123,7 @@ private BroadcastReceiver totalAmountReceiver = new BroadcastReceiver() {
                 int totalAmount = intent.getIntExtra("totalAmount", 0);
                 int qty =intent.getIntExtra("Qty",0);
                 String productName =intent.getStringExtra("pname");
-                overAllAmount.setText(String.valueOf(totalAmount));
+                overAllAmount.setText("₹ "+String.valueOf(totalAmount));
                 cartProductName =productName;
                 carttotalPrice =totalAmount;
                 cartTotalQty =qty;

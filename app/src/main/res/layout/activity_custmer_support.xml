@@ -7,15 +7,16 @@
     tools:context=".activities.custmerSupportActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/support_toolbar"
+        android:id="@+id/toolbar_customer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#8FF7FD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Customer Support" />
+        app:title="Customer Support"
+        android:background="#8ff7fd"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
 
 
 
@@ -29,9 +30,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/support_toolbar">
-
-      >
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_customer">
 
         <TextView
             android:id="@+id/textView7"

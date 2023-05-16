@@ -1,9 +1,5 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
@@ -87,8 +87,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cashOnDel =findViewById(R.id.cod_btn);
         paymentBtn =findViewById(R.id.pay_btn);
 
-        subTotal.setText(productAmount+"");
-        total.setText(productAmount+"");
+        subTotal.setText("₹ "+productAmount);
+        total.setText("₹ "+productAmount);
         name.setText(productName.toString());
         Glide.with(this).load(productImgUrl).into(pro_img);
 
@@ -197,13 +197,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     public static String randomOrderId() {
         String s ="";
         Random random = new Random();
-        s += "ORDERIDAMZ";
-
+        s += "AMZ";
+       s+="-";
         for (int i = 0; i < 3; i++) {
-            char randomChar = (char) (random.nextInt(26) + 'A');
-            s += randomChar;
+            int randomNumber = random.nextInt(9);
+            s += randomNumber;
         }
-        for (int i = 0; i < 5; i++) {
+        s+="-";
+        for (int i = 0; i < 4; i++) {
             int randomNumber = random.nextInt(9);
             s += randomNumber;
         }

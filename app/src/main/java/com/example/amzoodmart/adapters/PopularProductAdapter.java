@@ -40,7 +40,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(popularProductsModelList.get(position).getImg_url()).into(holder.imageView);
         holder.name.setText(popularProductsModelList.get(position).getName());
-        holder.price.setText(String.valueOf(popularProductsModelList.get(position).getPrice()));
+        holder.price.setText("₹ "+String.valueOf(popularProductsModelList.get(position).getPrice()));
 
         //FOR DETAILED PRODUCT
         holder.itemView.setOnClickListener(new View.OnClickListener() {

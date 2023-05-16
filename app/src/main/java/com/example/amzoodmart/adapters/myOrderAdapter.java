@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
-import com.example.amzoodmart.activities.DetailedActivity;
 import com.example.amzoodmart.models.MyOrderModel;
 
 import java.util.List;
@@ -44,7 +43,7 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
         holder.productName.setText(myOrderModelList.get(position).getProductName());
         holder.productQunatity.setText(myOrderModelList.get(position).getProductQuantity());
         holder.date.setText(myOrderModelList.get(position).getCurrentDate());
-        holder.productPrice.setText(myOrderModelList.get(position).getProductPrice());
+        holder.productPrice.setText("₹ "+myOrderModelList.get(position).getProductPrice());
         LinearLayout linearLayout = holder.linearLayout;
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +65,7 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
                 intent.putExtra("orderStatus",myOrderModelList.get(position).getOrderStatus());
                 intent.putExtra("orderDate",myOrderModelList.get(position).getCurrentDate());
                 intent.putExtra("orderImgUrl",myOrderModelList.get(position).getProductImgUrl());
-                intent.putExtra("orderId",myOrderModelList.get(position).getDocumentId());
+                intent.putExtra("documentId",myOrderModelList.get(position).getDocumentId());
                 intent.putExtra("orderAddress",address);
 
 

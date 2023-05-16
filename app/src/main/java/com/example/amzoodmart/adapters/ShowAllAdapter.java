@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.activities.DetailedActivity;
-import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.models.ShowAllModel;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(context).load(list.get(position).getImg_url()).into(holder.mItemImage);
-        holder.mCost.setText("$"+(list.get(position).getPrice()));
+        holder.mCost.setText("₹ "+(list.get(position).getPrice()));
         holder.mName.setText(list.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

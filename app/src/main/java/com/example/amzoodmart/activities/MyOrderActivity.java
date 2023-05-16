@@ -1,12 +1,5 @@
 package com.example.amzoodmart.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,16 +7,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amzoodmart.R;
-import com.example.amzoodmart.adapters.MyCartAdapter;
 import com.example.amzoodmart.adapters.myOrderAdapter;
-import com.example.amzoodmart.models.MyCartModel;
 import com.example.amzoodmart.models.MyOrderModel;
-import com.example.amzoodmart.models.NewProductsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -114,7 +109,8 @@ public class MyOrderActivity extends AppCompatActivity {
                 i.putExtra("orderDate",intent.getStringExtra("orderDate"));
                 i.putExtra("orderImgUrl",intent.getStringExtra("orderImgUrl"));
                 i.putExtra("orderAddress",intent.getStringExtra("orderAddress"));
-                i.putExtra("orderId",intent.getStringExtra("orderId"));
+                i.putExtra("documentId",intent.getStringExtra("documentId"));
+
 
                 startActivity(i);
 
