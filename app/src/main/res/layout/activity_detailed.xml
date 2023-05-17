@@ -290,8 +290,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="5dp"
-                    >
+                    android:layout_margin="5dp">
                     <TextView
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
@@ -313,13 +312,6 @@
                         android:numStars="5"
                         android:stepSize="0.1"
                         tools:ignore="RtlHardcoded" />
-
-
-
-
-
-
-
                 </LinearLayout>
 
                 <LinearLayout

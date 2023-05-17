@@ -42,10 +42,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    TextView catShowAll,popularShowAll,newProductShowAll;
+    TextView catShowAll,popularShowAll,newProductShowAll,cate1ShowAll;
     LinearLayout linearLayout;
     ProgressDialog progressDialog;
-    RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview;
+    RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview,cate1RecycyclerView;
 
     //Category recycleview
     CategoryAdapter categoryAdapter;
@@ -78,11 +78,13 @@ public class HomeFragment extends Fragment {
         catRecyclerView =root.findViewById(R.id.rec_category);
         newProductRecyclerView =root.findViewById(R.id.new_product_rec);
         popularRecyclerview =root.findViewById(R.id.popular_rec);
+        cate1RecycyclerView =root.findViewById(R.id.category_1_rec);
 
 
         catShowAll =root.findViewById(R.id.category_see_all);
         popularShowAll = root.findViewById(R.id.popular_see_all);
         newProductShowAll =root.findViewById(R.id.newProducts_see_all);
+
 
        catShowAll.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -231,7 +233,8 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
+  // categoty1
+        cate1RecycyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
 
         return root;

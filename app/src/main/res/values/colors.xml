@@ -10,5 +10,8 @@
     <color name="bule">#00f0ff</color>
     <color name="colorPrimary">#2EAE8B</color>
     <color name="colorSecond">#2CBC94</color>
+    <color name="textColorPrimary">#FF000000</color>
+    <color name="textColorSecondry">#FFFFFFFF</color>
+    <color name="rataingColor">#00ff00</color>
 
 </resources>
