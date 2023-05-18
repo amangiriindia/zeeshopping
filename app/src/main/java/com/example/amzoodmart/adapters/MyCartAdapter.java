@@ -59,7 +59,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyCartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(list.get(position).getProductImgurl()).into(holder.img);
-        holder.price.setText("₹ "+list.get(position).getProductPrice());
+        holder.price.setText(list.get(position).getProductPrice());
         holder.name.setText(list.get(position).getProductName());
         holder.totalQuantity.setText(String.valueOf(list.get(position).getTotalQuantity()));
 
