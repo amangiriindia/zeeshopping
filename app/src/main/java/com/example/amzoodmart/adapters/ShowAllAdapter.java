@@ -3,13 +3,16 @@ package com.example.amzoodmart.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +44,14 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
         Glide.with(context).load(list.get(position).getImg_url()).into(holder.mItemImage);
         holder.mCost.setText("₹ "+(list.get(position).getPrice()));
         holder.mName.setText(list.get(position).getName());
+        //for rating bar
+        RatingBar ratingBar = holder.ratingBar;
+        ratingBar.setRating((float) list.get(position).getRating());
+        Context context = ratingBar.getContext();
+        int color = ContextCompat.getColor(context, R.color.pink);
+        ratingBar.setProgressTintList(ColorStateList.valueOf(color));
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +74,14 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
 
         private ImageView mItemImage;
         private TextView mCost;
+        RatingBar ratingBar;
         private TextView mName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mItemImage =itemView.findViewById(R.id.item_image);
             mCost =itemView.findViewById(R.id.item_cost);
             mName = itemView.findViewById(R.id.item_nam);
+            ratingBar =itemView.findViewById(R.id.my_rating);
         }
     }
 

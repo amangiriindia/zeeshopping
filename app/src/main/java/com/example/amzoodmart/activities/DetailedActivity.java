@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
@@ -25,12 +27,17 @@ import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -54,6 +61,7 @@ public class DetailedActivity extends AppCompatActivity {
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
     static float ratingValue=0;
+    ImageSlider imageSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +70,13 @@ public class DetailedActivity extends AppCompatActivity {
 
 
         TextView ratingTextView = findViewById(R.id.rating);
-
-
-
-        // ratingValue = 4.2f; // Replace with your actual rating value
-    //   ratingTextView.setText(String.valueOf(ratingValue));
-
+        imageSlider =findViewById(R.id.detailed_img_slider);
+        quantity =findViewById(R.id.quantity);
+        name =findViewById(R.id.detailed_name);
+        description=findViewById(R.id.detailed_desc);
+        price =findViewById(R.id.detailed_price);
+        firestore =FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
 
 
@@ -84,8 +93,7 @@ public class DetailedActivity extends AppCompatActivity {
             }
         });
 
-        firestore =FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+
         final Object obj =getIntent().getSerializableExtra("detailed");
         if(obj instanceof NewProductsModel){
             newProductsModel =(NewProductsModel) obj;
@@ -95,12 +103,7 @@ public class DetailedActivity extends AppCompatActivity {
             showAllModel =(ShowAllModel) obj;
         }
 
-        detailedImg =findViewById(R.id.detailed_img);
-        quantity =findViewById(R.id.quantity);
-        name =findViewById(R.id.detailed_name);
-        //rating =findViewById(R.id.rating);
-        description=findViewById(R.id.detailed_desc);
-        price =findViewById(R.id.detailed_price);
+
 
         Intent intent = getIntent();
         String slider_imgUrl = intent.getStringExtra("img_url");
@@ -110,7 +113,7 @@ public class DetailedActivity extends AppCompatActivity {
        double slider_rating = intent.getDoubleExtra("rating",0.0); // Provide a default value if needed
         String slider_description = intent.getStringExtra("description");
 
-        Glide.with(this).load(slider_imgUrl).into(detailedImg); // Assuming you are using Glide for image loading
+
         name.setText(slider_name);
         price.setText("₹ "+String.valueOf(slider_price));
        ratingTextView.setText(String.valueOf(slider_rating));
@@ -128,7 +131,7 @@ public class DetailedActivity extends AppCompatActivity {
 
         //New Products
         if(newProductsModel != null){
-            Glide.with(getApplicationContext()).load(newProductsModel.getImg_url()).into(detailedImg);
+
             name.setText(newProductsModel.getName());
            ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
@@ -142,7 +145,6 @@ public class DetailedActivity extends AppCompatActivity {
         }
         //popular Products
         if(popularProductsModel != null){
-            Glide.with(getApplicationContext()).load(popularProductsModel.getImg_url()).into(detailedImg);
             name.setText(popularProductsModel.getName());
             ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
@@ -154,7 +156,7 @@ public class DetailedActivity extends AppCompatActivity {
         }
         //Show All
         if(showAllModel != null){
-            Glide.with(getApplicationContext()).load(showAllModel.getImg_url()).into(detailedImg);
+
             name.setText(showAllModel.getName());
             ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
@@ -240,6 +242,53 @@ public class DetailedActivity extends AppCompatActivity {
 
             }
         });
+
+        //  for img slider
+
+        List<SlideModel> slideModels =new ArrayList<>();
+         if(ImgUrl != "") {
+             slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+         }
+        slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
+        slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
+        final String[] documentId = {""};
+
+        CollectionReference collectionRef = firestore.collection("ShowAll");
+
+        collectionRef.whereEqualTo("img_url", ImgUrl)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                documentId[0] = document.getId();
+
+                                // Execute the second query to retrieve data from the "slider" collection
+                                firestore.collection("ShowAll")
+                                        .document(documentId[0])
+                                        .collection("slider")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                                        String imgUrl = queryDocumentSnapshot.getString("img_url");
+                                                        slideModels.add(new SlideModel(imgUrl, ScaleTypes.FIT));
+                                                    }
+                                                    imageSlider.setImageList(slideModels);
+                                                } else {
+                                                    // Handle exceptions or errors in retrieving the documents from "slider" collection
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            // Handle exceptions or errors in retrieving the document
+                        }
+                    }
+                });
 
     }
 

@@ -39,7 +39,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/ad_name"
             app:layout_constraintTop_toBottomOf="@+id/add_address_toolbar"
-            tools:ignore="HardcodedText" />
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
 
         <EditText
@@ -57,7 +57,7 @@
             app:layout_constraintStart_toStartOf="@+id/ad_phone"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintWidth_percent=".8"
-            tools:ignore="HardcodedText,RtlHardcoded,TextFields,UnknownIdInLayout" />
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
         <EditText
             android:id="@+id/ad_address"
@@ -74,7 +74,7 @@
             app:layout_constraintStart_toStartOf="@+id/ad_code"
             app:layout_constraintTop_toBottomOf="@+id/ad_city"
             app:layout_constraintWidth_percent=".8"
-            tools:ignore="HardcodedText,RtlHardcoded,TextFields" />
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
         <EditText
             android:id="@+id/ad_city"
@@ -108,7 +108,7 @@
             app:layout_constraintStart_toStartOf="@+id/ad_detailed"
             app:layout_constraintTop_toBottomOf="@+id/ad_code"
             app:layout_constraintWidth_percent=".8"
-            tools:ignore="Autofill,HardcodedText,RtlHardcoded,TextFields" />
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
 
         <EditText
             android:id="@+id/ad_detailed"

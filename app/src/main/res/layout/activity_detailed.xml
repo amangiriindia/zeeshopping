@@ -231,19 +231,29 @@
         android:layout_height="match_parent"
         tools:context=".activities.DetailedActivity">
 
-
-        <ImageView
-            android:id="@+id/detailed_img"
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/detailed_img_slider"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:contentDescription="TODO"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
+            android:layout_height="450dp"
+            app:iss_auto_cycle="false"
+            app:iss_delay="0"
+            app:iss_period="1000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailed_toolbar"
-            tools:ignore="ContentDescription,HardcodedText" />
+            tools:ignore="MissingConstraints" />
+
+
+        <ImageView
+            android:id="@+id/detailed_img"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+
+            tools:ignore="ContentDescription,HardcodedText,MissingConstraints" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/detailed_toolbar"
@@ -266,7 +276,7 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailed_img">
+            app:layout_constraintTop_toBottomOf="@+id/detailed_img_slider">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -295,7 +305,7 @@
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:layout_toStartOf="@+id/my_rating"
                         android:fontFamily="@font/amethysta"
                         android:text="4.0"
@@ -307,7 +317,7 @@
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="3dp"
                         android:isIndicator="true"
                         android:numStars="5"
                         android:stepSize="0.1"
@@ -333,19 +343,17 @@
                         android:layout_height="wrap_content"
                         android:text="Free Delivery"
                         android:textSize="16sp"
-                        android:textColor="@color/white"
                         android:fontFamily="@font/amethysta"
-                        android:padding="8dp"
-                        android:background="@drawable/rounded_corner_green"
+                        android:padding="2dp"
                         android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/delivery_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="within 24 hours"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
+                            android:text="With in 24 hours"
+                            android:textSize="14sp"
+                            android:textColor="@color/textColorPrimary"
                             android:fontFamily="@font/amethysta"
                             android:paddingStart="8dp"
                             android:visibility="visible" />

@@ -110,17 +110,43 @@ public class HomeFragment extends Fragment {
             }
         });
 
-         linearLayout =root.findViewById(R.id.home_layout);
-         linearLayout.setVisibility(View.GONE);
+
+        linearLayout =root.findViewById(R.id.home_layout);
+        linearLayout.setVisibility(View.GONE);
+//        ImageSlider imageSlider =root.findViewById(R.id.image_slider);
+//        List<SlideModel> slideModels =new ArrayList<>();
+//                slideModels.add(new SlideModel(R.drawable.banner1,"Discount On Shoes Items", ScaleTypes.CENTER_CROP));
+//        slideModels.add(new SlideModel(R.drawable.banner2,"Discount On Perfume", ScaleTypes.CENTER_CROP));
+//        slideModels.add(new SlideModel(R.drawable.banner3,"70% OFF", ScaleTypes.CENTER_CROP));
+//
+//        imageSlider.setImageList(slideModels);
+
+
+
         //image slider
         ImageSlider imageSlider =root.findViewById(R.id.image_slider);
         List<SlideModel> slideModels =new ArrayList<>();
 
-        slideModels.add(new SlideModel(R.drawable.banner1,"Discount On Shoes Items", ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.banner2,"Discount On Perfume", ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.banner3,"70% OFF", ScaleTypes.CENTER_CROP));
+        db.collection("Slider").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot queryDocumentSnapshot :task.getResult()){
+                         String imgUrl =queryDocumentSnapshot.getString("img_url");
+                         String tittle =queryDocumentSnapshot.getString("sliderHeading");
+                        slideModels.add(new SlideModel(imgUrl,tittle,ScaleTypes.FIT));
 
-        imageSlider.setImageList(slideModels);
+
+                    }
+                    imageSlider.setImageList(slideModels,ScaleTypes.FIT);
+                }
+            }
+        })  ;
+
+
+
+
+
         imageSlider.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemSelected(int i) {
