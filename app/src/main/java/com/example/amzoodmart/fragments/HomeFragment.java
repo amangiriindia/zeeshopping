@@ -113,13 +113,6 @@ public class HomeFragment extends Fragment {
 
         linearLayout =root.findViewById(R.id.home_layout);
         linearLayout.setVisibility(View.GONE);
-//        ImageSlider imageSlider =root.findViewById(R.id.image_slider);
-//        List<SlideModel> slideModels =new ArrayList<>();
-//                slideModels.add(new SlideModel(R.drawable.banner1,"Discount On Shoes Items", ScaleTypes.CENTER_CROP));
-//        slideModels.add(new SlideModel(R.drawable.banner2,"Discount On Perfume", ScaleTypes.CENTER_CROP));
-//        slideModels.add(new SlideModel(R.drawable.banner3,"70% OFF", ScaleTypes.CENTER_CROP));
-//
-//        imageSlider.setImageList(slideModels);
 
 
 
