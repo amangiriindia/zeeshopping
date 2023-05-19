@@ -2,6 +2,8 @@ package com.example.amzoodmart.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,21 +30,23 @@ import java.util.List;
 import java.util.Objects;
 
 public class CategotyActivity extends AppCompatActivity {
-FirebaseFirestore firestore;
-RecyclerView recyclerView;
-Toolbar toolbar;
+    FirebaseFirestore firestore;
+    RecyclerView recyclerView;
+    Toolbar toolbar;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     ShowAllAdapter showAllAdapter;
     List<ShowAllModel> showAllModelList;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoty);
-         Intent intent = getIntent();
-        firestore =FirebaseFirestore.getInstance();
+        Intent intent = getIntent();
+        firestore = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.cate_all_rec);
 
-        toolbar =findViewById(R.id.cate_all_toolbar);
+        toolbar = findViewById(R.id.cate_all_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -53,13 +58,12 @@ Toolbar toolbar;
         });
 
 
-
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-         showAllModelList = new ArrayList<>();
+        showAllModelList = new ArrayList<>();
         showAllAdapter = new ShowAllAdapter(this, showAllModelList);
         recyclerView.setAdapter(showAllAdapter);
 
-       //  Retrieve the value of the "product_status" parameter
+        //  Retrieve the value of the "product_status" parameter
         String productStatus = intent.getStringExtra("product_status");
         if (!TextUtils.isEmpty(productStatus)) {
             // productStatus is not empty
@@ -70,14 +74,14 @@ Toolbar toolbar;
                 toolbar.setTitle("Popular Product");
             }
             retrieveAllDataByStatus(productStatus);
-        }else {
+        } else {
             Toast.makeText(this, "Product is empty", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void retrieveAllDataByStatus(String productStatus) {
-       firestore.collection("ShowAll")
+        firestore.collection("ShowAll")
                 .whereEqualTo("product_status", productStatus)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -96,5 +100,18 @@ Toolbar toolbar;
                     }
                 });
 
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

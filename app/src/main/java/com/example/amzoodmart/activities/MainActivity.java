@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.fragments.HomeFragment;
 import com.example.amzoodmart.models.ShowAllModel;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     ShowAllAdapter adapter;
     GoogleSignInOptions googleSignInOptions;
     GoogleSignInClient googleSignInClient;
+    NetworkChangeListener networkChangeListener =new NetworkChangeListener();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -169,5 +173,18 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return  true;
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener,filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

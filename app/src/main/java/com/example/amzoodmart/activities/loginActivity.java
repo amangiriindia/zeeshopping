@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.Users;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -39,22 +42,24 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class loginActivity extends AppCompatActivity {
 
 
-    EditText email,password;
+    EditText email, password;
     FirebaseAuth mAuth;
     Button signUp_google;
     GoogleSignInClient mgoogleSignInClient;
-    ProgressDialog progressDialog ;
+    ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
     TextView forgotPassword;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         email = findViewById(R.id.email);
-        password =findViewById(R.id.password);
-        signUp_google =findViewById(R.id.sign_up_google);
+        password = findViewById(R.id.password);
+        signUp_google = findViewById(R.id.sign_up_google);
         forgotPassword = findViewById(R.id.forgot_password);
 
         email.addTextChangedListener(new TextWatcher() {
@@ -78,8 +83,7 @@ public class loginActivity extends AppCompatActivity {
         });
 
 
-
-        progressDialog =new ProgressDialog(loginActivity.this);
+        progressDialog = new ProgressDialog(loginActivity.this);
         progressDialog.setTitle("Creating account");
         progressDialog.setMessage("we are creating your account");
 
@@ -87,7 +91,7 @@ public class loginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mgoogleSignInClient =GoogleSignIn.getClient(this,gso);
+        mgoogleSignInClient = GoogleSignIn.getClient(this, gso);
         signUp_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,14 +100,14 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-      // FOR ONBORDING SCREEN
-        sharedPreferences =getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
-        boolean isFirstTime =sharedPreferences.getBoolean("firstTime",true);
-        if(isFirstTime){
-            SharedPreferences.Editor editor =sharedPreferences.edit();
-            editor.putBoolean("firstTime",false);
+        // FOR ONBORDING SCREEN
+        sharedPreferences = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
+        boolean isFirstTime = sharedPreferences.getBoolean("firstTime", true);
+        if (isFirstTime) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstTime", false);
             editor.commit();
-            Intent intent =new Intent(loginActivity.this,OnBoardingActivity.class);
+            Intent intent = new Intent(loginActivity.this, OnBoardingActivity.class);
             startActivity(intent);
             finish();
         }
@@ -112,30 +116,30 @@ public class loginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder =new AlertDialog.Builder(loginActivity.this);
-                View dialogView =getLayoutInflater().inflate(R.layout.dialog_forgot,null);
-                EditText emailBox =dialogView.findViewById(R.id.emailBox);
+                AlertDialog.Builder builder = new AlertDialog.Builder(loginActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
+                EditText emailBox = dialogView.findViewById(R.id.emailBox);
 
                 builder.setView(dialogView);
-                AlertDialog dialog =builder.create();
+                AlertDialog dialog = builder.create();
 
                 dialogView.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String userEmail = emailBox.getText().toString();
-                        if(TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+                        if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
                             Toast.makeText(loginActivity.this, "Enter your registered email id", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         mAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                               if(task.isSuccessful()) {
-                                   Toast.makeText(loginActivity.this, "Check your Email", Toast.LENGTH_SHORT).show();
-                                   dialog.dismiss();
-                               }else {
-                                   Toast.makeText(loginActivity.this, "Unable to send,failed", Toast.LENGTH_SHORT).show();
-                               }
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(loginActivity.this, "Check your Email", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                } else {
+                                    Toast.makeText(loginActivity.this, "Unable to send,failed", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                     }
@@ -146,7 +150,7 @@ public class loginActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                if(dialog.getWindow() != null){
+                if (dialog.getWindow() != null) {
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable());
                 }
                 dialog.show();
@@ -156,22 +160,21 @@ public class loginActivity extends AppCompatActivity {
     }
 
 
+    int RC_SIGN_IN = 40;
 
-    int RC_SIGN_IN =40;
-
-    private  void  signIn(){
-        Intent intent =mgoogleSignInClient.getSignInIntent();
-        startActivityForResult(intent,RC_SIGN_IN);
+    private void signIn() {
+        Intent intent = mgoogleSignInClient.getSignInIntent();
+        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_SIGN_IN){
-            Task<GoogleSignInAccount>task =GoogleSignIn.getSignedInAccountFromIntent(data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                GoogleSignInAccount account =task.getResult(ApiException.class);
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuth(account.getIdToken());
             } catch (ApiException e) {
                 throw new RuntimeException(e);
@@ -180,23 +183,23 @@ public class loginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuth(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if(task.isSuccessful()){
-                            FirebaseUser user =mAuth.getCurrentUser();
-                            Users users =new Users();
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Users users = new Users();
                             users.setUserId(user.getUid());
                             users.setUserName(user.getDisplayName());
                             users.setProfile(user.getPhotoUrl().toString());
                             Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
 
-                          Intent intent =new Intent(loginActivity.this,MainActivity.class);
-                           startActivity(intent);
-                        }else {
+                            Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
                             Toast.makeText(loginActivity.this, "error", Toast.LENGTH_SHORT).show();
                         }
 
@@ -204,47 +207,34 @@ public class loginActivity extends AppCompatActivity {
                 });
 
 
-
-
-
-
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(loginActivity.this,MainActivity.class));
-            finish();
-        }
-    }
+    public void signin(View view) {
 
-    public void signin(View view){
+        String userEmail = email.getText().toString();
+        String userPassword = password.getText().toString();
 
-        String userEmail =email.getText().toString();
-        String userPassword =password.getText().toString();
-
-        if(TextUtils.isEmpty(userEmail)){
+        if (TextUtils.isEmpty(userEmail)) {
             email.setError("Enter Email!");
             return;
         }
-        if(TextUtils.isEmpty(userPassword)){
+        if (TextUtils.isEmpty(userPassword)) {
             password.setError("Enter Password!");
             return;
         }
-        if(userPassword.length()<6){
+        if (userPassword.length() < 6) {
             password.setError("Enter Valid Password!");
             return;
         }
-        mAuth.signInWithEmailAndPassword(userEmail,userPassword)
+        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(loginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Toast.makeText(loginActivity.this, "Login Successfully ", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(loginActivity.this,MainActivity.class));
-                                }else {
+                                    startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                } else {
                                     Toast.makeText(loginActivity.this, "Wrong Username and  Password!", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -253,7 +243,25 @@ public class loginActivity extends AppCompatActivity {
 
 
     }
-    public void signup(View view){
-        startActivity(new Intent(loginActivity.this,RegistationActivity.class));
+
+    public void signup(View view) {
+        startActivity(new Intent(loginActivity.this, RegistationActivity.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(loginActivity.this, MainActivity.class));
+            finish();
+        }
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

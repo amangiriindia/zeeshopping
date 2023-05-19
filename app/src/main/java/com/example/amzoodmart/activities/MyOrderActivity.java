@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.myOrderAdapter;
 import com.example.amzoodmart.models.MyOrderModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,10 +38,12 @@ public class MyOrderActivity extends AppCompatActivity {
     LinearLayout linearLayout;
     Toolbar toolbar;
     RecyclerView recyclerView;
-    myOrderAdapter OrderAdapter ;
+    myOrderAdapter OrderAdapter;
     List<MyOrderModel> myOrderModelList;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,12 @@ public class MyOrderActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(totalAmountReceiver, intentFilter);
 
 
-        linearLayout =findViewById(R.id.layout_order_item);
-        toolbar =findViewById(R.id.myOrder_toolbar);
-        recyclerView =findViewById(R.id.myorder_rec);
+        linearLayout = findViewById(R.id.layout_order_item);
+        toolbar = findViewById(R.id.myOrder_toolbar);
+        recyclerView = findViewById(R.id.myorder_rec);
 
-        firestore =FirebaseFirestore.getInstance();
-        auth =FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
 
         setSupportActionBar(toolbar);
@@ -70,8 +74,8 @@ public class MyOrderActivity extends AppCompatActivity {
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myOrderModelList =new ArrayList<>();
-        OrderAdapter =new myOrderAdapter(this,myOrderModelList);
+        myOrderModelList = new ArrayList<>();
+        OrderAdapter = new myOrderAdapter(this, myOrderModelList);
         recyclerView.setAdapter(OrderAdapter);
 
         firestore.collection("OrderDetail").document(auth.getCurrentUser().getUid())
@@ -99,17 +103,17 @@ public class MyOrderActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if ("MyTotalAmount".equals(intent.getAction())) {
 
-                Intent i =new Intent(MyOrderActivity.this,OrderTrackingActivity.class);
-                i.putExtra("orderId",intent.getStringExtra("orderId"));
-                i.putExtra("orderName",intent.getStringExtra("orderName"));
-                i.putExtra("orderPrice",intent.getStringExtra("orderPrice"));
-                i.putExtra("orderQty",intent.getStringExtra("orderQty"));
-                i.putExtra("orderPayment",intent.getStringExtra("orderPayment"));
-                i.putExtra("orderStatus",intent.getStringExtra("orderStatus"));
-                i.putExtra("orderDate",intent.getStringExtra("orderDate"));
-                i.putExtra("orderImgUrl",intent.getStringExtra("orderImgUrl"));
-                i.putExtra("orderAddress",intent.getStringExtra("orderAddress"));
-                i.putExtra("documentId",intent.getStringExtra("documentId"));
+                Intent i = new Intent(MyOrderActivity.this, OrderTrackingActivity.class);
+                i.putExtra("orderId", intent.getStringExtra("orderId"));
+                i.putExtra("orderName", intent.getStringExtra("orderName"));
+                i.putExtra("orderPrice", intent.getStringExtra("orderPrice"));
+                i.putExtra("orderQty", intent.getStringExtra("orderQty"));
+                i.putExtra("orderPayment", intent.getStringExtra("orderPayment"));
+                i.putExtra("orderStatus", intent.getStringExtra("orderStatus"));
+                i.putExtra("orderDate", intent.getStringExtra("orderDate"));
+                i.putExtra("orderImgUrl", intent.getStringExtra("orderImgUrl"));
+                i.putExtra("orderAddress", intent.getStringExtra("orderAddress"));
+                i.putExtra("documentId", intent.getStringExtra("documentId"));
 
 
                 startActivity(i);
@@ -123,6 +127,19 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onDestroy();
         // Unregister the BroadcastReceiver
         LocalBroadcastManager.getInstance(this).unregisterReceiver(totalAmountReceiver);
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
 }

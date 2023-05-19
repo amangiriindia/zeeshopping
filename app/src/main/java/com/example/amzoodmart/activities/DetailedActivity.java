@@ -1,9 +1,11 @@
 package com.example.amzoodmart.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
 import com.example.amzoodmart.models.ShowAllModel;
@@ -44,24 +47,25 @@ import java.util.Objects;
 public class DetailedActivity extends AppCompatActivity {
 
     ImageView detailedImg;
-    TextView rating,name,description,price,quantity;
-    Button addToCart,buyNow;
-    ImageView addItems,removeItems;
+    TextView rating, name, description, price, quantity;
+    Button addToCart, buyNow;
+    ImageView addItems, removeItems;
     Toolbar toolbar;
-    String ImgUrl="";
-    int totalQuantity =1;
-    int totalPrice =0;
+    String ImgUrl = "";
+    int totalQuantity = 1;
+    int totalPrice = 0;
 
     // New Product
-    NewProductsModel newProductsModel =null;
+    NewProductsModel newProductsModel = null;
     //Popular Products
     PopularProductsModel popularProductsModel = null;
     //show All
-    ShowAllModel showAllModel =null;
+    ShowAllModel showAllModel = null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
-    static float ratingValue=0;
+    static float ratingValue = 0;
     ImageSlider imageSlider;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +74,16 @@ public class DetailedActivity extends AppCompatActivity {
 
 
         TextView ratingTextView = findViewById(R.id.rating);
-        imageSlider =findViewById(R.id.detailed_img_slider);
-        quantity =findViewById(R.id.quantity);
-        name =findViewById(R.id.detailed_name);
-        description=findViewById(R.id.detailed_desc);
-        price =findViewById(R.id.detailed_price);
-        firestore =FirebaseFirestore.getInstance();
+        imageSlider = findViewById(R.id.detailed_img_slider);
+        quantity = findViewById(R.id.quantity);
+        name = findViewById(R.id.detailed_name);
+        description = findViewById(R.id.detailed_desc);
+        price = findViewById(R.id.detailed_price);
+        firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
 
-
-
-
-
-        toolbar =findViewById(R.id.detailed_toolbar);
+        toolbar = findViewById(R.id.detailed_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -94,15 +94,14 @@ public class DetailedActivity extends AppCompatActivity {
         });
 
 
-        final Object obj =getIntent().getSerializableExtra("detailed");
-        if(obj instanceof NewProductsModel){
-            newProductsModel =(NewProductsModel) obj;
+        final Object obj = getIntent().getSerializableExtra("detailed");
+        if (obj instanceof NewProductsModel) {
+            newProductsModel = (NewProductsModel) obj;
         } else if (obj instanceof PopularProductsModel) {
-            popularProductsModel =(PopularProductsModel) obj;
+            popularProductsModel = (PopularProductsModel) obj;
         } else if (obj instanceof ShowAllModel) {
-            showAllModel =(ShowAllModel) obj;
+            showAllModel = (ShowAllModel) obj;
         }
-
 
 
         Intent intent = getIntent();
@@ -110,62 +109,60 @@ public class DetailedActivity extends AppCompatActivity {
         String slider_name = intent.getStringExtra("name");
         double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
         String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
-       double slider_rating = intent.getDoubleExtra("rating",0.0); // Provide a default value if needed
+        double slider_rating = intent.getDoubleExtra("rating", 0.0); // Provide a default value if needed
         String slider_description = intent.getStringExtra("description");
 
 
         name.setText(slider_name);
-        price.setText("₹ "+String.valueOf(slider_price));
-       ratingTextView.setText(String.valueOf(slider_rating));
+        price.setText("₹ " + String.valueOf(slider_price));
+        ratingTextView.setText(String.valueOf(slider_rating));
         description.setText(slider_description);
-        ratingValue =(float) slider_rating;
+        ratingValue = (float) slider_rating;
         setRating(ratingValue);
 
 
+        addToCart = findViewById(R.id.add_to_cart);
+        buyNow = findViewById(R.id.buy_now);
 
-        addToCart =findViewById(R.id.add_to_cart);
-        buyNow =findViewById(R.id.buy_now);
-
-        addItems =findViewById(R.id.add_item);
-        removeItems =findViewById(R.id.remove_item);
+        addItems = findViewById(R.id.add_item);
+        removeItems = findViewById(R.id.remove_item);
 
         //New Products
-        if(newProductsModel != null){
+        if (newProductsModel != null) {
 
             name.setText(newProductsModel.getName());
-           ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
+            ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
-            price.setText("₹ "+String.valueOf(newProductsModel.getPrice()));
+            price.setText("₹ " + String.valueOf(newProductsModel.getPrice()));
 
-           ImgUrl = newProductsModel.getImg_url();
-            totalPrice =newProductsModel.getPrice() *totalQuantity;
-            ratingValue =(float) newProductsModel.getRating();
+            ImgUrl = newProductsModel.getImg_url();
+            totalPrice = newProductsModel.getPrice() * totalQuantity;
+            ratingValue = (float) newProductsModel.getRating();
             setRating(ratingValue);
 
         }
         //popular Products
-        if(popularProductsModel != null){
+        if (popularProductsModel != null) {
             name.setText(popularProductsModel.getName());
             ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
-            price.setText("₹ "+String.valueOf(popularProductsModel.getPrice()));
-           ImgUrl = popularProductsModel.getImg_url();
-            totalPrice =popularProductsModel.getPrice() *totalQuantity;
-            ratingValue =(float) popularProductsModel.getRating();
+            price.setText("₹ " + String.valueOf(popularProductsModel.getPrice()));
+            ImgUrl = popularProductsModel.getImg_url();
+            totalPrice = popularProductsModel.getPrice() * totalQuantity;
+            ratingValue = (float) popularProductsModel.getRating();
             setRating(ratingValue);
         }
         //Show All
-        if(showAllModel != null){
+        if (showAllModel != null) {
 
             name.setText(showAllModel.getName());
             ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
-            price.setText("₹ "+String.valueOf(showAllModel.getPrice()));
-             ImgUrl =showAllModel.getImg_url();
-            totalPrice =showAllModel.getPrice() *totalQuantity;
-            ratingValue =(float) +showAllModel.getRating();
+            price.setText("₹ " + String.valueOf(showAllModel.getPrice()));
+            ImgUrl = showAllModel.getImg_url();
+            totalPrice = showAllModel.getPrice() * totalQuantity;
+            ratingValue = (float) +showAllModel.getRating();
             setRating(ratingValue);
-
 
 
         }
@@ -182,18 +179,18 @@ public class DetailedActivity extends AppCompatActivity {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(DetailedActivity.this,AddressActivity.class);
-                if(newProductsModel !=null){
-                    intent.putExtra("item",newProductsModel);
-                    intent.putExtra("Qty",totalQuantity);
+                Intent intent = new Intent(DetailedActivity.this, AddressActivity.class);
+                if (newProductsModel != null) {
+                    intent.putExtra("item", newProductsModel);
+                    intent.putExtra("Qty", totalQuantity);
                 }
-                if(popularProductsModel !=null){
-                    intent.putExtra("item",popularProductsModel);
-                    intent.putExtra("Qty",totalQuantity);
+                if (popularProductsModel != null) {
+                    intent.putExtra("item", popularProductsModel);
+                    intent.putExtra("Qty", totalQuantity);
                 }
-                if(showAllModel != null){
-                    intent.putExtra("item",showAllModel);
-                    intent.putExtra("Qty",totalQuantity);
+                if (showAllModel != null) {
+                    intent.putExtra("item", showAllModel);
+                    intent.putExtra("Qty", totalQuantity);
                 }
                 startActivity(intent);
             }
@@ -203,18 +200,18 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(totalQuantity <10){
+                if (totalQuantity < 10) {
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
 
-                    if(newProductsModel != null){
-                        totalPrice =newProductsModel.getPrice() *totalQuantity;
+                    if (newProductsModel != null) {
+                        totalPrice = newProductsModel.getPrice() * totalQuantity;
                     }
-                    if(popularProductsModel != null){
-                        totalPrice =popularProductsModel.getPrice() *totalQuantity;
+                    if (popularProductsModel != null) {
+                        totalPrice = popularProductsModel.getPrice() * totalQuantity;
                     }
-                    if(showAllModel != null){
-                        totalPrice =showAllModel.getPrice() *totalQuantity;
+                    if (showAllModel != null) {
+                        totalPrice = showAllModel.getPrice() * totalQuantity;
                     }
                 }
 
@@ -224,19 +221,19 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(totalQuantity > 1){
+                if (totalQuantity > 1) {
                     totalQuantity--;
 
                     quantity.setText(String.valueOf(totalQuantity));
 
-                    if(newProductsModel != null){
-                        totalPrice =newProductsModel.getPrice() *totalQuantity;
+                    if (newProductsModel != null) {
+                        totalPrice = newProductsModel.getPrice() * totalQuantity;
                     }
-                    if(popularProductsModel != null){
-                        totalPrice =popularProductsModel.getPrice() *totalQuantity;
+                    if (popularProductsModel != null) {
+                        totalPrice = popularProductsModel.getPrice() * totalQuantity;
                     }
-                    if(showAllModel != null){
-                        totalPrice =showAllModel.getPrice() *totalQuantity;
+                    if (showAllModel != null) {
+                        totalPrice = showAllModel.getPrice() * totalQuantity;
                     }
                 }
 
@@ -245,10 +242,10 @@ public class DetailedActivity extends AppCompatActivity {
 
         //  for img slider
 
-        List<SlideModel> slideModels =new ArrayList<>();
-         if(ImgUrl != "") {
-             slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-         }
+        List<SlideModel> slideModels = new ArrayList<>();
+        if (ImgUrl != "") {
+            slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+        }
         slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
         slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
         final String[] documentId = {""};
@@ -292,7 +289,7 @@ public class DetailedActivity extends AppCompatActivity {
 
     }
 
-    public void setRating(float ratingValue){
+    public void setRating(float ratingValue) {
         RatingBar ratingBar = findViewById(R.id.my_rating);
         int maxStars = 5; // Set the maximum number of stars
         ratingBar.setMax(maxStars);
@@ -321,22 +318,22 @@ public class DetailedActivity extends AppCompatActivity {
 
 
     private void addToCart() {
-        String saveCurrentTime,saveCurrentDate;
-        Calendar calForDate =Calendar.getInstance();
+        String saveCurrentTime, saveCurrentDate;
+        Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
-        saveCurrentDate =currentDate.format(calForDate.getTime());
+        saveCurrentDate = currentDate.format(calForDate.getTime());
 
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
-        saveCurrentTime =currentTime.format(calForDate.getTime());
+        saveCurrentTime = currentTime.format(calForDate.getTime());
 
-        final HashMap<String,Object> cartMap = new HashMap<>();
-        cartMap.put("productName" ,name.getText().toString());
-        cartMap.put("productPrice",price.getText());
-        cartMap.put("currentTime" ,saveCurrentTime);
-        cartMap.put("currentDate",saveCurrentDate);
-        cartMap.put("totalQuantity" ,totalQuantity);
-        cartMap.put("totalPrice",totalPrice);
-        cartMap.put("productImgurl",ImgUrl);
+        final HashMap<String, Object> cartMap = new HashMap<>();
+        cartMap.put("productName", name.getText().toString());
+        cartMap.put("productPrice", price.getText());
+        cartMap.put("currentTime", saveCurrentTime);
+        cartMap.put("currentDate", saveCurrentDate);
+        cartMap.put("totalQuantity", totalQuantity);
+        cartMap.put("totalPrice", totalPrice);
+        cartMap.put("productImgurl", ImgUrl);
 
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
                 .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -347,5 +344,18 @@ public class DetailedActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

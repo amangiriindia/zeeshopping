@@ -1,6 +1,8 @@
 package com.example.amzoodmart.activities;
 
 import android.annotation.SuppressLint;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +36,7 @@ public class ShowAllActivity extends AppCompatActivity {
     List<ShowAllModel> showAllModelList;
     Toolbar toolbar;
     FirebaseFirestore firestore;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,13 +45,12 @@ public class ShowAllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all);
 
 
-
         String type = getIntent().getStringExtra("type");
-        String title =getIntent().getStringExtra("title");
+        String title = getIntent().getStringExtra("title");
         firestore = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.show_all_rec);
 
-        toolbar =findViewById(R.id.show_all_toolbar);
+        toolbar = findViewById(R.id.show_all_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -57,7 +60,6 @@ public class ShowAllActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -75,7 +77,6 @@ public class ShowAllActivity extends AppCompatActivity {
 
 
     }
-
 
 
     // Retrieve all data from Firestore
@@ -122,12 +123,10 @@ public class ShowAllActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search,menu);
-        MenuItem item=menu.findItem(R.id.all_search_menu);
+        getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem item = menu.findItem(R.id.all_search_menu);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -142,7 +141,7 @@ public class ShowAllActivity extends AppCompatActivity {
                 return false;
             }
         });
-    return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void mySearch(String newText) {
@@ -164,6 +163,19 @@ public class ShowAllActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
 }

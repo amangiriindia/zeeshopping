@@ -2,6 +2,8 @@ package com.example.amzoodmart.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.databinding.ActivityCustmerSupportBinding;
 
 public class custmerSupportActivity extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class custmerSupportActivity extends AppCompatActivity {
     ActivityCustmerSupportBinding binding;
     Button sendEmailBtn;
     TextView problem, massage;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,5 +64,18 @@ public class custmerSupportActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }
