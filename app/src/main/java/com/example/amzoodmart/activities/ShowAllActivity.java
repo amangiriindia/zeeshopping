@@ -40,6 +40,8 @@ public class ShowAllActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all);
 
+
+
         String type = getIntent().getStringExtra("type");
         String title =getIntent().getStringExtra("title");
         firestore = FirebaseFirestore.getInstance();
@@ -65,6 +67,7 @@ public class ShowAllActivity extends AppCompatActivity {
 
         if (type == null || type.isEmpty()) {
             retrieveAllData();
+
         } else {
             retrieveDataByType(type);
             toolbar.setTitle(title);
@@ -72,6 +75,8 @@ public class ShowAllActivity extends AppCompatActivity {
 
 
     }
+
+
 
     // Retrieve all data from Firestore
     private void retrieveAllData() {

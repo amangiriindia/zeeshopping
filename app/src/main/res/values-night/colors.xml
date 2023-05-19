@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green">#00ff00</color>
+    <color name="pink">#ff5ccb</color>
+    <color name="blue">#00f0ff</color>
+    <color name="backgroundColor">#FFFCFC</color>
+    <color name="textHeading">#008eff</color>
     <color name="bule">#00f0ff</color>
+    <color name="colorPrimary">#2EAE8B</color>
+    <color name="colorSecond">#2CBC94</color>
+    <color name="textColorPrimary">#FF000000</color>
+    <color name="textColorSecondry">#FFFFFFFF</color>
+    <color name="rataingColor">#00ff00</color>
+
 </resources>

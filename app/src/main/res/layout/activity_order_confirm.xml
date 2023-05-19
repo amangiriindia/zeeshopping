@@ -35,6 +35,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="15dp"
             android:backgroundTint="@color/pink"
+            android:background="@drawable/edit_text_bg"
             android:padding="15dp"
             android:text="Track Order"
             android:textSize="18dp"
@@ -46,9 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:backgroundTint="@color/pink"
+            android:backgroundTint="@color/colorPrimary"
             android:padding="15dp"
             android:text="Shop Now"
+            android:background="@drawable/edit_text_bg"
             android:textSize="18dp"
             android:textStyle="bold"/>
     </LinearLayout>

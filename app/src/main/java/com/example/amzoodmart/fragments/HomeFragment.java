@@ -21,6 +21,7 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
+import com.example.amzoodmart.activities.CategotyActivity;
 import com.example.amzoodmart.activities.DetailedActivity;
 import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.adapters.CategoryAdapter;
@@ -97,7 +98,8 @@ public class HomeFragment extends Fragment {
         popularShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getContext(), ShowAllActivity.class);
+                Intent intent = new Intent(getContext(), CategotyActivity.class);
+                intent.putExtra("product_status", "popular");
                 startActivity(intent);
             }
         });
@@ -105,10 +107,12 @@ public class HomeFragment extends Fragment {
         newProductShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getContext(), ShowAllActivity.class);
+                Intent intent = new Intent(getContext(), CategotyActivity.class);
+                intent.putExtra("product_status", "newProduct");
                 startActivity(intent);
             }
         });
+
 
 
         linearLayout =root.findViewById(R.id.home_layout);
