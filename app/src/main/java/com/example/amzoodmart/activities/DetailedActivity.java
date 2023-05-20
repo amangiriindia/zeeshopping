@@ -54,6 +54,9 @@ public class DetailedActivity extends AppCompatActivity {
     String ImgUrl = "";
     int totalQuantity = 1;
     int totalPrice = 0;
+    int delevaryCharge =0;
+    String replacment ="";
+    String returnPolicy ="";
 
     // New Product
     NewProductsModel newProductsModel = null;
@@ -66,6 +69,16 @@ public class DetailedActivity extends AppCompatActivity {
     static float ratingValue = 0;
     ImageSlider imageSlider;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    TextView returnHeadTextView ;
+    TextView returnDataTextView ;
+    TextView replaceHeadTextView ;
+    TextView replaceDataTextView ;
+    TextView deliveryTimeTextView;
+    TextView delevaryFree ;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +94,14 @@ public class DetailedActivity extends AppCompatActivity {
         price = findViewById(R.id.detailed_price);
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        returnHeadTextView = findViewById(R.id.return_head);
+        returnDataTextView = findViewById(R.id.return_data);
+        replaceHeadTextView = findViewById(R.id.replace_head);
+        replaceDataTextView = findViewById(R.id.replace_data);
+         delevaryFree =findViewById(R.id.free_delivery);
+        deliveryTimeTextView = findViewById(R.id.delivery_time);
+
+
 
 
         toolbar = findViewById(R.id.detailed_toolbar);
@@ -103,7 +124,6 @@ public class DetailedActivity extends AppCompatActivity {
             showAllModel = (ShowAllModel) obj;
         }
 
-
         Intent intent = getIntent();
         String slider_imgUrl = intent.getStringExtra("img_url");
         String slider_name = intent.getStringExtra("name");
@@ -121,11 +141,13 @@ public class DetailedActivity extends AppCompatActivity {
         setRating(ratingValue);
 
 
+
         addToCart = findViewById(R.id.add_to_cart);
         buyNow = findViewById(R.id.buy_now);
 
         addItems = findViewById(R.id.add_item);
         removeItems = findViewById(R.id.remove_item);
+
 
         //New Products
         if (newProductsModel != null) {
@@ -139,6 +161,24 @@ public class DetailedActivity extends AppCompatActivity {
             totalPrice = newProductsModel.getPrice() * totalQuantity;
             ratingValue = (float) newProductsModel.getRating();
             setRating(ratingValue);
+            deliveryTimeTextView.setText(newProductsModel.getDelivery_time());
+            delevaryCharge = newProductsModel.getDelivery();
+            if(delevaryCharge>0){
+              delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+            }
+
+            returnPolicy = newProductsModel.getReturn1();
+            if(returnPolicy.equals("yes")){
+                returnHeadTextView.setVisibility(View.VISIBLE);
+                returnDataTextView.setVisibility(View.VISIBLE);
+            }
+
+            replacment =newProductsModel.getReplace();
+            if(replacment.equalsIgnoreCase("yes")){
+                replaceHeadTextView.setVisibility(View.VISIBLE);
+                replaceDataTextView.setVisibility(View.VISIBLE);
+            }
+
 
         }
         //popular Products
@@ -151,6 +191,26 @@ public class DetailedActivity extends AppCompatActivity {
             totalPrice = popularProductsModel.getPrice() * totalQuantity;
             ratingValue = (float) popularProductsModel.getRating();
             setRating(ratingValue);
+
+            deliveryTimeTextView.setText(popularProductsModel.getDelivery_time());
+            delevaryCharge = popularProductsModel.getDelivery();
+            if(delevaryCharge>0){
+                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+            }
+
+            returnPolicy = popularProductsModel.getReturn1();
+            if(returnPolicy.equals("yes")){
+                returnHeadTextView.setVisibility(View.VISIBLE);
+                returnDataTextView.setVisibility(View.VISIBLE);
+            }
+
+            replacment =popularProductsModel.getReplace();
+            if(replacment.equalsIgnoreCase("yes")){
+                replaceHeadTextView.setVisibility(View.VISIBLE);
+                replaceDataTextView.setVisibility(View.VISIBLE);
+            }
+
+
         }
         //Show All
         if (showAllModel != null) {
@@ -164,6 +224,23 @@ public class DetailedActivity extends AppCompatActivity {
             ratingValue = (float) +showAllModel.getRating();
             setRating(ratingValue);
 
+            deliveryTimeTextView.setText(showAllModel.getDelivery_time());
+            delevaryCharge = showAllModel.getDelivery();
+            if(delevaryCharge>0){
+                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+            }
+
+            returnPolicy = showAllModel.getReturn1();
+            if(returnPolicy.equals("yes")){
+                returnHeadTextView.setVisibility(View.VISIBLE);
+                returnDataTextView.setVisibility(View.VISIBLE);
+            }
+
+            replacment =showAllModel.getReplace();
+            if(replacment.equalsIgnoreCase("yes")){
+                replaceHeadTextView.setVisibility(View.VISIBLE);
+                replaceDataTextView.setVisibility(View.VISIBLE);
+            }
 
         }
 

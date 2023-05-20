@@ -1,5 +1,6 @@
 package com.example.amzoodmart.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -38,21 +39,23 @@ import java.util.Random;
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
     Toolbar toolbar;
-    double productAmount = 0.0;
+    double productAmount = 0.0,totalAmount =0.0;
     int productQty = 0;
     String productName = "";
     String productImgUrl = "";
     String productDesc = "";
     static String orderId = randomOrderId();
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
-
+    String delivaryTime ="",returnData ="",replaceData ="";
+    int delevaryCharge =0;
     Button paymentBtn, cashOnDel;
-    TextView subTotal, name, total;
+    TextView subTotal, name, total,delivaryChargeText;
     ImageView pro_img;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         userAddDeatail = getIntent().getStringExtra("userAddDeatail");
         userCity = getIntent().getStringExtra("userCity");
         userCode = getIntent().getStringExtra("userCode");
+        delivaryTime = getIntent().getStringExtra("delivaryTime");
+        delevaryCharge = getIntent().getIntExtra("delivaryCharge",0);
+        returnData =getIntent().getStringExtra("returnData");
+        replaceData = getIntent().getStringExtra("replaceData");
 
 
         subTotal = findViewById(R.id.sub_total);
@@ -90,9 +97,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         pro_img = findViewById(R.id.product_img);
         cashOnDel = findViewById(R.id.cod_btn);
         paymentBtn = findViewById(R.id.pay_btn);
+        delivaryChargeText =findViewById(R.id.delivary_Charge);
 
+       totalAmount =productAmount +delevaryCharge;
         subTotal.setText("₹ " + productAmount);
-        total.setText("₹ " + productAmount);
+        total.setText("₹ " + totalAmount);
+        if(delevaryCharge >0){
+            delivaryChargeText.setText("₹ "+delevaryCharge);
+        }
         name.setText(productName.toString());
         Glide.with(this).load(productImgUrl).into(pro_img);
 
@@ -109,7 +121,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                paymentMethod(productAmount);
+                paymentMethod(totalAmount);
 
             }
         });
@@ -144,6 +156,11 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("userCode", userCode);
         cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
+        cartMap.put("delivaryTime",delivaryTime);
+        cartMap.put("delivaryCharge",delevaryCharge);
+        cartMap.put("returnData",returnData);
+        cartMap.put("replaceData",replaceData);
+
 
 
         firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
@@ -183,6 +200,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("userCode", userCode);
         cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
+        cartMap.put("delivaryTime",delivaryTime);
+        cartMap.put("delivaryCharge",delevaryCharge);
+        cartMap.put("returnData",returnData);
+        cartMap.put("replaceData",replaceData);
 
 
         firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())

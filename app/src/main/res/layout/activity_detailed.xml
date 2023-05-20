@@ -245,15 +245,7 @@
             tools:ignore="MissingConstraints" />
 
 
-        <ImageView
-            android:id="@+id/detailed_img"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:contentDescription="TODO"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
 
-            tools:ignore="ContentDescription,HardcodedText,MissingConstraints" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/detailed_toolbar"
@@ -363,6 +355,12 @@
                 </LinearLayout>
 
 
+
+
+
+
+
+
                     <!-- Other views -->
 
                 </LinearLayout>
@@ -438,6 +436,66 @@
                         android:layout_marginLeft="7dp"
                         android:src="@drawable/iconminus"
                         tools:ignore="ContentDescription,RtlHardcoded" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/return_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Available : "
+                        android:textSize="16sp"
+                        android:fontFamily="@font/amethysta"
+                        android:padding="2dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/return_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Return"
+                        android:textSize="14sp"
+                        android:textColor="@color/textColorPrimary"
+                        android:fontFamily="@font/amethysta"
+                        android:paddingStart="8dp"
+                        android:visibility="gone" />
+
+                    <!-- Your other views here -->
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/replace_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Available : "
+                        android:textSize="16sp"
+                        android:fontFamily="@font/amethysta"
+                        android:padding="2dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/replace_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Replacement"
+                        android:textSize="14sp"
+                        android:textColor="@color/textColorPrimary"
+                        android:fontFamily="@font/amethysta"
+                        android:paddingStart="8dp"
+                        android:visibility="gone" />
+
+                    <!-- Your other views here -->
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

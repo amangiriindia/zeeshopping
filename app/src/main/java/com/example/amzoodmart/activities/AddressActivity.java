@@ -131,6 +131,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 String productImgUrl = "";
                 String productDesc = "";
                 int productQty = 1;
+                int delivaryChage =0;
+                String returnPolicy ="";
+                String replacement ="";
+                String delevryTime ="";
                 if (obj instanceof NewProductsModel) {
                     NewProductsModel newProductsModel = (NewProductsModel) obj;
                     amount = newProductsModel.getPrice();
@@ -138,6 +142,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productImgUrl = newProductsModel.getImg_url();
                     productDesc = newProductsModel.getDescription();
                     productQty = qty;
+                    delivaryChage = newProductsModel.getDelivery();
+                    returnPolicy = newProductsModel.getReturn1();
+                    replacement = newProductsModel.getReplace();
+                    delevryTime = newProductsModel.getDelivery_time();
 
                 } else if (obj instanceof PopularProductsModel) {
                     PopularProductsModel popularProductsModel = (PopularProductsModel) obj;
@@ -146,6 +154,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productImgUrl = popularProductsModel.getImg_url();
                     productDesc = popularProductsModel.getDescription();
                     productQty = qty;
+                    delivaryChage = popularProductsModel.getDelivery();
+                    returnPolicy = popularProductsModel.getReturn1();
+                    replacement = popularProductsModel.getReplace();
+                    delevryTime = popularProductsModel.getDelivery_time();
                 } else if (obj instanceof ShowAllModel) {
                     ShowAllModel showAllModel = (ShowAllModel) obj;
                     amount = showAllModel.getPrice();
@@ -153,6 +165,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     productImgUrl = showAllModel.getImg_url();
                     productDesc = showAllModel.getDescription();
                     productQty = qty;
+                    delivaryChage = showAllModel.getDelivery();
+                    returnPolicy = showAllModel.getReturn1();
+                    replacement = showAllModel.getReplace();
+                    delevryTime = showAllModel.getDelivery_time();
                 } else {
                     productName = cartProductName;
                     amount = cartProductPrice;
@@ -173,6 +189,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     intent.putExtra("userAddDeatail", userAddDeatail);
                     intent.putExtra("userCity", userCity);
                     intent.putExtra("userCode", userCode);
+                    intent.putExtra("delivaryTime",delevryTime);
+                    intent.putExtra("delivaryCharge",delivaryChage);
+                    intent.putExtra("returnData",returnPolicy);
+                    intent.putExtra("replaceData",replacement);
                     startActivity(intent);
                 } else {
                     Toast.makeText(AddressActivity.this, "Please Add Address!", Toast.LENGTH_SHORT).show();

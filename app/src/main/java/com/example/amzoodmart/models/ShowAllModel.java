@@ -7,9 +7,47 @@ public class ShowAllModel implements Serializable {
     String description;
     String name;
     double rating;
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
+    }
+
+    public String getDelivery_time() {
+        return delivery_time;
+    }
+
+    public void setDelivery_time(String delivery_time) {
+        this.delivery_time = delivery_time;
+    }
+
+    public String getReplace() {
+        return replace;
+    }
+
+    public void setReplace(String replace) {
+        this.replace = replace;
+    }
+
+    public String getReturn1() {
+        return return1;
+    }
+
+    public void setReturn1(String return1) {
+        this.return1 = return1;
+    }
+
     int price;
     String img_url;
     String type;
+    int delivery;
+    String delivery_time;
+    String replace;
+    String return1;
+
 
     public ShowAllModel() {
     }
@@ -62,12 +100,16 @@ public class ShowAllModel implements Serializable {
         this.type = type;
     }
 
-    public ShowAllModel(String description, String name, double rating, int price, String img_url, String type) {
+    public ShowAllModel(String description, String name, double rating, int price, String img_url, String type, int delivery, String delivery_time, String replace, String return1) {
         this.description = description;
         this.name = name;
         this.rating = rating;
         this.price = price;
         this.img_url = img_url;
         this.type = type;
+        this.delivery = delivery;
+        this.delivery_time = delivery_time;
+        this.replace = replace;
+        this.return1 = return1;
     }
 }
