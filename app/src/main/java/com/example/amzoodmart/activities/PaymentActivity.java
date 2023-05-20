@@ -160,6 +160,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("delivaryCharge",delevaryCharge);
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
+        cartMap.put("flag",false);
 
 
 
@@ -204,6 +205,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("delivaryCharge",delevaryCharge);
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
+        cartMap.put("flag",false);
 
 
         firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())

@@ -1,19 +1,18 @@
 package com.example.amzoodmart.models;
 
-import java.io.Serializable;
-
 public class MyOrderModel {
     String Method,currentDate,currentTime,orderId,productDesc,productImgUrl,productName,productPrice,orderStatus;
     String userCity,userCode,userDistict,userName,userNumber,productQuantity,userAddress_detailed, documentId;
+    int  delivaryCharge;
+    String delivaryTime,replaceData,returnData;
 
 
     public MyOrderModel() {
     }
 
-    public MyOrderModel(String method, String currentDate, String currentTime, String orderId, String productDesc, String productImgUrl,
-                        String productName, String productPrice, String userCity, String userCode, String userDistict,
-                        String userName, String userNumber,String productQuantity,String userAddress_detailed,String orderStatus) {
-        this.Method = method;
+
+    public MyOrderModel(String method, String currentDate, String currentTime, String orderId, String productDesc, String productImgUrl, String productName, String productPrice, String orderStatus, String userCity, String userCode, String userDistict, String userName, String userNumber, String productQuantity, String userAddress_detailed, String documentId, int delivaryCharge, String delivaryTime, String replaceData, String returnData) {
+        Method = method;
         this.currentDate = currentDate;
         this.currentTime = currentTime;
         this.orderId = orderId;
@@ -21,14 +20,51 @@ public class MyOrderModel {
         this.productImgUrl = productImgUrl;
         this.productName = productName;
         this.productPrice = productPrice;
+        this.orderStatus = orderStatus;
         this.userCity = userCity;
         this.userCode = userCode;
         this.userDistict = userDistict;
         this.userName = userName;
         this.userNumber = userNumber;
-        this.productQuantity =productQuantity;
-        this.userAddress_detailed =userAddress_detailed;
-        this.orderStatus =orderStatus;
+        this.productQuantity = productQuantity;
+        this.userAddress_detailed = userAddress_detailed;
+        this.documentId = documentId;
+        this.delivaryCharge = delivaryCharge;
+        this.delivaryTime = delivaryTime;
+        this.replaceData = replaceData;
+        this.returnData = returnData;
+    }
+
+    public int getDelivaryCharge() {
+        return delivaryCharge;
+    }
+
+    public void setDelivaryCharge(int delivaryCharge) {
+        this.delivaryCharge = delivaryCharge;
+    }
+
+    public String getDelivaryTime() {
+        return delivaryTime;
+    }
+
+    public void setDelivaryTime(String delivaryTime) {
+        this.delivaryTime = delivaryTime;
+    }
+
+    public String getReplaceData() {
+        return replaceData;
+    }
+
+    public void setReplaceData(String replaceData) {
+        this.replaceData = replaceData;
+    }
+
+    public String getReturnData() {
+        return returnData;
+    }
+
+    public void setReturnData(String returnData) {
+        this.returnData = returnData;
     }
 
     public String getDocumentId() {

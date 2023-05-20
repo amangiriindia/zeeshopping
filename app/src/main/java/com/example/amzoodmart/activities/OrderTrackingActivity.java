@@ -3,6 +3,7 @@ package com.example.amzoodmart.activities;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -29,13 +30,14 @@ import java.util.Objects;
 public class OrderTrackingActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    Button btn_cancel;
+    Button btn_cancel,btn_replace,btn_return;
     ImageView imageView;
-    String doucmentId = "";
+    String doucmentId = "",returnData ="",replaceData="",orderStatus ="",orderId="",productName ="",producturl,prductPrice;
     TextView order_name, order_id, order_price, order_qty, order_payment, order_status, order_date, order_address, order_total;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -58,6 +60,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
         btn_cancel = findViewById(R.id.order_cancel_btn);
         imageView = findViewById(R.id.order_product_img);
         order_total = findViewById(R.id.order_total);
+        btn_return =findViewById(R.id.order_return_btn);
+        btn_replace =findViewById(R.id.order_replace_btn);
 
         //Toolbar
         toolbar = findViewById(R.id.order_detailed_toolbar);
@@ -70,20 +74,60 @@ public class OrderTrackingActivity extends AppCompatActivity {
             }
         });
 
-        String imgUrl = getIntent().getStringExtra("orderImgUrl");
-        order_id.setText(getIntent().getStringExtra("orderId"));
-        order_total.setText("₹ " + getIntent().getStringExtra("orderPrice"));
-        order_name.setText(getIntent().getStringExtra("orderName"));
-        order_price.setText("₹ " + getIntent().getStringExtra("orderPrice"));
+        orderStatus =getIntent().getStringExtra("orderStatus");
+        replaceData =getIntent().getStringExtra("returnData");
+        returnData =getIntent().getStringExtra("replaceData");
+
+        if(orderStatus.equals("Delivered")){
+            btn_cancel.setVisibility(View.GONE);
+            if(replaceData.equals("yes")){
+                btn_replace.setVisibility(View.VISIBLE);
+            }
+            if(returnData.equals("yes")){
+                btn_return.setVisibility(View.VISIBLE);
+            }
+        }
+
+        producturl =getIntent().getStringExtra("orderImgUrl");
+        productName =getIntent().getStringExtra("orderName");
+        orderId =getIntent().getStringExtra("orderId");
+        prductPrice =getIntent().getStringExtra("orderPrice");
+
+        String imgUrl = producturl;
+        order_id.setText(orderId);
+        order_total.setText("₹ " + prductPrice);
+        order_name.setText(productName);
+        order_price.setText("₹ " + prductPrice);
         order_qty.setText(getIntent().getStringExtra("orderQty"));
         order_payment.setText(getIntent().getStringExtra("orderPayment"));
-        order_status.setText(getIntent().getStringExtra("orderStatus"));
+        order_status.setText(orderStatus);
         order_date.setText(getIntent().getStringExtra("orderDate"));
         order_address.setText(getIntent().getStringExtra("orderAddress"));
         Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
         doucmentId = getIntent().getStringExtra("documentId");
 
-
+        btn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(OrderTrackingActivity.this,ReturnActivity.class);
+                intent.putExtra("OrderId",orderId);
+                intent.putExtra("productPrice",prductPrice);
+                intent.putExtra("productUrl",producturl);
+                intent.putExtra("productName",productName);
+                startActivity(intent);
+            }
+        });
+        btn_replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(OrderTrackingActivity.this,ReplaceActivity.class);
+                intent.putExtra("OrderId",orderId);
+                intent.putExtra("productPrice",prductPrice);
+                intent.putExtra("productUrl",producturl);
+                intent.putExtra("productName",productName);
+                startActivity(intent);
+            }
+        });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

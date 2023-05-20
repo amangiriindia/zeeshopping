@@ -114,6 +114,10 @@ public class MyOrderActivity extends AppCompatActivity {
                 i.putExtra("orderImgUrl", intent.getStringExtra("orderImgUrl"));
                 i.putExtra("orderAddress", intent.getStringExtra("orderAddress"));
                 i.putExtra("documentId", intent.getStringExtra("documentId"));
+                i.putExtra("returnData",intent.getStringExtra("returnData"));
+                i.putExtra("replaceData",intent.getStringExtra("replaceData"));
+                i.putExtra("deliveryTime",intent.getStringExtra("deliveryTime"));
+                i.putExtra("delivaryPrice",intent.getIntExtra("delivaryPrice",0));
 
 
                 startActivity(i);

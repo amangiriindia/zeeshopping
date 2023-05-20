@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReturnActivity">
+
+    <!-- Toolbar -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/return_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Return Product" />
+
+    <!-- ScrollView wrapping the entire content -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/return_toolbar">
+
+        <!-- LinearLayout containing the content -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Important Notes"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Return of items which are incorrect or not in original condition return may be rejected"
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
+                android:padding="10dp"
+                tools:ignore="HardcodedText" />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Return product details"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_box"
+            android:orientation="horizontal"
+            android:layout_margin="15dp"
+            android:padding="20dp">
+
+
+
+                <ImageView
+                    android:id="@+id/return_product_img"
+                    android:layout_width="125dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/milk" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Order Id:  "
+                            android:textSize="16sp"
+                            android:textColor="@color/textColorPrimary"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/return_order_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="45 5444 4565 445"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="16sp"
+                            tools:ignore="HardcodedText" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/return_order_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Milk"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Price :   "
+                            android:textSize="16sp"
+                            android:textColor="@color/textColorPrimary"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/return_order_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="4555.6"
+                            android:textSize="16sp"
+                            android:textColor="@color/textColorPrimary"
+                            tools:ignore="HardcodedText" />
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Your Issue releted to product"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Enter your Problem "
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+
+            <EditText
+                android:id="@+id/retrun_problem"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="text"
+                android:padding="10dp"
+                android:hint="     Write your Problem"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="73dp"
+                tools:layout_editor_absoluteY="513dp"
+                tools:ignore="HardcodedText" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="In Description"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+            <EditText
+                android:id="@+id/return_description"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:ems="10"
+                android:gravity="start"
+                android:inputType="text"
+                android:padding="10dp"
+                android:hint="     Write your Problem in Description"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="73dp"
+                tools:layout_editor_absoluteY="513dp"
+                tools:ignore="HardcodedText" />
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/linear_cod_return"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Enter your Account Deatail For Return "
+                android:textColor="@color/black"
+                android:textSize="20sp"
+
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="phone Number "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+
+
+            <EditText
+                android:id="@+id/return_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="number"
+                android:padding="10dp"
+                android:hint="    Enter phone number"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="73dp"
+                tools:layout_editor_absoluteY="513dp"
+                tools:ignore="Autofill,HardcodedText,TextFields" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Account Number"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+
+
+            <EditText
+                android:id="@+id/return_account_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:padding="10dp"
+                android:inputType="number"
+                android:hint="    Enter Account Number"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="26dp"
+                tools:layout_editor_absoluteY="658dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="IFSC Code : "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+
+            <EditText
+                android:id="@+id/return_ifsc_code"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="    Enter IFSC code"
+                android:padding="10dp"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="26dp"
+                tools:layout_editor_absoluteY="658dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Account Holder Name: "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+
+            <EditText
+                android:id="@+id/return_account_holder_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="    Enter name"
+                android:padding="10dp"
+                android:background="@drawable/edit_text_bg"
+                tools:layout_editor_absoluteX="26dp"
+                tools:layout_editor_absoluteY="658dp"
+                tools:ignore="HardcodedText" />
+
+
+    </LinearLayout>
+
+            <Button
+                android:id="@+id/return_submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:background="@drawable/edit_text_bg"
+                android:layout_marginBottom="15dp"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/pink"
+                android:text="Request for return"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/return_reply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Request Have been Submitted "
+                android:textAlignment="center"
+                android:textColor="@color/pink"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
