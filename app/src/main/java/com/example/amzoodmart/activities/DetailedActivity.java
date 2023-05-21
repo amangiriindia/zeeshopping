@@ -2,6 +2,7 @@ package com.example.amzoodmart.activities;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -54,6 +55,7 @@ public class DetailedActivity extends AppCompatActivity {
     String ImgUrl = "";
     int totalQuantity = 1;
     int totalPrice = 0;
+    int offerPercent =0,afterofferPrice =0,productPrice=0;
     int delevaryCharge =0;
     String replacment ="";
     String returnPolicy ="";
@@ -73,7 +75,7 @@ public class DetailedActivity extends AppCompatActivity {
     TextView returnDataTextView ;
     TextView replaceHeadTextView ;
     TextView replaceDataTextView ;
-    TextView deliveryTimeTextView;
+    TextView deliveryTimeTextView,productOffer,offerPrice;
     TextView delevaryFree ;
 
 
@@ -100,6 +102,10 @@ public class DetailedActivity extends AppCompatActivity {
         replaceDataTextView = findViewById(R.id.replace_data);
          delevaryFree =findViewById(R.id.free_delivery);
         deliveryTimeTextView = findViewById(R.id.delivery_time);
+        productOffer = findViewById(R.id.product_offer);
+        offerPrice =findViewById(R.id.detailed_off_price);
+
+
 
 
 
@@ -124,21 +130,21 @@ public class DetailedActivity extends AppCompatActivity {
             showAllModel = (ShowAllModel) obj;
         }
 
-        Intent intent = getIntent();
-        String slider_imgUrl = intent.getStringExtra("img_url");
-        String slider_name = intent.getStringExtra("name");
-        double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
-        String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
-        double slider_rating = intent.getDoubleExtra("rating", 0.0); // Provide a default value if needed
-        String slider_description = intent.getStringExtra("description");
+//        Intent intent = getIntent();
+//        String slider_imgUrl = intent.getStringExtra("img_url");
+//        String slider_name = intent.getStringExtra("name");
+//        double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
+//        String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
+//        double slider_rating = intent.getDoubleExtra("rating", 0.0); // Provide a default value if needed
+//        String slider_description = intent.getStringExtra("description");
 
 
-        name.setText(slider_name);
-        price.setText("₹ " + String.valueOf(slider_price));
-        ratingTextView.setText(String.valueOf(slider_rating));
-        description.setText(slider_description);
-        ratingValue = (float) slider_rating;
-        setRating(ratingValue);
+//        name.setText(slider_name);
+//        price.setText("₹ " + String.valueOf(slider_price));
+//        ratingTextView.setText(String.valueOf(slider_rating));
+//        description.setText(slider_description);
+//        ratingValue = (float) slider_rating;
+//        setRating(ratingValue);
 
 
 
@@ -155,10 +161,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(newProductsModel.getName());
             ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
-            price.setText("₹ " + String.valueOf(newProductsModel.getPrice()));
-
             ImgUrl = newProductsModel.getImg_url();
-            totalPrice = newProductsModel.getPrice() * totalQuantity;
             ratingValue = (float) newProductsModel.getRating();
             setRating(ratingValue);
             deliveryTimeTextView.setText(newProductsModel.getDelivery_time());
@@ -179,6 +182,22 @@ public class DetailedActivity extends AppCompatActivity {
                 replaceDataTextView.setVisibility(View.VISIBLE);
             }
 
+            productPrice =newProductsModel.getPrice();
+            offerPercent = newProductsModel.getOffer();
+             afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+            newProductsModel.setPrice(afterofferPrice);
+            if(offerPercent>0){
+                productOffer.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                productOffer.setText(offerPercent+"% off");
+                price.setText(""+productPrice);
+                offerPrice.setText("₹"+afterofferPrice);
+            }else {
+                offerPrice.setText("₹ " +afterofferPrice);
+            }
+
+
 
         }
         //popular Products
@@ -186,9 +205,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(popularProductsModel.getName());
             ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
-            price.setText("₹ " + String.valueOf(popularProductsModel.getPrice()));
             ImgUrl = popularProductsModel.getImg_url();
-            totalPrice = popularProductsModel.getPrice() * totalQuantity;
             ratingValue = (float) popularProductsModel.getRating();
             setRating(ratingValue);
 
@@ -209,6 +226,21 @@ public class DetailedActivity extends AppCompatActivity {
                 replaceHeadTextView.setVisibility(View.VISIBLE);
                 replaceDataTextView.setVisibility(View.VISIBLE);
             }
+            //PRICE
+            productPrice =popularProductsModel.getPrice();
+            offerPercent = popularProductsModel.getOffer();
+            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+            popularProductsModel.setPrice(afterofferPrice);
+            if(offerPercent>0){
+                productOffer.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                productOffer.setText(offerPercent+"% off");
+                price.setText(""+productPrice);
+                offerPrice.setText("₹"+afterofferPrice);
+            }else {
+                offerPrice.setText("₹ " +afterofferPrice);
+            }
 
 
         }
@@ -218,9 +250,7 @@ public class DetailedActivity extends AppCompatActivity {
             name.setText(showAllModel.getName());
             ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
-            price.setText("₹ " + String.valueOf(showAllModel.getPrice()));
             ImgUrl = showAllModel.getImg_url();
-            totalPrice = showAllModel.getPrice() * totalQuantity;
             ratingValue = (float) +showAllModel.getRating();
             setRating(ratingValue);
 
@@ -240,6 +270,20 @@ public class DetailedActivity extends AppCompatActivity {
             if(replacment.equalsIgnoreCase("yes")){
                 replaceHeadTextView.setVisibility(View.VISIBLE);
                 replaceDataTextView.setVisibility(View.VISIBLE);
+            }
+            productPrice =showAllModel.getPrice();
+            offerPercent =showAllModel.getOffer();
+            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+            showAllModel.setPrice(afterofferPrice);
+            if(offerPercent>0){
+                productOffer.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                productOffer.setText(offerPercent+"% off");
+                price.setText(""+productPrice);
+                offerPrice.setText("₹"+afterofferPrice);
+            }else {
+                offerPrice.setText("₹ " +afterofferPrice);
             }
 
         }
@@ -280,16 +324,6 @@ public class DetailedActivity extends AppCompatActivity {
                 if (totalQuantity < 10) {
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
-
-                    if (newProductsModel != null) {
-                        totalPrice = newProductsModel.getPrice() * totalQuantity;
-                    }
-                    if (popularProductsModel != null) {
-                        totalPrice = popularProductsModel.getPrice() * totalQuantity;
-                    }
-                    if (showAllModel != null) {
-                        totalPrice = showAllModel.getPrice() * totalQuantity;
-                    }
                 }
 
             }
@@ -303,15 +337,6 @@ public class DetailedActivity extends AppCompatActivity {
 
                     quantity.setText(String.valueOf(totalQuantity));
 
-                    if (newProductsModel != null) {
-                        totalPrice = newProductsModel.getPrice() * totalQuantity;
-                    }
-                    if (popularProductsModel != null) {
-                        totalPrice = popularProductsModel.getPrice() * totalQuantity;
-                    }
-                    if (showAllModel != null) {
-                        totalPrice = showAllModel.getPrice() * totalQuantity;
-                    }
                 }
 
             }
@@ -384,9 +409,9 @@ public class DetailedActivity extends AppCompatActivity {
             Drawable halfFilledStars = stars.getDrawable(1);
             Drawable emptyStars = stars.getDrawable(0);
 
-            filledStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
-            halfFilledStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
-            emptyStars.setColorFilter(ContextCompat.getColor(this, R.color.pink), PorterDuff.Mode.SRC_ATOP);
+            filledStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
+            halfFilledStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
+            emptyStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
         }
 
 // Set the progress drawable back to the RatingBar
@@ -405,11 +430,11 @@ public class DetailedActivity extends AppCompatActivity {
 
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("productName", name.getText().toString());
-        cartMap.put("productPrice", price.getText());
+        cartMap.put("productPrice",afterofferPrice+"");
         cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
         cartMap.put("totalQuantity", totalQuantity);
-        cartMap.put("totalPrice", totalPrice);
+        cartMap.put("totalPrice", (afterofferPrice*totalQuantity));
         cartMap.put("productImgurl", ImgUrl);
 
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())

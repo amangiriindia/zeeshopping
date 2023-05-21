@@ -12,6 +12,31 @@ public class NewProductsModel implements Serializable {
     String delivery_time;
     String replace;
     String return1;
+    int offer;
+
+    public NewProductsModel() {
+    }
+
+    public NewProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer) {
+        this.description = description;
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
+        this.img_url = img_url;
+        this.delivery = delivery;
+        this.delivery_time = delivery_time;
+        this.replace = replace;
+        this.return1 = return1;
+        this.offer = offer;
+    }
+
+    public int getOffer() {
+        return offer;
+    }
+
+    public void setOffer(int offer) {
+        this.offer = offer;
+    }
 
     public int getDelivery() {
         return delivery;
@@ -45,20 +70,7 @@ public class NewProductsModel implements Serializable {
         this.return1 = return1;
     }
 
-    public NewProductsModel() {
-    }
 
-    public NewProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1) {
-        this.description = description;
-        this.name = name;
-        this.rating = rating;
-        this.price = price;
-        this.img_url = img_url;
-        this.delivery = delivery;
-        this.delivery_time = delivery_time;
-        this.replace = replace;
-        this.return1 = return1;
-    }
 
     public String getDescription() {
         return description;

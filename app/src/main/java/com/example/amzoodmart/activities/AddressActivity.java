@@ -178,7 +178,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
                 if (flagAddress) {
                     Intent intent = new Intent(AddressActivity.this, PaymentActivity.class);
-                    intent.putExtra("amount", amount);
+                    intent.putExtra("amount", amount*productQty);
                     intent.putExtra("productName", productName);
                     intent.putExtra("productImgUrl", productImgUrl);
                     intent.putExtra("productDesc", productDesc);

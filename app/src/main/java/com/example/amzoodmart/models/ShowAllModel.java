@@ -7,6 +7,41 @@ public class ShowAllModel implements Serializable {
     String description;
     String name;
     double rating;
+    int price;
+    int offer;
+    String img_url;
+    String type;
+    int delivery;
+    String delivery_time;
+    String replace;
+    String return1;
+
+
+
+    public ShowAllModel() {
+    }
+
+    public ShowAllModel(String description, String name, double rating, int price, int offer, String img_url, String type, int delivery, String delivery_time, String replace, String return1) {
+        this.description = description;
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
+        this.offer = offer;
+        this.img_url = img_url;
+        this.type = type;
+        this.delivery = delivery;
+        this.delivery_time = delivery_time;
+        this.replace = replace;
+        this.return1 = return1;
+    }
+
+    public int getOffer() {
+        return offer;
+    }
+
+    public void setOffer(int offer) {
+        this.offer = offer;
+    }
 
     public int getDelivery() {
         return delivery;
@@ -40,17 +75,8 @@ public class ShowAllModel implements Serializable {
         this.return1 = return1;
     }
 
-    int price;
-    String img_url;
-    String type;
-    int delivery;
-    String delivery_time;
-    String replace;
-    String return1;
 
 
-    public ShowAllModel() {
-    }
 
     public String getDescription() {
         return description;
@@ -100,16 +126,5 @@ public class ShowAllModel implements Serializable {
         this.type = type;
     }
 
-    public ShowAllModel(String description, String name, double rating, int price, String img_url, String type, int delivery, String delivery_time, String replace, String return1) {
-        this.description = description;
-        this.name = name;
-        this.rating = rating;
-        this.price = price;
-        this.img_url = img_url;
-        this.type = type;
-        this.delivery = delivery;
-        this.delivery_time = delivery_time;
-        this.replace = replace;
-        this.return1 = return1;
-    }
+
 }
