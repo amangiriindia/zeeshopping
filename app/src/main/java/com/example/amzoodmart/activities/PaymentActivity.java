@@ -161,6 +161,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
         cartMap.put("flag",false);
+        cartMap.put("rnFlag",false);
+
 
 
 
@@ -206,6 +208,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
         cartMap.put("flag",false);
+        cartMap.put("rnFlag",false);
+
 
 
         firestore.collection("OrderDetail").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())

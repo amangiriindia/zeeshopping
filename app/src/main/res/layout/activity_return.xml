@@ -176,6 +176,7 @@
 
 
         <LinearLayout
+            android:id="@+id/return_linear_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -266,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="phone Number "
+                android:text="Phone Number "
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText" />
@@ -323,7 +324,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="text"
                 android:hint="    Enter IFSC code"
                 android:padding="10dp"
                 android:background="@drawable/edit_text_bg"
@@ -353,9 +354,6 @@
                 tools:layout_editor_absoluteY="658dp"
                 tools:ignore="HardcodedText" />
 
-
-    </LinearLayout>
-
             <Button
                 android:id="@+id/return_submit_btn"
                 android:layout_width="match_parent"
@@ -371,22 +369,109 @@
                 android:text="Request for return"
                 tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/return_reply"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Your Request Have been Submitted "
-                android:textAlignment="center"
-                android:textColor="@color/pink"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                tools:ignore="HardcodedText" />
-
-
-
 
     </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/return_linear_output"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone"
+                android:background="@drawable/white_box"
+                android:layout_margin="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Your Issue releted to product"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Your Problem "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/return_output_problem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="This is your Problem "
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Your Problem Description"
+                    android:gravity="center"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/return_output_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="This is your Problem "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/return_reply_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order Return Status :  "
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorPrimary"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/return_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Your Request Have been Submitted "
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorPrimary"
+                    android:padding="10dp"
+                    android:textSize="20dp"
+                    />
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
 
 
 </ScrollView>

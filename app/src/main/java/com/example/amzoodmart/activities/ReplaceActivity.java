@@ -38,7 +38,6 @@ public class ReplaceActivity extends AppCompatActivity {
     FirebaseAuth auth;
     LinearLayout replaceLInput,replaceLOutput;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
