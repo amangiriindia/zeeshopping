@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amzoodmart.R;
-import com.example.amzoodmart.Users;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -88,16 +87,16 @@ public class RegistationActivity extends AppCompatActivity {
             password.setError("Password too short!");
             return;
         }
-        Users users = new Users();
-        users.setUserName(userName);
-        users.setUserId(userEmail);
+
         mAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(RegistationActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(RegistationActivity.this, "Successfully Register", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegistationActivity.this, MainActivity.class));
+                                    Intent intent = new Intent(RegistationActivity.this, MainActivity.class);
+                                    intent.putExtra("name",userName);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(RegistationActivity.this, "Alredy Have Account", Toast.LENGTH_SHORT).show();
                                 }

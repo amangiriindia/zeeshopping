@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AmzoodMart</string>
+    <string name="app_name">Zee Shopping</string>
 
     <string name="first_slide">Choose Your Products</string>
     <string name="second_slide">Fast Delivery</string>
@@ -18,6 +18,26 @@
         <item> This is question </item>
         <item>This is answer</item>
     </string-array>
+
+
+    <string name="terms_conditions_content">
+    <![CDATA[
+         These terms and conditions outline the rules and regulations for the use of our app.\n\n
+        1. Acceptance of Terms: By using our app, you agree to comply with these terms and conditions.\n\n
+        2. Account Registration: To access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account information.\n\n
+        3. Product Information: We strive to provide accurate product information, but we do not warrant the completeness, reliability, or accuracy of any product details on our app.\n\n
+        4. Ordering and Payment: When placing an order, you agree to provide accurate and complete information. Payment processing is handled securely, but we are not liable for any unauthorized access to your payment information.\n\n
+        5. Shipping and Delivery: We aim to deliver products within the specified timeframes, but we cannot guarantee exact delivery dates. Delivery may be subject to additional charges.\n\n
+        6. Returns and Refunds: Our return and refund policy governs the process for returning and receiving refunds for products purchased through our app.\n\n
+        7. Intellectual Property: All intellectual property rights, including trademarks and copyrights, associated with our app are owned by us.\n\n
+        8. Limitation of Liability: We are not liable for any damages or losses arising from your use of our app, including but not limited to direct, indirect, incidental, or consequential damages.\n\n
+        9. Governing Law: These terms and conditions are governed by the laws of your jurisdiction.\n\n
+        By using our app, you agree to these terms and conditions in their entirety. If you do not agree with any part of these terms, please refrain from using our app.\n\n
+        If you have any questions or concerns about our terms and conditions, please contact us.\n
+    ]]>
+</string>
+
+
 
 
 </resources>
