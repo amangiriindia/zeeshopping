@@ -14,11 +14,12 @@ public class PopularProductsModel implements Serializable {
     String replace;
     String return1;
     int offer;
+    String type;
 
     public PopularProductsModel() {
     }
 
-    public PopularProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer) {
+    public PopularProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer, String type) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -29,6 +30,15 @@ public class PopularProductsModel implements Serializable {
         this.replace = replace;
         this.return1 = return1;
         this.offer = offer;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getOffer() {
@@ -38,6 +48,7 @@ public class PopularProductsModel implements Serializable {
     public void setOffer(int offer) {
         this.offer = offer;
     }
+
 
     public int getDelivery() {
         return delivery;

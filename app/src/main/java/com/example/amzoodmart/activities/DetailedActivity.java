@@ -19,12 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
+import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
 import com.example.amzoodmart.models.ShowAllModel;
@@ -58,7 +61,7 @@ public class DetailedActivity extends AppCompatActivity {
     int offerPercent =0,afterofferPrice =0,productPrice=0;
     int delevaryCharge =0;
     String replacment ="";
-    String returnPolicy ="";
+    String returnPolicy ="",type="";
 
     // New Product
     NewProductsModel newProductsModel = null;
@@ -77,6 +80,9 @@ public class DetailedActivity extends AppCompatActivity {
     TextView replaceDataTextView ;
     TextView deliveryTimeTextView,productOffer,offerPrice;
     TextView delevaryFree ;
+    RecyclerView similarProductRecyclarview;
+    ShowAllAdapter showAllAdapter;
+    List<ShowAllModel> showAllModelList;
 
 
 
@@ -104,6 +110,7 @@ public class DetailedActivity extends AppCompatActivity {
         deliveryTimeTextView = findViewById(R.id.delivery_time);
         productOffer = findViewById(R.id.product_offer);
         offerPrice =findViewById(R.id.detailed_off_price);
+        similarProductRecyclarview =findViewById(R.id.similar_product_rec);
 
 
 
@@ -158,6 +165,7 @@ public class DetailedActivity extends AppCompatActivity {
         //New Products
         if (newProductsModel != null) {
 
+            type =newProductsModel.getType();
             name.setText(newProductsModel.getName());
             ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
@@ -202,6 +210,7 @@ public class DetailedActivity extends AppCompatActivity {
         }
         //popular Products
         if (popularProductsModel != null) {
+            type =popularProductsModel.getType();
             name.setText(popularProductsModel.getName());
             ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
@@ -247,6 +256,7 @@ public class DetailedActivity extends AppCompatActivity {
         //Show All
         if (showAllModel != null) {
 
+            type =   showAllModel.getType();
             name.setText(showAllModel.getName());
             ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
@@ -388,6 +398,38 @@ public class DetailedActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
+        //similar Product
+        similarProductRecyclarview.setLayoutManager(new GridLayoutManager(this, 2));
+        showAllModelList =new ArrayList<>();
+        showAllAdapter =new ShowAllAdapter(this,showAllModelList);
+        similarProductRecyclarview.setAdapter(showAllAdapter);
+
+
+        firestore.collection("ShowAll")
+                .whereEqualTo("type", type.toLowerCase())  // Add your where condition here
+                .limit(6)  // Set the maximum limit to 6
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        int count = 0;
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            if (count >= 6) {
+                                break;  // Exit the loop if 6 items have been added
+                            }
+                            ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
+                            showAllModelList.add(showAllModel);
+                            showAllAdapter.notifyDataSetChanged();
+                            count++;
+                        }
+                    } else {
+                        // Handle the task failure
+                    }
+                });
+
+
 
     }
 
