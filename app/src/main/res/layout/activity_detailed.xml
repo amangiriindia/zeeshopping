@@ -350,6 +350,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             android:orientation="vertical"
+            android:background="#fae1dd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buy_now">

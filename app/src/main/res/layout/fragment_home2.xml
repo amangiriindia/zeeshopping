@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="8dp"
                 android:fontFamily="@font/amethysta"
                 android:text="Category"
                 android:textColor="@color/textColorPrimary"                android:textSize="21sp"
@@ -41,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
                 android:gravity="end"
@@ -82,6 +84,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="9dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="3dp"
                         android:fontFamily="@font/amethysta"
                         android:text="New Products"
                         android:textColor="@color/textColorPrimary"
@@ -93,11 +98,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/new_product_name"
                         android:layout_marginLeft="9dp"
+                        android:paddingStart="10dp"
                         android:text="We provide best products." />
 
                     <TextView
                         android:id="@+id/newProducts_see_all"
                         android:layout_width="wrap_content"
+                        android:padding="10dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="8dp"
@@ -122,7 +129,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#bcf7d4">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -132,6 +140,9 @@
                     android:id="@+id/popular_products"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="3dp"
                     android:layout_marginLeft="9dp"
                     android:fontFamily="@font/amethysta"
                     android:text="Popular Products"
@@ -144,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/popular_products"
                     android:layout_marginLeft="9dp"
+                    android:paddingStart="10dp"
                     android:text="We provide best products." />
 
                 <TextView
@@ -154,6 +166,7 @@
                     android:layout_marginRight="8dp"
                     android:fontFamily="@font/amethysta"
                     android:text="See All"
+                    android:padding="10dp"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -173,19 +186,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/pink">
+            android:background="#faf9bb">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/categoty_group_1"
+                    android:id="@+id/most_demond"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="9dp"
+                    android:padding="10dp"
                     android:fontFamily="@font/amethysta"
-                    android:text="In Demand"
+                    android:text="Most Demand Product"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="21sp"
                     android:textStyle="bold" />
@@ -193,10 +207,11 @@
 
 
                 <TextView
-                    android:id="@+id/category_1_see_all"
+                    android:id="@+id/most_demand_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:padding="10dp"
                     android:layout_marginRight="8dp"
                     android:fontFamily="@font/amethysta"
                     android:text="See All"
@@ -206,17 +221,116 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_1_rec"
+                android:id="@+id/most_demand_rec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="7dp"
                 android:layout_marginTop="6dp"
-                tools:listitem="@layout/category_item"
                 android:padding="5dp" />
         </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/offer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:padding="10dp"
+                    android:fontFamily="@font/amethysta"
+                    android:text="Special Offer"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:id="@+id/offer_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="8dp"
+                    android:padding="10dp"
+                    android:fontFamily="@font/amethysta"
+                    android:text="See All"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offer_rec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="7dp"
+                android:layout_marginTop="6dp"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#fcb3e6">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/recommend_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:padding="10dp"
+                    android:fontFamily="@font/amethysta"
+                    android:text="Recommend for you"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:id="@+id/recommend_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="8dp"
+                    android:padding="10dp"
+                    android:fontFamily="@font/amethysta"
+                    android:text="See All"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommend_rec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="7dp"
+                android:layout_marginTop="6dp"
+                android:padding="5dp" />
+        </LinearLayout>
+
+
+
     </LinearLayout>
+
+
 
 </androidx.core.widget.NestedScrollView>

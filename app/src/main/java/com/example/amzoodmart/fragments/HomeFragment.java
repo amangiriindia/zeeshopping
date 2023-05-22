@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,12 +26,17 @@ import com.example.amzoodmart.activities.CategotyActivity;
 import com.example.amzoodmart.activities.DetailedActivity;
 import com.example.amzoodmart.activities.ShowAllActivity;
 import com.example.amzoodmart.adapters.CategoryAdapter;
+import com.example.amzoodmart.adapters.DiscountAdapter;
 import com.example.amzoodmart.adapters.NewProductAdapter;
 import com.example.amzoodmart.adapters.PopularProductAdapter;
+import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.CategoryModel;
+import com.example.amzoodmart.models.DiscountModel;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
+import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,10 +49,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    TextView catShowAll,popularShowAll,newProductShowAll,cate1ShowAll;
+    TextView catShowAll,popularShowAll,newProductShowAll,mostDemandShowAll,offerShowAll,recommendShowAll;
     LinearLayout linearLayout;
     ProgressDialog progressDialog;
-    RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview,cate1RecycyclerView;
+    RecyclerView catRecyclerView,newProductRecyclerView,popularRecyclerview,mostDemoandRecyclerView,offerRecyclerView,recommendRecyclerView;
 
     //Category recycleview
     CategoryAdapter categoryAdapter;
@@ -59,6 +65,15 @@ public class HomeFragment extends Fragment {
     //Popular  products
     PopularProductAdapter popularProductAdapter;
     List<PopularProductsModel> popularProductsModelList;
+    //most demoand
+    ShowAllAdapter showAllAdapter;
+    List<ShowAllModel> showAllModelList;
+    //recommand
+    ShowAllAdapter recshowAllAdapter;
+    List<ShowAllModel> recshowAllModelList;
+
+    DiscountAdapter discountAdapter;
+    List<DiscountModel>discountModelList;
     //FireStore
     FirebaseFirestore db;
     public HomeFragment() {
@@ -66,7 +81,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "MissingInflatedId"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,18 +94,25 @@ public class HomeFragment extends Fragment {
         catRecyclerView =root.findViewById(R.id.rec_category);
         newProductRecyclerView =root.findViewById(R.id.new_product_rec);
         popularRecyclerview =root.findViewById(R.id.popular_rec);
-        cate1RecycyclerView =root.findViewById(R.id.category_1_rec);
+        mostDemoandRecyclerView =root.findViewById(R.id.most_demand_rec);
+        offerRecyclerView =root.findViewById(R.id.offer_rec);
+        recommendRecyclerView =root.findViewById(R.id.recommend_rec);
 
 
         catShowAll =root.findViewById(R.id.category_see_all);
         popularShowAll = root.findViewById(R.id.popular_see_all);
         newProductShowAll =root.findViewById(R.id.newProducts_see_all);
+        mostDemandShowAll =root.findViewById(R.id.most_demand_see_all);
+        offerShowAll =root.findViewById(R.id.offer_see_all);
+        recommendShowAll =root.findViewById(R.id.recommend_see_all);
+
 
 
        catShowAll.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Intent intent =new Intent(getContext(), ShowAllActivity.class);
+               intent.putExtra("title","All Category");
                startActivity(intent);
            }
        });
@@ -100,6 +122,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), CategotyActivity.class);
                 intent.putExtra("product_status", "popular");
+                intent.putExtra("title","Popular Product");
                 startActivity(intent);
             }
         });
@@ -109,6 +132,32 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), CategotyActivity.class);
                 intent.putExtra("product_status", "newProduct");
+                intent.putExtra("title","New Product");
+                startActivity(intent);
+            }
+        });
+        mostDemandShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CategotyActivity.class);
+                intent.putExtra("title","Most Demand Product");
+                startActivity(intent);
+            }
+        });
+        offerShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CategotyActivity.class);
+                intent.putExtra("off", 40);
+                intent.putExtra("title","Special Offer");
+                startActivity(intent);
+            }
+        });
+        recommendShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ShowAllActivity.class);
+                intent.putExtra("title","Recommend for you");
                 startActivity(intent);
             }
         });
@@ -136,9 +185,16 @@ public class HomeFragment extends Fragment {
 
                     }
                     imageSlider.setImageList(slideModels,ScaleTypes.FIT);
+                }else {
+                    Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
                 }
             }
-        })  ;
+        })  .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
@@ -154,16 +210,10 @@ public class HomeFragment extends Fragment {
             public void doubleClick(int i) {
                 switch (i) {
                     case 0:
+                    case 2:
+                    case 1:
                         DocumentReference docRef = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
                         gotoDetailed(docRef);
-                        break;
-                    case 1:
-                        DocumentReference docRef1 = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
-                        gotoDetailed(docRef1);
-                        break;
-                    case 2:
-                        DocumentReference docRef2 = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
-                        gotoDetailed(docRef2);
                         break;
                     default:
                         break;
@@ -203,12 +253,18 @@ public class HomeFragment extends Fragment {
                         }
                     }
                   else {
-                       // Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
                     }
 
 
 
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
                 });
+
 
         //new product
         newProductRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
@@ -230,6 +286,12 @@ public class HomeFragment extends Fragment {
                         }
                     } else {
                         // Handle the task failure
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -253,11 +315,121 @@ public class HomeFragment extends Fragment {
                         }
                     } else {
                         // Handle the failure case
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-  // categoty1
-        cate1RecycyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+
+
+        mostDemoandRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        showAllModelList =new ArrayList<>();
+        showAllAdapter =new ShowAllAdapter(getContext(),showAllModelList);
+        mostDemoandRecyclerView.setAdapter(showAllAdapter);
+
+
+        db.collection("ShowAll")
+                .whereGreaterThan("rating", 4) // Add your where condition here
+                .limit(6)  // Set the maximum limit to 6
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        int count = 0;
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            if (count >= 6) {
+                                break;  // Exit the loop if 6 items have been added
+                            }
+                            ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
+                            showAllModelList.add(showAllModel);
+                            showAllAdapter.notifyDataSetChanged();
+                            count++;
+                        }
+                    } else {
+                        // Handle the task failure
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        offerRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        discountModelList =new ArrayList<>();
+        discountAdapter =new DiscountAdapter(getContext(),discountModelList);
+        offerRecyclerView.setAdapter(discountAdapter);
+
+
+        db.collection("ShowAll")
+                .whereGreaterThan("offer", 40) // Add your where condition here
+                .limit(6)  // Set the maximum limit to 6
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        int count = 0;
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            if (count >= 6) {
+                                break;  // Exit the loop if 6 items have been added
+                            }
+                            DiscountModel discountModel = document.toObject(DiscountModel.class);
+                            discountModelList.add(discountModel);
+                            discountAdapter.notifyDataSetChanged();
+                            count++;
+                        }
+                    } else {
+                        // Handle the task failure
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        recommendRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recshowAllModelList =new ArrayList<>();
+        recshowAllAdapter =new ShowAllAdapter(getContext(),recshowAllModelList);
+        recommendRecyclerView.setAdapter(recshowAllAdapter);
+
+
+        db.collection("ShowAll")
+                .limit(10)  // Set the maximum limit to 6
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        int count = 0;
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            if (count >= 10) {
+                                break;  // Exit the loop if 6 items have been added
+                            }
+                            ShowAllModel recshowAllModel = document.toObject(ShowAllModel.class);
+                            recshowAllModelList.add(recshowAllModel);
+                            recshowAllAdapter.notifyDataSetChanged();
+                            count++;
+                        }
+                    } else {
+                        // Handle the task failure
+                        Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
 
         return root;

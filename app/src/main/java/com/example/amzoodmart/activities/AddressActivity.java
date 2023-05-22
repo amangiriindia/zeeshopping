@@ -19,10 +19,12 @@ import com.example.amzoodmart.R;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.AddressAdapter;
 import com.example.amzoodmart.models.AddressModel;
+import com.example.amzoodmart.models.DiscountModel;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -119,6 +121,11 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                             }
                         }
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddressActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
                 });
 
 
@@ -169,6 +176,17 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     returnPolicy = showAllModel.getReturn1();
                     replacement = showAllModel.getReplace();
                     delevryTime = showAllModel.getDelivery_time();
+                }else if (obj instanceof DiscountModel) {
+                        DiscountModel discountModel = (DiscountModel) obj;
+                        amount = discountModel.getPrice();
+                        productName = discountModel.getName();
+                        productImgUrl = discountModel.getImg_url();
+                        productDesc = discountModel.getDescription();
+                        productQty = qty;
+                        delivaryChage = discountModel.getDelivery();
+                        returnPolicy = discountModel.getReturn1();
+                        replacement = discountModel.getReplace();
+                        delevryTime = discountModel.getDelivery_time();
                 } else {
                     productName = cartProductName;
                     amount = cartProductPrice;

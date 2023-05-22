@@ -3,6 +3,7 @@ package com.example.amzoodmart.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,19 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(list.get(position).getImg_url()).into(holder.newImg);
         holder.newName.setText(list.get(position).getName());
-        holder.newPrice.setText("₹"+String.valueOf(list.get(position).getPrice()));
+      //  holder.newPrice.setText("₹"+String.valueOf(list.get(position).getPrice()));
+        int  productPrice =list.get(position).getPrice();
+        int offerPercent =list.get(position).getOffer();
+        int afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+
+        if(offerPercent>0){
+            holder.newPrice.setVisibility(View.VISIBLE);
+            holder.newPrice.setPaintFlags(holder.newPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.newPrice.setText(""+productPrice);
+            holder.newPriceOffer.setText("₹"+afterofferPrice);
+        }else {
+            holder.newPriceOffer.setText("₹ " +afterofferPrice);
+        }
 
 
 
@@ -65,13 +78,14 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
         ImageView newImg;
-        TextView  newName,newPrice;
+        TextView  newName,newPrice,newPriceOffer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             newImg =itemView.findViewById(R.id.new_img);
             newName =itemView.findViewById(R.id.new_product_name);
             newPrice =itemView.findViewById(R.id.new_price);
+            newPriceOffer =itemView.findViewById(R.id.new_off_price);
 
         }
     }

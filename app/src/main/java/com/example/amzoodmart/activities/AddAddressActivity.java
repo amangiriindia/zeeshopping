@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -155,6 +156,11 @@ public class AddAddressActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(AddAddressActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {

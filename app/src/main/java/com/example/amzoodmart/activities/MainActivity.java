@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 if(id ==R.id.nav_home_items){
                     loadFragment(homeFragment);
                 } else if (id ==R.id.nav_category_items) {
-                    startActivity(new Intent(MainActivity.this, ShowAllActivity.class));
+                    Intent intent =new  Intent(MainActivity.this, ShowAllActivity.class);
+                    intent.putExtra("title","All Category");
+                    startActivity(intent);
                 }else if (id ==R.id.nav_cart_items) {
                     startActivity(new Intent(MainActivity.this,CartActivity.class));
 

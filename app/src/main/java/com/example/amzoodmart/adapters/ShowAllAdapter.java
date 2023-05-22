@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +43,34 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(context).load(list.get(position).getImg_url()).into(holder.mItemImage);
-        holder.mCost.setText("₹ "+(list.get(position).getPrice()));
         holder.mName.setText(list.get(position).getName());
         //for rating bar
         RatingBar ratingBar = holder.ratingBar;
         ratingBar.setRating((float) list.get(position).getRating());
         Context context = ratingBar.getContext();
-        int color = ContextCompat.getColor(context, R.color.pink);
+        int color = ContextCompat.getColor(context, R.color.green);
         ratingBar.setProgressTintList(ColorStateList.valueOf(color));
+
+        int delevary =list.get(position).getDelivery();
+
+        if(delevary==0){
+            holder.deleveryText.setVisibility(View.VISIBLE);
+            holder.deleveryText.setText("Free delivery");
+        }
+
+       int  productPrice =list.get(position).getPrice();
+       int offerPercent =list.get(position).getOffer();
+       int afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+        if(offerPercent>0){
+            holder.offerText.setVisibility(View.VISIBLE);
+            holder.mCost.setVisibility(View.VISIBLE);
+            holder.mCost.setPaintFlags(holder.mCost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.offerText.setText(offerPercent+"% off");
+            holder.mCost.setText(""+productPrice);
+            holder.afterOfferCostText.setText("₹"+afterofferPrice);
+        }else {
+            holder.afterOfferCostText.setText("₹ " +afterofferPrice);
+        }
 
 
 
@@ -73,7 +94,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView mItemImage;
-        private TextView mCost;
+        private TextView mCost,offerText,afterOfferCostText,deleveryText;
         RatingBar ratingBar;
         private TextView mName;
         public ViewHolder(@NonNull View itemView) {
@@ -82,6 +103,9 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
             mCost =itemView.findViewById(R.id.item_cost);
             mName = itemView.findViewById(R.id.item_nam);
             ratingBar =itemView.findViewById(R.id.my_rating);
+            offerText =itemView.findViewById(R.id.item_offer);
+            afterOfferCostText = itemView.findViewById(R.id.item_off_price);
+            deleveryText =itemView.findViewById(R.id.item_delevary_status);
         }
     }
 

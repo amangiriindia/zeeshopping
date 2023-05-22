@@ -19,6 +19,7 @@ import com.example.amzoodmart.R;
 import com.example.amzoodmart.Users;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,7 +103,12 @@ public class RegistationActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                );
+                ).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegistationActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }

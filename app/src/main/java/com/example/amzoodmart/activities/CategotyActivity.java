@@ -20,6 +20,7 @@ import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,20 +66,77 @@ public class CategotyActivity extends AppCompatActivity {
 
         //  Retrieve the value of the "product_status" parameter
         String productStatus = intent.getStringExtra("product_status");
+        String title =intent.getStringExtra("title");
+        int off =intent.getIntExtra("off",0);
+        if(!TextUtils.isEmpty(title)){
+            toolbar.setTitle(title);
+        }
+
         if (!TextUtils.isEmpty(productStatus)) {
-            // productStatus is not empty
-            // Perform your desired operations here
-            if (productStatus.equals("newProduct")) {
-                toolbar.setTitle("New Product");
-            } else {
-                toolbar.setTitle("Popular Product");
-            }
             retrieveAllDataByStatus(productStatus);
+        } else if (off !=0) {
+            retrieveAllDataByOffer(off);
         } else {
-            Toast.makeText(this, "Product is empty", Toast.LENGTH_SHORT).show();
+            retrieveAllDataByRating(4);
+
         }
 
     }
+
+    private void retrieveAllDataByOffer(int i) {
+        firestore.collection("ShowAll")
+                .whereGreaterThan("offer", i)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            showAllModelList.clear();
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                ShowAllModel showAllModel = doc.toObject(ShowAllModel.class);
+                                showAllModelList.add(showAllModel);
+                            }
+                            showAllAdapter.notifyDataSetChanged();
+                        } else {
+                            // Handle errors
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CategotyActivity.this, "Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void retrieveAllDataByRating(int i) {
+        firestore.collection("ShowAll")
+                .whereGreaterThan("rating", i)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            showAllModelList.clear();
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                ShowAllModel showAllModel = doc.toObject(ShowAllModel.class);
+                                showAllModelList.add(showAllModel);
+                            }
+                            showAllAdapter.notifyDataSetChanged();
+                        } else {
+                            // Handle errors
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CategotyActivity.this, "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     private void retrieveAllDataByStatus(String productStatus) {
         firestore.collection("ShowAll")
@@ -98,7 +156,14 @@ public class CategotyActivity extends AppCompatActivity {
                             // Handle errors
                         }
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CategotyActivity.this, "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    }
                 });
+
 
     }
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.MyCartAdapter;
 import com.example.amzoodmart.models.MyCartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -115,6 +117,11 @@ public class CartActivity extends AppCompatActivity {
                         }
 
 
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CartActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

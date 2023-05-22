@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.amzoodmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -159,6 +160,11 @@ public class ReturnActivity extends AppCompatActivity {
                                     // Handle error
                                 }
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ReturnActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                            }
                         });
 
             }
@@ -195,6 +201,11 @@ public class ReturnActivity extends AppCompatActivity {
 
                         }
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ReturnActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
                 });
 
     }
@@ -229,6 +240,11 @@ public class ReturnActivity extends AppCompatActivity {
                         } else {
 
                         }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ReturnActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

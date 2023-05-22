@@ -14,8 +14,9 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="300dp"
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
@@ -47,17 +48,6 @@
                 android:text="Woman T shirt"
                 android:fontFamily="@font/amethysta"/>
 
-            <TextView
-                android:textColor="@color/textColorPrimary"
-                android:fontFamily="@font/amethysta"
-                android:id="@+id/item_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginTop="3dp"
-                android:textStyle="bold"
-                android:text="₹ 34.0" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -72,6 +62,57 @@
                     android:stepSize="0.1"
                     tools:ignore="RtlHardcoded" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="3dp">
+
+
+                <TextView
+                    android:id="@+id/item_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amethysta"
+                    android:text="200"
+                    android:textColor="@color/grey_font"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginStart="7dp"
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
+                <TextView
+                    android:id="@+id/item_off_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amethysta"
+                    android:text="₹200"
+                    android:textColor="@color/textColorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginStart="7dp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <TextView
+                   android:id="@+id/item_offer"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="3dp"
+                   android:layout_toStartOf="@+id/my_rating"
+                   android:fontFamily="@font/amethysta"
+                   android:text="60% off"
+                   android:textStyle="bold"
+                   android:textColor="@color/green"
+                   android:textSize="16sp"
+                   android:visibility="gone"/>
+           </LinearLayout>
+
+
+
 
 
 
@@ -83,7 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:textSize="14sp"
-                android:text="Free delivery " />
+                android:text="Free delivery "
+                android:visibility="gone"/>
         </LinearLayout>
         </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,6 +52,7 @@ public class ShowAllActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.show_all_rec);
 
+
         toolbar = findViewById(R.id.show_all_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -69,6 +72,7 @@ public class ShowAllActivity extends AppCompatActivity {
 
         if (type == null || type.isEmpty()) {
             retrieveAllData();
+            toolbar.setTitle(title);
 
         } else {
             retrieveDataByType(type);
@@ -97,6 +101,11 @@ public class ShowAllActivity extends AppCompatActivity {
                             // Handle errors
                         }
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ShowAllActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 
@@ -118,6 +127,11 @@ public class ShowAllActivity extends AppCompatActivity {
                         } else {
                             // Handle errors
                         }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ShowAllActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -161,6 +175,11 @@ public class ShowAllActivity extends AppCompatActivity {
                         } else {
                             // Handle any errors that occurred during the query
                         }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ShowAllActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

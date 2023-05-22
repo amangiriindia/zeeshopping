@@ -32,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -141,6 +142,11 @@ public class loginActivity extends AppCompatActivity {
                                     Toast.makeText(loginActivity.this, "Unable to send,failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(loginActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                            }
                         });
                     }
                 });
@@ -200,9 +206,14 @@ public class loginActivity extends AppCompatActivity {
                             Intent intent = new Intent(loginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(loginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(loginActivity.this, "Restart or Please wait..", Toast.LENGTH_SHORT).show();
                         }
 
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(loginActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -239,7 +250,12 @@ public class loginActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                );
+                ).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(loginActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }

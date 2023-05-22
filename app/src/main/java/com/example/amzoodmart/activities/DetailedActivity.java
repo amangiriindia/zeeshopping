@@ -28,10 +28,12 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.amzoodmart.R;
 import com.example.amzoodmart.Utility.NetworkChangeListener;
 import com.example.amzoodmart.adapters.ShowAllAdapter;
+import com.example.amzoodmart.models.DiscountModel;
 import com.example.amzoodmart.models.NewProductsModel;
 import com.example.amzoodmart.models.PopularProductsModel;
 import com.example.amzoodmart.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -69,6 +71,7 @@ public class DetailedActivity extends AppCompatActivity {
     PopularProductsModel popularProductsModel = null;
     //show All
     ShowAllModel showAllModel = null;
+    DiscountModel discountModel =null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
     static float ratingValue = 0;
@@ -135,6 +138,8 @@ public class DetailedActivity extends AppCompatActivity {
             popularProductsModel = (PopularProductsModel) obj;
         } else if (obj instanceof ShowAllModel) {
             showAllModel = (ShowAllModel) obj;
+        }else if(obj instanceof DiscountModel){
+            discountModel =(DiscountModel) obj;
         }
 
 //        Intent intent = getIntent();
@@ -297,6 +302,50 @@ public class DetailedActivity extends AppCompatActivity {
             }
 
         }
+        //discount
+        if (discountModel != null) {
+
+            type =   discountModel.getType();
+            name.setText(discountModel.getName());
+            ratingTextView.setText(String.valueOf(discountModel.getRating()));
+            description.setText(discountModel.getDescription());
+            ImgUrl = discountModel.getImg_url();
+            ratingValue = (float) +discountModel.getRating();
+            setRating(ratingValue);
+
+            deliveryTimeTextView.setText(discountModel.getDelivery_time());
+            delevaryCharge = discountModel.getDelivery();
+            if(delevaryCharge>0){
+                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+            }
+
+            returnPolicy = discountModel.getReturn1();
+            if(returnPolicy.equals("yes")){
+                returnHeadTextView.setVisibility(View.VISIBLE);
+                returnDataTextView.setVisibility(View.VISIBLE);
+            }
+
+            replacment =discountModel.getReplace();
+            if(replacment.equalsIgnoreCase("yes")){
+                replaceHeadTextView.setVisibility(View.VISIBLE);
+                replaceDataTextView.setVisibility(View.VISIBLE);
+            }
+            productPrice =discountModel.getPrice();
+            offerPercent =discountModel.getOffer();
+            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+            discountModel.setPrice(afterofferPrice);
+            if(offerPercent>0){
+                productOffer.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                productOffer.setText(offerPercent+"% off");
+                price.setText(""+productPrice);
+                offerPrice.setText("₹"+afterofferPrice);
+            }else {
+                offerPrice.setText("₹ " +afterofferPrice);
+            }
+
+        }
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -321,6 +370,10 @@ public class DetailedActivity extends AppCompatActivity {
                 }
                 if (showAllModel != null) {
                     intent.putExtra("item", showAllModel);
+                    intent.putExtra("Qty", totalQuantity);
+                }
+                if (discountModel != null) {
+                    intent.putExtra("item", discountModel);
                     intent.putExtra("Qty", totalQuantity);
                 }
                 startActivity(intent);
@@ -397,6 +450,11 @@ public class DetailedActivity extends AppCompatActivity {
                             // Handle exceptions or errors in retrieving the document
                         }
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                    }
                 });
 
 
@@ -426,6 +484,11 @@ public class DetailedActivity extends AppCompatActivity {
                         }
                     } else {
                         // Handle the task failure
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -485,6 +548,11 @@ public class DetailedActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         Toast.makeText(DetailedActivity.this, "Added To A Cart", Toast.LENGTH_SHORT).show();
                         finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
 
