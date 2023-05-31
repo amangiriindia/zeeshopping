@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
     LinearLayout linearLayout;
     Toolbar toolbar;
+    TextView orderEmtpyText;
     RecyclerView recyclerView;
     myOrderAdapter OrderAdapter;
     List<MyOrderModel> myOrderModelList;
@@ -61,6 +63,7 @@ public class MyOrderActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.layout_order_item);
         toolbar = findViewById(R.id.myOrder_toolbar);
         recyclerView = findViewById(R.id.myorder_rec);
+        orderEmtpyText =findViewById(R.id.empty_order_text);
 
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -92,7 +95,14 @@ public class MyOrderActivity extends AppCompatActivity {
                                 MyOrderModel myOrderModel = doc.toObject(MyOrderModel.class);
                                 myOrderModel.setDocumentId(documentId);
                                 myOrderModelList.add(myOrderModel);
-                                OrderAdapter.notifyDataSetChanged();
+
+                            }
+                            OrderAdapter.notifyDataSetChanged();
+                            // Check if the data set is empty and set the visibility of the empty text
+                            if (OrderAdapter.getItemCount() == 0) {
+                                orderEmtpyText.setVisibility(View.VISIBLE);
+                            } else {
+                                orderEmtpyText.setVisibility(View.GONE);
                             }
                         }
                     }

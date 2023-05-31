@@ -41,7 +41,7 @@ public class CartActivity extends AppCompatActivity {
     //int overAllTotalAmount;
     String cartProductName = "", cartProductImg;
     int carttotalPrice = 0, cartTotalQty = 0;
-    TextView overAllAmount;
+    TextView overAllAmount, emptyCartText;
     Toolbar toolbar;
     Button buyNow;
 
@@ -82,8 +82,14 @@ public class CartActivity extends AppCompatActivity {
 
 
         buyNow.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
+                if (carttotalPrice <= 0) {
+                    Toast.makeText(CartActivity.this, "Please Add Item On Cart", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(CartActivity.this, AddressActivity.class);
                 intent.putExtra("cartProductName", cartProductName);
                 intent.putExtra("cartProductImg", cartProductImg);
@@ -93,8 +99,8 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-
         recyclerView = findViewById(R.id.cart_rec);
+        emptyCartText = findViewById(R.id.empty_cart_text);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartModelsList = new ArrayList<>();
         cartAdapter = new MyCartAdapter(this, cartModelsList);
@@ -106,17 +112,19 @@ public class CartActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-
                                 String documentId = doc.getId();
-
                                 MyCartModel myCartModel = doc.toObject(MyCartModel.class);
                                 myCartModel.setDocumentId(documentId);
                                 cartModelsList.add(myCartModel);
-                                cartAdapter.notifyDataSetChanged();
+                            }
+                            cartAdapter.notifyDataSetChanged();
+                            // Check if the data set is empty and set the visibility of the empty text
+                            if (cartAdapter.getItemCount() == 0) {
+                                emptyCartText.setVisibility(View.VISIBLE);
+                            } else {
+                                emptyCartText.setVisibility(View.GONE);
                             }
                         }
-
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

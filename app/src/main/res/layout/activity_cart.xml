@@ -31,13 +31,29 @@
         app:layout_constraintWidth_percent=".9"
         tools:listitem="@layout/my_cart_item" />
 
+    <TextView
+        android:id="@+id/empty_cart_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Your Cart is Empty Please Add some item..."
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_cart_toolbar_menu"
+        app:layout_constraintWidth_percent=".9" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -74,8 +90,8 @@
             android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginRight="15dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -84,17 +100,16 @@
                 android:id="@+id/cart_buy_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_bg"
-                android:backgroundTint="@color/colorPrimary"
-                android:text=" Buy Now"
-                android:padding="12dp"
-                android:paddingEnd="30dp"
-                android:paddingStart="30dp"
-                android:textColor="@color/white"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="7dp"
-                android:textSize="18sp"
-                 />
+                android:background="@drawable/edit_text_bg"
+                android:backgroundTint="@color/colorPrimary"
+                android:padding="12dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text=" Buy Now"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
