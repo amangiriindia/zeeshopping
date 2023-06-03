@@ -6,5 +6,6 @@
        android:icon="@drawable/nav_search"
        android:id="@+id/all_search_menu"
        app:showAsAction="always"
+       android:iconTint="@android:color/white"
        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

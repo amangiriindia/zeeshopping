@@ -8,14 +8,16 @@
         android:id="@+id/menu_search"
         android:title="Search"
         android:icon="@drawable/nav_search"
-        app:showAsAction="always"
-        />
+        android:iconTint="@android:color/white"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_my_cart"
         android:title="My Cart"
         android:icon="@drawable/menu_shopping"
+        android:iconTint="@android:color/white"
         app:showAsAction="always"
         tools:ignore="HardcodedText" />
+
 
 </menu>
