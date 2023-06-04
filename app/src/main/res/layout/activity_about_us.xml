@@ -6,16 +6,21 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".activities.AboutUsActivity">
 
-<androidx.appcompat.widget.Toolbar
-    android:id="@+id/about_toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:title="About Us" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/about_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/white"
+        style="@style/ToolbarTitleStyle"
+        app:title="About Us" />
+
 
 <ScrollView
     android:layout_width="match_parent"

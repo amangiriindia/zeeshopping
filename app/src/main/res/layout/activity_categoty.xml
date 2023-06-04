@@ -18,6 +18,10 @@
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/white"
+        style="@style/ToolbarTitleStyle"
         />
 
     <androidx.recyclerview.widget.RecyclerView

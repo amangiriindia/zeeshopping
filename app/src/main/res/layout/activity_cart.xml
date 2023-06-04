@@ -16,6 +16,10 @@
         app:title="All Cart"
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/white"
+        style="@style/ToolbarTitleStyle"
         android:theme="?attr/actionBarTheme"/>
 
 

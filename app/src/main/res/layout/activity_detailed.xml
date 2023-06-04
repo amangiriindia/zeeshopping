@@ -21,7 +21,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailed_toolbar"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            />
 
 
 
@@ -34,7 +35,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="Product Detailed" />
+            app:title="Product Detailed"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            style="@style/ToolbarTitleStyle"
+            />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
@@ -220,8 +226,8 @@
 
                     <ImageView
                         android:id="@+id/add_item"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginRight="7dp"
                         android:src="@drawable/plusicon"
                         tools:ignore="RtlHardcoded" />
@@ -231,14 +237,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textSize="30sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         tools:ignore="HardcodedText" />
 
                     <ImageView
                         android:id="@+id/remove_item"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="7dp"
                         android:src="@drawable/iconminus"
                         tools:ignore="ContentDescription,RtlHardcoded" />
@@ -311,7 +317,7 @@
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
-            android:backgroundTint="@color/pink"
+            android:backgroundTint="@color/btnFirst"
             android:background="@drawable/edit_text_bg"
             android:padding="14dp"
             android:text="Add To Cart"
@@ -328,7 +334,7 @@
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="46dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/btnSecond"
             android:background="@drawable/edit_text_bg"
             android:padding="14dp"
             android:text="Buy Now"

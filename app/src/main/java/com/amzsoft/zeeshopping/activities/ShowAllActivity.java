@@ -2,11 +2,16 @@ package com.amzsoft.zeeshopping.activities;
 
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -141,7 +146,21 @@ public class ShowAllActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.all_search_menu);
+        changeMenuItemIconColor(item, Color.WHITE);
         SearchView searchView = (SearchView) item.getActionView();
+        // Get the search icon and set its tint mode to SRC_IN
+        ImageView searchIcon = searchView.findViewById(androidx.appcompat.R.id.search_button);
+        Drawable iconDrawable = searchIcon.getDrawable();
+        if (iconDrawable != null) {
+            iconDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        }
+        // Set the text color of the search view
+        int searchEditTextId = androidx.appcompat.R.id.search_src_text;
+        EditText searchEditText = searchView.findViewById(searchEditTextId);
+        if (searchEditText != null) {
+            searchEditText.setTextColor(Color.WHITE);
+            searchEditText.setHintTextColor(Color.WHITE);
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -157,6 +176,16 @@ public class ShowAllActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+    private void changeMenuItemIconColor(MenuItem menuItem, int colorResId) {
+        Drawable icon = menuItem.getIcon();
+        if (icon != null) {
+            icon.mutate();
+            icon.setColorFilter(colorResId, PorterDuff.Mode.SRC_ATOP);
+            menuItem.setIcon(icon);
+        }
+    }
+
 
     private void mySearch(String newText) {
         firestore.collection("ShowAll")
@@ -196,5 +225,6 @@ public class ShowAllActivity extends AppCompatActivity {
         unregisterReceiver(networkChangeListener);
         super.onStop();
     }
+
 
 }

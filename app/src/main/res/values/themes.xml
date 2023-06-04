@@ -25,5 +25,10 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@font/amethysta</item>
+    </style>
+
+
 
 </resources>

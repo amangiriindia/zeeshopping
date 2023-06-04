@@ -24,6 +24,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            style="@style/ToolbarTitleStyle"
             app:title="Ordered Detailed" />
 
         <LinearLayout
@@ -328,7 +332,7 @@
                 android:textColor="@color/black"
                 android:background="@drawable/edit_text_bg"
                 android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/pink"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Cancel Order" />
 
                <Button
@@ -339,7 +343,7 @@
                    android:layout_gravity="center"
                    android:textColor="@color/black"
                    android:background="@drawable/edit_text_bg"
-                   android:backgroundTint="@color/colorPrimary"
+                   android:backgroundTint="@color/btnFirst"
                    android:layout_marginBottom="15dp"
                    android:text="Return"
                    android:visibility="gone" />
@@ -352,7 +356,7 @@
                    android:layout_gravity="center"
                    android:textColor="@color/black"
                    android:background="@drawable/edit_text_bg"
-                   android:backgroundTint="@color/pink"
+                   android:backgroundTint="@color/btnSecond"
                    android:layout_marginBottom="15dp"
                    android:text="Replace"
                    android:visibility="gone" />

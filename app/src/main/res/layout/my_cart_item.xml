@@ -75,7 +75,7 @@
                           android:id="@+id/btn_remove"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:background="@color/pink"
+                          android:background="@color/btnSecond"
                           android:text="REMOVE"
                           android:layout_marginLeft="50dp"
                           android:textColor="@color/white"

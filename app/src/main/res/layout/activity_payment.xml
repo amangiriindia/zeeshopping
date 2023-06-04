@@ -14,7 +14,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Payment Detailed" />
+        app:title="Payment Detailed"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/white"
+        style="@style/ToolbarTitleStyle"
+        />
 
 
     <LinearLayout
@@ -150,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="50dp"
-            android:backgroundTint="@color/colorSecond"
+            android:backgroundTint="@color/btnFirst"
             android:text="cash on Delivery"
             android:textColor="@android:color/white"
             android:background="@drawable/edit_text_bg"
@@ -165,7 +170,7 @@
             android:layout_width="251dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:backgroundTint="@color/pink"
+            android:backgroundTint="@color/btnSecond"
             android:text="Pay Now"
             android:textColor="@android:color/white"
             android:background="@drawable/edit_text_bg"

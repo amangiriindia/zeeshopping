@@ -22,7 +22,12 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="Replace Product" />
+            app:title="Replace Product"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            style="@style/ToolbarTitleStyle"
+            />
 
         <!-- ScrollView wrapping the entire content -->
 
