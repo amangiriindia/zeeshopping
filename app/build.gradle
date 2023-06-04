@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.amzoodmart'
+    namespace 'com.amzsoft.zeeshopping'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.amzoodmart"
+        applicationId "com.amzsoft.zeeshopping"
         minSdk 21
         targetSdk 33
         versionCode 1
