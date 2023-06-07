@@ -1,6 +1,7 @@
 package com.amzsoft.zeeshopping.activities;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +27,12 @@ public class custmerSupportActivity extends AppCompatActivity {
     Button sendEmailBtn;
     TextView problem, massage;
     Toolbar toolbar;
+    ImageButton linkedinIcon,instagramIcon,youtubeIcon;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private static final String LINKEDIN_URL = "https://www.linkedin.com/company/zeeshopping/";
+    private static final String INSTAGRAM_URL = "https://instagram.com/zee___shopping";
+    private static final String YOUTUBE_URL = "https://youtube.com/@zeeshopping2014";
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,6 +53,9 @@ public class custmerSupportActivity extends AppCompatActivity {
         sendEmailBtn = findViewById(R.id.send_email_btn);
         problem = findViewById(R.id.problemEditText);
         massage = findViewById(R.id.messageEditText);
+        instagramIcon =findViewById(R.id.instagramIcon);
+        linkedinIcon =findViewById(R.id.linkedinIcon);
+        youtubeIcon =findViewById(R.id.youtubeIcon);
         sendEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,19 +71,57 @@ public class custmerSupportActivity extends AppCompatActivity {
                 sendEmail(subject, content, email);
             }
         });
+
+
+        // Assuming you have ImageView instances for the social media icons: linkedinIcon, instagramIcon, youtubeIcon
+
+        linkedinIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSocialMediaLink(LINKEDIN_URL);
+            }
+        });
+
+        instagramIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSocialMediaLink(INSTAGRAM_URL);
+            }
+        });
+
+        youtubeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSocialMediaLink(YOUTUBE_URL);
+            }
+        });
+
+// Method to open a social media link
+
+
     }
 
     private void sendEmail(String subject, String content, String email) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-       intent.setData(Uri.parse("mailto:" + email));
-        //intent.putExtra(Intent.EXTRA_EMAIL,email);
+        intent.putExtra(Intent.EXTRA_EMAIL,new String[]{email});
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, content);
-
+        intent.setType("message/rfc822");
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(intent, "Choose email client: "));
+           startActivity(Intent.createChooser(intent, "Choose email client:"));
         } else {
             Toast.makeText(custmerSupportActivity.this, "You have no mail sender application", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openSocialMediaLink(String url) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // Handle exception if no activity is found to handle the intent
+            Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
         }
     }
 

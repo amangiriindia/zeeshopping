@@ -368,7 +368,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             android:orientation="vertical"
-            android:background="#fae1dd"
+            android:background="@color/colorFregment1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buy_now">
@@ -391,17 +391,7 @@
 
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/newProducts_see_all"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_marginRight="8dp"-->
-<!--                    android:fontFamily="@font/amethysta"-->
-<!--                    android:text="See All"-->
-<!--                    android:textColor="@color/colorPrimary"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold" />-->
+
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
