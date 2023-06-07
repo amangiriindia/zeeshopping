@@ -33,9 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
-import com.amzsoft.zeeshopping.adapters.ShowAllAdapter;
 import com.amzsoft.zeeshopping.fragments.HomeFragment;
-import com.amzsoft.zeeshopping.models.ShowAllModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -51,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FirebaseAuth auth;
-    ShowAllModel model;
-    ShowAllAdapter adapter;
     GoogleSignInOptions googleSignInOptions;
     GoogleSignInClient googleSignInClient;
     NetworkChangeListener networkChangeListener =new NetworkChangeListener();

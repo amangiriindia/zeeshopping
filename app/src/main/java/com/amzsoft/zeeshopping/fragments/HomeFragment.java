@@ -226,7 +226,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        progressDialog.setTitle("Welcome To Amzood Mart");
+        progressDialog.setTitle("Welcome To Zee Shopping");
         progressDialog.setMessage("please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
