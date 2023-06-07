@@ -146,23 +146,6 @@ public class DetailedActivity extends AppCompatActivity {
             discountModel =(DiscountModel) obj;
         }
 
-//        Intent intent = getIntent();
-//        String slider_imgUrl = intent.getStringExtra("img_url");
-//        String slider_name = intent.getStringExtra("name");
-//        double slider_price = intent.getDoubleExtra("price", 0.0); // Provide a default value if needed
-//        String slider_productStatus = intent.getStringExtra("product_status"); // Provide a default value if needed
-//        double slider_rating = intent.getDoubleExtra("rating", 0.0); // Provide a default value if needed
-//        String slider_description = intent.getStringExtra("description");
-
-
-//        name.setText(slider_name);
-//        price.setText("₹ " + String.valueOf(slider_price));
-//        ratingTextView.setText(String.valueOf(slider_rating));
-//        description.setText(slider_description);
-//        ratingValue = (float) slider_rating;
-//        setRating(ratingValue);
-
-
 
         addToCart = findViewById(R.id.add_to_cart);
         buyNow = findViewById(R.id.buy_now);

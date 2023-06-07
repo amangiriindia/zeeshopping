@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/designlogin2"
+    android:background="@drawable/loginbackground"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,32 +97,30 @@ app:layout_constraintTop_toBottomOf="@+id/password"
 app:layout_constraintVertical_bias="0.213"
 app:layout_constraintWidth_percent=".4" />
 
-<TextView
-android:id="@+id/textView3"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Already Have An Account ?"
-android:textSize="17sp"
-    android:layout_marginTop="35dp"
-    android:layout_marginBottom="50dp"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="@+id/password"
-app:layout_constraintHorizontal_bias="0.606"
-app:layout_constraintStart_toStartOf="@+id/password"
-app:layout_constraintTop_toBottomOf="@+id/button"
-app:layout_constraintVertical_bias="0.2" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="50dp"
+            android:text="Already Have An Account ?"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:layout_constraintVertical_bias="0.2" />
 
-<TextView
-android:id="@+id/textView4"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:onClick="signin"
-android:text="Sign In"
-android:textColor="@color/pink"
-android:textSize="20sp"
-android:textStyle="bold"
-app:layout_constraintBottom_toBottomOf="@+id/textView3"
-app:layout_constraintStart_toEndOf="@+id/textView3" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="signin"
+            android:text="Sign In"
+            android:textColor="@color/pink"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintStart_toEndOf="@+id/textView3" />
 
 
 
