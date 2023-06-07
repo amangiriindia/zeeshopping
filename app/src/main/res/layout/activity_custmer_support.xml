@@ -99,8 +99,8 @@
 
                 <ImageButton
                     android:id="@+id/linkedinIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:src="@drawable/linkedin_icon"
@@ -108,19 +108,18 @@
 
                 <ImageButton
                     android:id="@+id/instagramIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/instagram_icon"
+                    android:src="@drawable/instragram_icon"
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/youtubeIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="20dp"
-                    android:layout_gravity="center"
                     android:src="@drawable/youtube_icon"
                     tools:ignore="ContentDescription" />
 
