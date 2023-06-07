@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Zee Shopping</string>
 
     <string name="first_slide">Choose Your Products</string>
@@ -36,8 +36,5 @@
         If you have any questions or concerns about our terms and conditions, please contact us.\n
     ]]>
 </string>
-
-
-
 
 </resources>

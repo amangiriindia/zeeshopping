@@ -51,7 +51,21 @@ tools:context=".activities.AboutUsActivity">
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome to our Zee Shopping  app! We strive to provide you with the best shopping experience and a wide range of high-quality products. Our app offers a user-friendly interface, secure payment options, and fast delivery to ensure your satisfaction. With a vast collection of products across various categories, you can easily find what you need, whether it's fashion, electronics, home decor, or more. We work closely with trusted sellers and brands to ensure that every product meets our quality standards. Enjoy hassle-free shopping and stay updated with the latest trends through our app. Thank you for choosing us as your preferred online shopping destination!"
+            android:text="Introducing Zee Shopping: Revolutionizing India's Grocery Landscape\n\n
+
+Zee Shopping, founded in 2023, is a pioneering force in transforming India's vast unorganized grocery sector through cutting-edge technology and innovation. Our mission is to empower every Indian with the opportunity to improve their lives, starting from the comfort of their own homes. By leveraging our proprietary technology stack, we provide consumers with easy access to a wide range of high-quality grocery and household products, conveniently delivered to their doorsteps within minutes.\n\n
+
+At the core of the Zee Shopping platform lies a convergence of three key components: consumers seeking everyday essentials, partner stores efficiently serving their needs, and manufacturers aiming to reach a vast nation of consumers. Our technology is specifically designed to cater to the growing urban population in India while also being poised to serve the next wave of over 100 million Indians who have yet to embrace online shopping.\n\n
+
+Leading this transformative venture is Talib Husain, the Founder and Chief Executive Officer of Zee Shopping. Talib brings visionary leadership to the company, driving product development and setting the strategic direction. His expertise stems from his previous role as Tool Technicians Expansion at Stanley, where he played a pivotal role in expanding the company's Tool Room. He discussed plans with Sunand to set up Zee Shopping. Talib holds a Diploma of Technology degree in Plastic Mold Technology from CIPET, Central Institute of Petrochemical Engineering Technology, Karnataka Mysore. He is always seen juggling a few books, enjoys playing basketball, listening to French music, and eating meals prepared by his mother.\n\n
+
+Alongside Talib, Aman Giri serves as the co-founder of Zee Shopping. Aman joined the team in 2023, leveraging his software development skills to build the foundation of the company's innovative software solutions.\n\n
+
+In creating the Zee Shopping e-commerce application, we prioritize convenience, quality, and choice for our customers. With our user-friendly interface, customers can effortlessly browse and select from an extensive catalog of grocery and household products. Through seamless integration with partner stores and manufacturers, we ensure that our customers have access to a diverse range of high-quality items.\n\n
+
+Our commitment to customer satisfaction extends beyond the virtual shopping experience. With our swift and efficient delivery network, we guarantee that products ordered through the Zee Shopping application arrive at customers' doorsteps within minutes. By providing this level of service, we aim to make everyday shopping more convenient and accessible for all.\n\n
+
+We take pride in fostering a culture of continuous improvement, embracing technology, and delivering exceptional value to our customers. With Zee Shopping, you can embark on a journey of healthier, better choices right from the comfort of your own home. Experience the revolution in Indian grocery shopping with Zee Shopping, where technology meets convenience.\n\n"
             android:textColor="@color/textColorPrimary"
             android:textSize="16sp" />
 
