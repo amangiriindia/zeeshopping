@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (id ==R.id.nav_support_items) {
                     startActivity(new Intent(MainActivity.this,custmerSupportActivity.class));
+                    Toast.makeText(MainActivity.this, "custmer support", Toast.LENGTH_SHORT).show();
 
                 } else if (id ==R.id.nav_about_items) {
                     startActivity(new Intent(MainActivity.this,AboutUsActivity.class));

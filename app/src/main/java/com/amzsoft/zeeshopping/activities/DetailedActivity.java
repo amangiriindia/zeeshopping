@@ -1,5 +1,6 @@
 package com.amzsoft.zeeshopping.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
@@ -53,7 +54,7 @@ import java.util.Objects;
 public class DetailedActivity extends AppCompatActivity {
 
     ImageView detailedImg;
-    TextView rating, name, description, price, quantity;
+    TextView rating, name, description, price, quantity,out_of_stock;
     Button addToCart, buyNow;
     ImageView addItems, removeItems;
     Toolbar toolbar;
@@ -86,11 +87,13 @@ public class DetailedActivity extends AppCompatActivity {
     RecyclerView similarProductRecyclarview;
     ShowAllAdapter showAllAdapter;
     List<ShowAllModel> showAllModelList;
+    boolean outOfStock =false;
 
 
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +117,7 @@ public class DetailedActivity extends AppCompatActivity {
         productOffer = findViewById(R.id.product_offer);
         offerPrice =findViewById(R.id.detailed_off_price);
         similarProductRecyclarview =findViewById(R.id.similar_product_rec);
+        out_of_stock =findViewById(R.id.out_of_stock);
 
 
 
@@ -209,6 +213,10 @@ public class DetailedActivity extends AppCompatActivity {
             }else {
                 offerPrice.setText("₹ " +afterofferPrice);
             }
+            outOfStock = newProductsModel.isOutOfStock();
+            if(outOfStock){
+                out_of_stock.setVisibility(View.VISIBLE);
+            }
 
 
 
@@ -255,6 +263,10 @@ public class DetailedActivity extends AppCompatActivity {
             }else {
                 offerPrice.setText("₹ " +afterofferPrice);
             }
+            outOfStock = popularProductsModel.isOutOfStock();
+            if(outOfStock){
+                out_of_stock.setVisibility(View.VISIBLE);
+            }
 
 
         }
@@ -299,6 +311,10 @@ public class DetailedActivity extends AppCompatActivity {
                 offerPrice.setText("₹"+afterofferPrice);
             }else {
                 offerPrice.setText("₹ " +afterofferPrice);
+            }
+            outOfStock = showAllModel.isOutOfStock();
+            if(outOfStock){
+                out_of_stock.setVisibility(View.VISIBLE);
             }
 
         }
@@ -359,6 +375,10 @@ public class DetailedActivity extends AppCompatActivity {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(outOfStock){
+                    Toast.makeText(DetailedActivity.this, "Product is out of stock", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(DetailedActivity.this, AddressActivity.class);
                 if (newProductsModel != null) {
                     intent.putExtra("item", newProductsModel);
@@ -525,6 +545,10 @@ public class DetailedActivity extends AppCompatActivity {
 
 
     private void addToCart() {
+        if(outOfStock){
+            Toast.makeText(DetailedActivity.this, "Product is out of stock", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String saveCurrentTime, saveCurrentDate;
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");

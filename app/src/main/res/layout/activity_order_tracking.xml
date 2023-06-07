@@ -329,10 +329,10 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:background="@drawable/edit_text_bg"
                 android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/btnSecond"
                 android:text="Cancel Order" />
 
                <Button
@@ -341,7 +341,7 @@
                    android:layout_height="wrap_content"
                    android:padding="20dp"
                    android:layout_gravity="center"
-                   android:textColor="@color/black"
+                   android:textColor="@color/white"
                    android:background="@drawable/edit_text_bg"
                    android:backgroundTint="@color/btnFirst"
                    android:layout_marginBottom="15dp"
@@ -354,7 +354,7 @@
                    android:layout_height="wrap_content"
                    android:padding="20dp"
                    android:layout_gravity="center"
-                   android:textColor="@color/black"
+                   android:textColor="@color/white"
                    android:background="@drawable/edit_text_bg"
                    android:backgroundTint="@color/btnSecond"
                    android:layout_marginBottom="15dp"

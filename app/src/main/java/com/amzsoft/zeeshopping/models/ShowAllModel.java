@@ -15,13 +15,13 @@ public class ShowAllModel implements Serializable {
     String delivery_time;
     String replace;
     String return1;
-
+    boolean outOfStock;
 
 
     public ShowAllModel() {
     }
 
-    public ShowAllModel(String description, String name, double rating, int price, int offer, String img_url, String type, int delivery, String delivery_time, String replace, String return1) {
+    public ShowAllModel(String description, String name, double rating, int price, int offer, String img_url, String type, int delivery, String delivery_time, String replace, String return1,boolean outOfStock ) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -33,6 +33,7 @@ public class ShowAllModel implements Serializable {
         this.delivery_time = delivery_time;
         this.replace = replace;
         this.return1 = return1;
+        this.outOfStock =outOfStock;
     }
 
     public int getOffer() {
@@ -126,5 +127,11 @@ public class ShowAllModel implements Serializable {
         this.type = type;
     }
 
+    public boolean isOutOfStock() {
+        return outOfStock;
+    }
 
+    public void setOutOfStock(boolean outOfStock) {
+        this.outOfStock = outOfStock;
+    }
 }

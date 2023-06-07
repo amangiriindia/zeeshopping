@@ -15,11 +15,12 @@ public class PopularProductsModel implements Serializable {
     String return1;
     int offer;
     String type;
+    boolean outOfStock;
 
     public PopularProductsModel() {
     }
 
-    public PopularProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer, String type) {
+    public PopularProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer, String type,boolean outOfStock) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -31,6 +32,7 @@ public class PopularProductsModel implements Serializable {
         this.return1 = return1;
         this.offer = offer;
         this.type = type;
+        this.outOfStock =outOfStock;
     }
 
     public String getType() {
@@ -122,5 +124,13 @@ public class PopularProductsModel implements Serializable {
 
     public void setImg_url(String img_url) {
         this.img_url = img_url;
+    }
+
+    public boolean isOutOfStock() {
+        return outOfStock;
+    }
+
+    public void setOutOfStock(boolean outOfStock) {
+        this.outOfStock = outOfStock;
     }
 }

@@ -186,6 +186,20 @@
                 </LinearLayout>
 
 
+                    <TextView
+                        android:id="@+id/out_of_stock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Out of Stock"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:textColor="@color/pink"
+                        android:textStyle="bold"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:fontFamily="@font/amethysta"
+                        android:visibility="gone" />
 
 
 
