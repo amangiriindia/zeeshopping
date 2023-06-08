@@ -63,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Order date"
+                        android:textColor="@color/textcolorSecond"
                         android:textSize="18sp"
                         android:layout_margin="2dp"/>
 
@@ -70,18 +71,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Order #"
+                        android:textColor="@color/textcolorSecond"
                         android:textSize="18sp"
                         android:layout_margin="2dp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Order Status"
+                        android:textColor="@color/textcolorSecond"
                         android:textSize="18sp"
                         android:layout_margin="2dp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Order total"
+                        android:textColor="@color/textcolorSecond"
                         android:textSize="18sp"
                         android:layout_margin="2dp"/>
                 </LinearLayout>
@@ -96,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="20-mar-2023"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColorPrimary"
                         android:layout_margin="2dp"/>
 
                     <TextView
@@ -113,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:text="ordered"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
                         android:layout_margin="2dp"
                         />
@@ -178,7 +182,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp">
 
                         <TextView
                             android:id="@+id/order_name"
@@ -188,7 +193,7 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_margin="5dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColorPrimary"
                             />
 
                         <LinearLayout
@@ -202,6 +207,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Price :   "
                                 android:textStyle="normal"
+                                android:textColor="@color/textcolorSecond"
                                 android:textSize="16dp"
                                 />
 
@@ -210,6 +216,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="4555.6"
+                                android:textColor="@color/textcolorSecond"
                                 android:textSize="16sp"
                                 />
 
@@ -225,6 +232,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Qty :  "
                                 android:textStyle="normal"
+                                android:textColor="@color/textcolorSecond"
                                 android:textSize="16dp"
                                 />
 
@@ -233,6 +241,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="5"
+                                android:textColor="@color/textcolorSecond"
                                 android:textSize="16sp"
                                 android:textAllCaps="true"
                                 />
@@ -282,6 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cash On Delevary"
+                    android:textColor="@color/textcolorSecond"
                     android:textSize="16sp"
                     />
 
@@ -307,7 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lucknow uttar Pradesh"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textcolorSecond"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     />
@@ -332,7 +342,7 @@
                 android:textColor="@color/white"
                 android:background="@drawable/edit_text_bg"
                 android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/btnSecond"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Cancel Order" />
 
                <Button

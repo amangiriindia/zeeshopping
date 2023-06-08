@@ -59,12 +59,14 @@
                 android:layout_margin="5dp"
                 android:text="Name "
                 android:textSize="18sp"
+                android:textColor="@color/textcolorSecond"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/pro_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textcolorSecond"
                 android:layout_margin="5dp"
                 android:text="name" />
 
@@ -82,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Shoping"
+                android:textColor="@color/textcolorSecond"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText" />
 
@@ -89,6 +92,7 @@
                 android:id="@+id/sub_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textcolorSecond"
                 android:layout_margin="5dp"
                 android:text="₹ 00" />
 
@@ -104,6 +108,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textColor="@color/textcolorSecond"
                 android:text="Delivery"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText" />
@@ -112,6 +117,7 @@
                 android:id="@+id/delivary_Charge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textcolorSecond"
                 android:layout_margin="5dp"
                 android:text="Free" />
 
@@ -137,12 +143,14 @@
                 android:layout_margin="5dp"
                 android:text="Total"
                 android:textSize="18sp"
+                android:textColor="@color/textColorPrimary"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/total_amt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
                 android:layout_margin="5dp"
                 android:text="₹ 00" />
 

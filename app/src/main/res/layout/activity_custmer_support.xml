@@ -80,21 +80,42 @@
                 android:textColor="@color/white" />
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zeeshopping: Your #1 Instant Delivery Service in India\n\n
+
+Experience the convenience of shopping on the go and receiving your items within minutes. At Zeeshopping, we offer a wide range of products that cater to all your daily needs. From groceries, fresh fruits, and vegetables to cakes, bakery items, meats, seafood, cosmetics, mobiles, accessories, electronics, baby care products, and more, we have it all. Our goal is to ensure the fastest and safest delivery right to your doorstep.\n\n
+
+With Zeeshopping, you only need a single app to fulfill all your daily requirements. Simply tap on our user-friendly interface and order thousands of products with ease. Whether it's essential items like milk, eggs, bread, cooking oil, ghee, atta, rice, spices, or indulgent treats like chocolates, chips, biscuits, and Maggi, we have you covered. You can also find a wide range of personal care items such as shampoos, soaps, body wash, as well as pet food, diapers, electronics, organic and gourmet products, and much more. We partner with local neighborhood stores to bring you a diverse selection of products.\n\n
+
+At Zeeshopping, we pride ourselves on our instant delivery magic. We aim to provide the fastest and most efficient service possible. Currently, we serve the following cities:\n\n
+
+Siddharth Nagar,
+Dumariya Ganj,
+Basti,
+Bhanpur Hallaur,
+Bansi\n\n
+Experience the convenience of Zeeshopping today and enjoy instant delivery right at your fingertips.\n\n"
+                android:textColor="@color/textcolorSecond"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:textSize="16sp"/>
+
+            <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="15dp"
                 android:text="Our social media"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 android:gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="50dp">
 
                 <ImageButton
@@ -124,6 +145,7 @@
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 

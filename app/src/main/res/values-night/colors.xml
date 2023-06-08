@@ -16,5 +16,6 @@
     <color name="btnSecond">#FF8E00</color>
     <color name="btnFirst">#FFB72B</color>
     <color name="colorFregment1">#bcf7d4</color>
+    <color name="textcolorSecond">#454545</color>
 
 </resources>

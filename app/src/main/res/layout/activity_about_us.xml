@@ -66,7 +66,7 @@ In creating the Zee Shopping e-commerce application, we prioritize convenience, 
 Our commitment to customer satisfaction extends beyond the virtual shopping experience. With our swift and efficient delivery network, we guarantee that products ordered through the Zee Shopping application arrive at customers' doorsteps within minutes. By providing this level of service, we aim to make everyday shopping more convenient and accessible for all.\n\n
 
 We take pride in fostering a culture of continuous improvement, embracing technology, and delivering exceptional value to our customers. With Zee Shopping, you can embark on a journey of healthier, better choices right from the comfort of your own home. Experience the revolution in Indian grocery shopping with Zee Shopping, where technology meets convenience.\n\n"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/textcolorSecond"
             android:textSize="16sp" />
 
         <!-- Terms and Conditions content -->
@@ -84,8 +84,9 @@ We take pride in fostering a culture of continuous improvement, embracing techno
             android:id="@+id/textViewTermsConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:text="@string/terms_conditions_content"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/textcolorSecond"
             android:textSize="16sp" />
 
     </LinearLayout>

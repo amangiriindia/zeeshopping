@@ -137,7 +137,6 @@
                         android:id="@+id/detailed_off_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/amethysta"
                         android:text="₹200"
                         android:textColor="@color/textColorPrimary"
                         android:textStyle="bold"
@@ -165,8 +164,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Free Delivery"
+                        android:textColor="@color/textcolorSecond"
                         android:textSize="16sp"
-                        android:fontFamily="@font/amethysta"
                         android:padding="2dp"
                         android:visibility="visible" />
 
@@ -177,7 +176,6 @@
                             android:text="With in 24 hours"
                             android:textSize="14sp"
                             android:textColor="@color/textColorPrimary"
-                            android:fontFamily="@font/amethysta"
                             android:paddingStart="8dp"
                             android:visibility="visible" />
 
@@ -214,10 +212,12 @@
 
                 <TextView
                     android:id="@+id/detailed_desc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/amethysta"
+                    android:gravity="start"
+                    android:textSize="15sp"
+                    android:textColor="@color/textcolorSecond"
                     android:text="Source quality materials: Use high-quality materials for your products that are durable and long-lasting. Make sure your suppliers are reputable and provide consistent quality.Conduct quality checks: Inspect your products thoroughly to ensure that they meet your quality standards before they are shipped to customers. This can include visual inspections, functional testing, and other quality checks."
                     tools:ignore="HardcodedText" />
 
@@ -275,7 +275,7 @@
                         android:layout_height="wrap_content"
                         android:text="Available : "
                         android:textSize="16sp"
-                        android:fontFamily="@font/amethysta"
+                        android:textColor="@color/textcolorSecond"
                         android:padding="2dp"
                         android:visibility="gone" />
 
@@ -286,7 +286,6 @@
                         android:text="Return"
                         android:textSize="14sp"
                         android:textColor="@color/textColorPrimary"
-                        android:fontFamily="@font/amethysta"
                         android:paddingStart="8dp"
                         android:visibility="gone" />
 
@@ -305,7 +304,7 @@
                         android:layout_height="wrap_content"
                         android:text="Available : "
                         android:textSize="16sp"
-                        android:fontFamily="@font/amethysta"
+                        android:textColor="@color/textcolorSecond"
                         android:padding="2dp"
                         android:visibility="gone" />
 
@@ -316,7 +315,6 @@
                         android:text="Replacement"
                         android:textSize="14sp"
                         android:textColor="@color/textColorPrimary"
-                        android:fontFamily="@font/amethysta"
                         android:paddingStart="8dp"
                         android:visibility="gone" />
 

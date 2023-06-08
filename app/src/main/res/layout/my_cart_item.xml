@@ -34,7 +34,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginStart="16dp"
                       android:text="Item Name"
-                      android:textColor="@color/black"
+                      android:textColor="@color/textColorPrimary"
                       android:textSize="18sp"
                       android:textStyle="bold"
                      />
@@ -45,7 +45,7 @@
                       android:layout_marginStart="16dp"
                       android:layout_marginTop="8dp"
                       android:text="Item Price"
-                      android:textColor="@color/black"
+                      android:textColor="@color/textcolorSecond"
                       android:textSize="16sp"
                       android:layout_width="match_parent" />
                   <LinearLayout
@@ -58,7 +58,7 @@
                           android:layout_width="70dp"
                           android:layout_height="wrap_content"
                           android:text="    QTY:"
-                          android:textColor="@color/black"
+                          android:textColor="@color/textcolorSecond"
                           android:textSize="18sp"
                           tools:ignore="HardcodedText" />
 
@@ -67,7 +67,7 @@
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="1"
-                          android:textColor="@color/black"
+                          android:textColor="@color/textcolorSecond"
                           android:textSize="18sp"
                           tools:ignore="HardcodedText" />
 

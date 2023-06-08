@@ -414,8 +414,8 @@ public class DetailedActivity extends AppCompatActivity {
         if (ImgUrl != "") {
             slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
         }
-        slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
+//        slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
+//        slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
         final String[] documentId = {""};
 
         CollectionReference collectionRef = firestore.collection("ShowAll");
@@ -451,6 +451,7 @@ public class DetailedActivity extends AppCompatActivity {
                             }
                         } else {
                             // Handle exceptions or errors in retrieving the document
+                            Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
