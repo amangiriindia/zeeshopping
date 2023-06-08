@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amzsoft.zeeshopping.R;
-import com.amzsoft.zeeshopping.Users;
+import com.amzsoft.zeeshopping.Utility.Users;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

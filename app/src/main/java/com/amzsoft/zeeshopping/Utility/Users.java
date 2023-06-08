@@ -1,4 +1,4 @@
-package com.amzsoft.zeeshopping;
+package com.amzsoft.zeeshopping.Utility;
 
 public class Users {
     String userId ,username,profile;
