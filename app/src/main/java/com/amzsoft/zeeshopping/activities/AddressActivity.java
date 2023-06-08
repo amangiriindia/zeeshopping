@@ -153,6 +153,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     returnPolicy = newProductsModel.getReturn1();
                     replacement = newProductsModel.getReplace();
                     delevryTime = newProductsModel.getDelivery_time();
+                    amount =amount*qty;
 
                 } else if (obj instanceof PopularProductsModel) {
                     PopularProductsModel popularProductsModel = (PopularProductsModel) obj;
@@ -165,6 +166,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     returnPolicy = popularProductsModel.getReturn1();
                     replacement = popularProductsModel.getReplace();
                     delevryTime = popularProductsModel.getDelivery_time();
+                    amount =amount*qty;
                 } else if (obj instanceof ShowAllModel) {
                     ShowAllModel showAllModel = (ShowAllModel) obj;
                     amount = showAllModel.getPrice();
@@ -176,6 +178,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     returnPolicy = showAllModel.getReturn1();
                     replacement = showAllModel.getReplace();
                     delevryTime = showAllModel.getDelivery_time();
+                    amount =amount*qty;
                 }else if (obj instanceof DiscountModel) {
                         DiscountModel discountModel = (DiscountModel) obj;
                         amount = discountModel.getPrice();
@@ -187,6 +190,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                         returnPolicy = discountModel.getReturn1();
                         replacement = discountModel.getReplace();
                         delevryTime = discountModel.getDelivery_time();
+                        amount =amount*qty;
                 } else {
                     productName = cartProductName;
                     amount = cartProductPrice;
@@ -196,7 +200,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
                 if (flagAddress) {
                     Intent intent = new Intent(AddressActivity.this, PaymentActivity.class);
-                    intent.putExtra("amount", amount*productQty);
+                    intent.putExtra("amount", amount);
                     intent.putExtra("productName", productName);
                     intent.putExtra("productImgUrl", productImgUrl);
                     intent.putExtra("productDesc", productDesc);
