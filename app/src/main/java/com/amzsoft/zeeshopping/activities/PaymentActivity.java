@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
@@ -61,6 +62,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
+
+        
+        
 
         toolbar = findViewById(R.id.payment_toolbar);
         setSupportActionBar(toolbar);
@@ -140,6 +145,51 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
+
+
+        final HashMap<String, Object> orderMap = new HashMap<>();
+        orderMap.put("productName", productName);
+        orderMap.put("productPrice", productAmount + "");
+        orderMap.put("productQuantity", productQty + "");
+        orderMap.put("productDesc", productDesc);
+        orderMap.put("productImgUrl", productImgUrl);
+        orderMap.put("Method", "Online Payment Mode");
+        orderMap.put("orderStatus", "Ordered");
+        orderMap.put("userName", userName);
+        orderMap.put("userNumber", userNumber);
+        orderMap.put("userDistict", userDistict);
+        orderMap.put("userAddress_detailed", userAddDeatail);
+        orderMap.put("orderId", orderId);
+        orderMap.put("userCity", userCity);
+        orderMap.put("userCode", userCode);
+        orderMap.put("currentTime", saveCurrentTime);
+        orderMap.put("currentDate", saveCurrentDate);
+        orderMap.put("delivaryTime", delivaryTime);
+        orderMap.put("delivaryCharge", delevaryCharge);
+        orderMap.put("returnData", returnData);
+        orderMap.put("replaceData", replaceData);
+        orderMap.put("flag", false);
+        orderMap.put("rnFlag", false);
+
+        firestore.collection("orderDetailedUpdate")
+                .document(orderId)
+                .set(orderMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Data added successfully
+                            // Handle the success scenario here
+                        } else {
+                            // Failed to add data
+                            // Handle the failure scenario here
+                        }
+                    }
+                });
+
+
+
+
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("productName", productName);
         cartMap.put("productPrice", productAmount + "");
@@ -184,6 +234,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
     private void comfirmOrderCod() {
+
         String saveCurrentTime, saveCurrentDate;
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
@@ -191,6 +242,48 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime = currentTime.format(calForDate.getTime());
+
+        final HashMap<String, Object> orderMap = new HashMap<>();
+        orderMap.put("productName", productName);
+        orderMap.put("productPrice", productAmount + "");
+        orderMap.put("productDesc", productDesc);
+        orderMap.put("productQuantity", productQty + "");
+        orderMap.put("productImgUrl", productImgUrl);
+        orderMap.put("Method", "Cash On Delevery");
+        orderMap.put("orderStatus", "Ordered");
+        orderMap.put("userName", userName);
+        orderMap.put("userNumber", userNumber);
+        orderMap.put("userDistict", userDistict);
+        orderMap.put("userAddress_detailed", userAddDeatail);
+        orderMap.put("orderId", orderId);
+        orderMap.put("userCity", userCity);
+        orderMap.put("userCode", userCode);
+        orderMap.put("currentTime", saveCurrentTime);
+        orderMap.put("currentDate", saveCurrentDate);
+        orderMap.put("delivaryTime",delivaryTime);
+        orderMap.put("delivaryCharge",delevaryCharge);
+        orderMap.put("returnData",returnData);
+        orderMap.put("replaceData",replaceData);
+        orderMap.put("flag",false);
+        orderMap.put("rnFlag",false);
+        firestore.collection("orderDetailedUpdate")
+                .document(orderId)
+                .set(orderMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Success
+                            // startActivity(new Intent(PaymentActivity.this, OrderConfirmActivity.class));
+                            //  finish();
+                        } else {
+                            // Failure
+                            Toast.makeText(PaymentActivity.this, "Restart or Please wait...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
 
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("productName", productName);
@@ -232,24 +325,58 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         Toast.makeText(PaymentActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+
     }
 
-    public static String randomOrderId() {
-        String s = "";
+//    public static String randomOrderId() {
+//
+//
+//        String s = "";
+//        Random random = new Random();
+//
+//
+//        for (int i = 0; i < 3; i++) {
+//            int randomNumber = random.nextInt(9);
+//            s += randomNumber;
+//        }
+//        s += "-";
+//        for (int i = 0; i < 3; i++) {
+//            int randomNumber = random.nextInt(9);
+//            s += randomNumber;
+//        }
+//        s += "-";
+//        for (int i = 0; i < 3; i++) {
+//            int randomNumber = random.nextInt(9);
+//            s += randomNumber;
+//        }
+//        s += "-";
+//        for (int i = 0; i < 3; i++) {
+//            int randomNumber = random.nextInt(9);
+//            s += randomNumber;
+//        }
+//        return s;
+//    }
+
+    public static String randomOrderId () {
+        String orderId = "";
         Random random = new Random();
-        s += "ZEE";
-        s += "-";
-        for (int i = 0; i < 3; i++) {
-            int randomNumber = random.nextInt(9);
-            s += randomNumber;
-        }
-        s += "-";
-        for (int i = 0; i < 4; i++) {
-            int randomNumber = random.nextInt(9);
-            s += randomNumber;
-        }
-        return s;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSSS");
+        String timestamp = dateFormat.format(new Date());
+
+        // Generate a random number with enough digits to fit the remaining length
+        int remainingLength = 16 - timestamp.length();
+        int maxRandomNumber = (int) Math.pow(10, remainingLength) - 1;
+        int randomNumber = random.nextInt(maxRandomNumber);
+
+        String randomDigits = String.format("%0" + remainingLength + "d", randomNumber);
+
+        orderId = timestamp + randomDigits;
+
+        return orderId;
     }
+
 
     private void paymentMethod(double amount) {
         Checkout checkout = new Checkout();
@@ -261,13 +388,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             //Set Company Name
             options.put("name", "Zee Shopping");
             //Ref no
-            options.put("description", productName);
+            options.put("description", productName +" , orderId  :  "+orderId);
             //Image to be display
             options.put("image", productImgUrl);
-            //options.put("order_id", orderId);
+            options.put("orderId",orderId+"");
             // Currency type
             options.put("currency", "INR");
-            //double total = Double.parseDouble(mAmountText.getText().toString());
             //amount
             amount = amount * 100;
             options.put("amount", amount);
@@ -276,7 +402,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             preFill.put("name", userName);
             //contact
             preFill.put("contact", userNumber);
-            preFill.put("orderId", orderId);
 
             options.put("prefill", preFill);
 
@@ -289,14 +414,18 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     @Override
     public void onPaymentSuccess(String s) {
-        comfirmOrderOnline();
 
+        comfirmOrderOnline();
     }
+
 
     @Override
     public void onPaymentError(int i, String s) {
         Toast.makeText(this, "Payment Cancel", Toast.LENGTH_SHORT).show();
     }
+
+
+
 
     @Override
     protected void onStart() {

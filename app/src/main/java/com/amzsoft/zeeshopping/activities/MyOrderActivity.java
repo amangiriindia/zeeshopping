@@ -64,7 +64,6 @@ public class MyOrderActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.myOrder_toolbar);
         recyclerView = findViewById(R.id.myorder_rec);
         orderEmtpyText =findViewById(R.id.empty_order_text);
-
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -91,7 +90,6 @@ public class MyOrderActivity extends AppCompatActivity {
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
 
                                 String documentId = doc.getId();
-
                                 MyOrderModel myOrderModel = doc.toObject(MyOrderModel.class);
                                 myOrderModel.setDocumentId(documentId);
                                 myOrderModelList.add(myOrderModel);
@@ -122,21 +120,6 @@ public class MyOrderActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MyOrderActivity.this, OrderTrackingActivity.class);
                 i.putExtra("orderId", intent.getStringExtra("orderId"));
-                i.putExtra("orderName", intent.getStringExtra("orderName"));
-                i.putExtra("orderPrice", intent.getStringExtra("orderPrice"));
-                i.putExtra("orderQty", intent.getStringExtra("orderQty"));
-                i.putExtra("orderPayment", intent.getStringExtra("orderPayment"));
-                i.putExtra("orderStatus", intent.getStringExtra("orderStatus"));
-                i.putExtra("orderDate", intent.getStringExtra("orderDate"));
-                i.putExtra("orderImgUrl", intent.getStringExtra("orderImgUrl"));
-                i.putExtra("orderAddress", intent.getStringExtra("orderAddress"));
-                i.putExtra("documentId", intent.getStringExtra("documentId"));
-                i.putExtra("returnData",intent.getStringExtra("returnData"));
-                i.putExtra("replaceData",intent.getStringExtra("replaceData"));
-                i.putExtra("deliveryTime",intent.getStringExtra("deliveryTime"));
-                i.putExtra("delivaryPrice",intent.getIntExtra("delivaryPrice",0));
-
-
                 startActivity(i);
 
             }

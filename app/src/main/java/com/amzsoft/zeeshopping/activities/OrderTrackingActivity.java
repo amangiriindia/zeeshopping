@@ -18,13 +18,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn_cancel,btn_replace,btn_return;
     ImageView imageView;
-    String doucmentId = "",returnData ="",replaceData="",orderStatus ="",orderId="",productName ="",producturl,prductPrice;
+   String doucmentId ,returnData ="",replaceData="",orderStatus ="",orderId,productName ="",producturl,prductPrice,orderQty ="",orderPayment="",orderDate="",orderAddress="";
     TextView order_name, order_id, order_price, order_qty, order_payment, order_status, order_date, order_address, order_total;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
@@ -50,6 +50,10 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        orderId=getIntent().getStringExtra("orderId");
+
+
+
 
         order_id = findViewById(R.id.order_id);
         order_name = findViewById(R.id.order_name);
@@ -76,9 +80,69 @@ public class OrderTrackingActivity extends AppCompatActivity {
             }
         });
 
-        orderStatus =getIntent().getStringExtra("orderStatus");
-        replaceData =getIntent().getStringExtra("returnData");
-        returnData =getIntent().getStringExtra("replaceData");
+
+
+
+        firestore.collection("orderDetailedUpdate")
+                .document(orderId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Document exists, retrieve the data
+                                productName = document.getString("productName");
+                                prductPrice = document.getString("productPrice");
+                                orderQty = document.getString("productQuantity");
+                                producturl = document.getString("productImgUrl");
+                                orderPayment = document.getString("Method") + "";
+                                orderStatus = document.getString("orderStatus");
+                                orderAddress += document.getString("userName") + ", ";
+                                orderAddress += document.getString("userNumber") + ", ";
+                                orderAddress += document.getString("userDistict") + ", ";
+                                orderAddress += document.getString("userCity") + ", ";
+                                orderAddress += document.getString("userCode") + ", ";
+                                orderAddress += document.getString("userAddress_detailed") + ".";
+                                orderDate = document.getString("currentDate");
+                                returnData = document.getString("returnData");
+                                replaceData = document.getString("replaceData");
+
+                                // Use the retrieved data as needed
+                                // ...
+
+                                // Set the values to the corresponding views
+                                String imgUrl = producturl;
+                                order_id.setText(orderId);
+                                order_total.setText("₹ " + prductPrice);
+                                order_name.setText(productName);
+                                order_price.setText("₹ " + prductPrice);
+                                order_qty.setText(orderQty);
+                                order_payment.setText(orderPayment);
+                                order_status.setText(orderStatus);
+                                order_date.setText(orderDate);
+                                order_address.setText(orderAddress);
+                                Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
+
+                            } else {
+                                // Document doesn't exist
+                                // Handle the scenario when the document doesn't exist
+                            }
+                        } else {
+                            // Error getting the document
+                            // Handle the error scenario
+                        }
+                    }
+                });
+
+
+
+
+
+
+        doucmentId = getIntent().getStringExtra("documentId");
+
 
         if(orderStatus.equals("Delivered")){
             btn_cancel.setVisibility(View.GONE);
@@ -90,29 +154,13 @@ public class OrderTrackingActivity extends AppCompatActivity {
             }
         }
 
-        producturl =getIntent().getStringExtra("orderImgUrl");
-        productName =getIntent().getStringExtra("orderName");
-        orderId =getIntent().getStringExtra("orderId");
-        prductPrice =getIntent().getStringExtra("orderPrice");
 
-        String imgUrl = producturl;
-        order_id.setText(orderId);
-        order_total.setText("₹ " + prductPrice);
-        order_name.setText(productName);
-        order_price.setText("₹ " + prductPrice);
-        order_qty.setText(getIntent().getStringExtra("orderQty"));
-        order_payment.setText(getIntent().getStringExtra("orderPayment"));
-        order_status.setText(orderStatus);
-        order_date.setText(getIntent().getStringExtra("orderDate"));
-        order_address.setText(getIntent().getStringExtra("orderAddress"));
-        Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
-        doucmentId = getIntent().getStringExtra("documentId");
 
         btn_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(OrderTrackingActivity.this,ReturnActivity.class);
-                intent.putExtra("OrderId",orderId);
+               // intent.putExtra("OrderId",orderId);
                 intent.putExtra("productPrice",prductPrice);
                 intent.putExtra("productUrl",producturl);
                 intent.putExtra("productName",productName);
@@ -123,7 +171,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(OrderTrackingActivity.this,ReplaceActivity.class);
-                intent.putExtra("OrderId",orderId);
+         //       intent.putExtra("OrderId",orderId);
                 intent.putExtra("productPrice",prductPrice);
                 intent.putExtra("productUrl",producturl);
                 intent.putExtra("productName",productName);
@@ -143,25 +191,23 @@ public class OrderTrackingActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        // Perform delete operation or other actions here
-                        DocumentReference documentRef = firestore.collection("OrderDetail")
-                                .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                                .collection("User")
-                                .document(doucmentId); // Replace 'documentId' with the ID of the specific document you want to update
 
+                        firestore.collection("orderDetailedUpdate")
+                                .document(orderId)
+                                .update("orderStatus", "cancel")
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Update successful
+                                            Toast.makeText(OrderTrackingActivity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
+                                            order_status.setText("cancel");
+                                            finish();
+                                        } else {
+                                            // Update failed
+                                            Toast.makeText(OrderTrackingActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
 
-                        documentRef.update("orderStatus", "cancel")
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(OrderTrackingActivity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
-                                        order_status.setText("cancel");
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(OrderTrackingActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                     }
