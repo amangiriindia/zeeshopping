@@ -35,14 +35,14 @@ public class OrderTrackingActivity extends AppCompatActivity {
     Button btn_cancel,btn_replace,btn_return;
     ImageView imageView;
    String doucmentId ,returnData ="",replaceData="",orderStatus ="",orderId,productName ="",producturl,prductPrice,orderQty ="",orderPayment="",orderDate="",orderAddress="";
-    TextView order_name, order_id, order_price, order_qty, order_payment, order_status, order_date, order_address, order_total;
+    TextView order_name, order_id, order_price, order_qty, order_payment, order_status, order_date, order_address, order_total,order_delivery_time,order_time_level;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +68,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
         order_total = findViewById(R.id.order_total);
         btn_return =findViewById(R.id.order_return_btn);
         btn_replace =findViewById(R.id.order_replace_btn);
+        order_delivery_time =findViewById(R.id.order_delivery_time);
+        order_time_level = findViewById(R.id.order_time_label);
 
         //Toolbar
         toolbar = findViewById(R.id.order_detailed_toolbar);
@@ -106,6 +108,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
                                 orderAddress += document.getString("userCode") + ", ";
                                 orderAddress += document.getString("userAddress_detailed") + ".";
                                 orderDate = document.getString("currentDate");
+                                String orderDeleiveryTime = document.getString("delivery_time");
                                 returnData = document.getString("returnData");
                                 replaceData = document.getString("replaceData");
 
@@ -123,10 +126,13 @@ public class OrderTrackingActivity extends AppCompatActivity {
                                 order_status.setText(orderStatus);
                                 order_date.setText(orderDate);
                                 order_address.setText(orderAddress);
+                                order_delivery_time.setText(orderDeleiveryTime);
                                 Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
 
                                 if(orderStatus.equals("Delivered")){
                                     btn_cancel.setVisibility(View.GONE);
+                                    order_delivery_time.setVisibility(View.GONE);
+                                    order_time_level.setVisibility(View.GONE);
                                     if(replaceData.equals("yes")){
                                         btn_replace.setVisibility(View.VISIBLE);
                                     }
