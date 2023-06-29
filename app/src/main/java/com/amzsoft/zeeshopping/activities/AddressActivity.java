@@ -196,6 +196,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     amount = cartProductPrice;
                     productImgUrl = cartProductImgUrl;
                     productQty = cartProductQty;
+                    delevryTime = "With in 1 Day";
+                    delivaryChage = 0;
                 }
 
                 if (flagAddress) {

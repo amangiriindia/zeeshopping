@@ -120,7 +120,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         for (MyCartModel cartModel : list) {
             totalAmount += cartModel.getTotalPrice();
             totalQty += cartModel.getTotalQuantity();
-            pname += cartModel.getProductName() + ", ";
+            pname += cartModel.getProductName() + " - "+cartModel.getTotalQuantity()+",  ";
         }
 
         if (list.size() > 0) {
