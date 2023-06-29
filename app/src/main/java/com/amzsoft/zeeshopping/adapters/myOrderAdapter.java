@@ -48,32 +48,10 @@ public class myOrderAdapter extends RecyclerView.Adapter<myOrderAdapter.ViewHold
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String address ="";
-                address +=myOrderModelList.get(position).getUserName() +", "
-                        + myOrderModelList.get(position).getUserCity() +", "
-                        +myOrderModelList.get(position).getUserCode()+", "
-                        +myOrderModelList.get(position).getUserDistict() +", "
-                        +myOrderModelList.get(position).getUserAddress_detailed() +", "
-                        +myOrderModelList.get(position).getUserNumber() +". ";
+
 
                 Intent intent =new Intent("MyTotalAmount");
                 intent.putExtra("orderId",myOrderModelList.get(position).getOrderId());
-                intent.putExtra("orderName",myOrderModelList.get(position).getProductName());
-                intent.putExtra("orderPrice",myOrderModelList.get(position).getProductPrice());
-                intent.putExtra("orderQty",myOrderModelList.get(position).getProductQuantity());
-                intent.putExtra("orderPayment",myOrderModelList.get(position).getMethod());
-                intent.putExtra("orderStatus",myOrderModelList.get(position).getOrderStatus());
-                intent.putExtra("orderDate",myOrderModelList.get(position).getCurrentDate());
-                intent.putExtra("orderImgUrl",myOrderModelList.get(position).getProductImgUrl());
-                intent.putExtra("documentId",myOrderModelList.get(position).getDocumentId());
-                intent.putExtra("orderAddress",address);
-                intent.putExtra("returnData",myOrderModelList.get(position).getReturnData());
-                intent.putExtra("replaceData",myOrderModelList.get(position).getReplaceData());
-                intent.putExtra("deliveryTime",myOrderModelList.get(position).getDelivaryTime());
-                intent.putExtra("delivaryPrice",myOrderModelList.get(position).getDelivaryCharge());
-
-
-
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }
         });

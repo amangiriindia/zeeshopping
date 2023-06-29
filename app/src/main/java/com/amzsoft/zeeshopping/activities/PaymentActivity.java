@@ -196,25 +196,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("productName", productName);
         cartMap.put("productPrice", productAmount + "");
         cartMap.put("productQuantity", productQty + "");
-        cartMap.put("productDesc", productDesc);
         cartMap.put("productImgUrl", productImgUrl);
         cartMap.put("Method", "Online Payment Mode");
         cartMap.put("orderStatus", "Ordered");
         cartMap.put("userName", userName);
         cartMap.put("userNumber", userNumber);
-        cartMap.put("userDistict", userDistict);
-        cartMap.put("userAddress_detailed", userAddDeatail);
         cartMap.put("orderId", orderId);
-        cartMap.put("userCity", userCity);
-        cartMap.put("userCode", userCode);
-        cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
-        cartMap.put("delivery_time",delivaryTime);
-        cartMap.put("delivery",delevaryCharge);
-        cartMap.put("returnData",returnData);
-        cartMap.put("replaceData",replaceData);
-        cartMap.put("flag",false);
-        cartMap.put("rnFlag",false);
 
 
 
@@ -290,26 +278,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("productName", productName);
         cartMap.put("productPrice", productAmount + "");
-        cartMap.put("productDesc", productDesc);
         cartMap.put("productQuantity", productQty + "");
         cartMap.put("productImgUrl", productImgUrl);
-        cartMap.put("Method", "Cash On Delevery");
+        cartMap.put("Method", "Cash on delivery");
         cartMap.put("orderStatus", "Ordered");
         cartMap.put("userName", userName);
         cartMap.put("userNumber", userNumber);
-        cartMap.put("userDistict", userDistict);
-        cartMap.put("userAddress_detailed", userAddDeatail);
         cartMap.put("orderId", orderId);
-        cartMap.put("userCity", userCity);
-        cartMap.put("userCode", userCode);
-        cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
-        cartMap.put("delivery_time",delivaryTime);
-        cartMap.put("delivery",delevaryCharge);
-        cartMap.put("returnData",returnData);
-        cartMap.put("replaceData",replaceData);
-        cartMap.put("flag",false);
-        cartMap.put("rnFlag",false);
 
 
 
