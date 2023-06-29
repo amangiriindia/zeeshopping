@@ -15,15 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.amzsoft.zeeshopping.R;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -102,37 +101,25 @@ public class ReplaceActivity extends AppCompatActivity {
                 cartMap.put("flag",true);
 
 
-                firestore.collection("OrderDetail")
-                        .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                        .collection("User")
-                        .whereEqualTo("orderId", orderId)  // Add a query to find the document with matching orderId
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                firestore.collection("orderDetailedUpdate")
+                        .document(orderId)
+                        .update(cartMap)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        document.getReference().update(cartMap)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        replaceLInput.setVisibility(View.GONE);
-                                                        replaceLOutput.setVisibility(View.VISIBLE);
-                                                        replacementOutput();
-                                                        Toast.makeText(ReplaceActivity.this, "Your request has been submitted", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                    }
-                                } else {
-                                    // Handle error
-                                }
+                            public void onComplete(@NonNull Task<Void> task) {
+                                replaceLInput.setVisibility(View.GONE);
+                                replaceLOutput.setVisibility(View.VISIBLE);
+                                replacementOutput();
+                                Toast.makeText(ReplaceActivity.this, "Your request has been submitted", Toast.LENGTH_SHORT).show();
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                             }
                         });
+
 
             }
         });
@@ -141,15 +128,15 @@ public class ReplaceActivity extends AppCompatActivity {
 
     private void replacementOutput() {
 
-        firestore.collection("OrderDetail")
-                .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                .collection("User")
+        firestore.collection("orderDetailedUpdate")
+                .document(orderId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
                                 // Get the data from the document
                                 String rProblem = document.getString("rProblem");
                                 String rProblemDesc = document.getString("rProblemDesc");
@@ -160,17 +147,25 @@ public class ReplaceActivity extends AppCompatActivity {
                                 replaceOutput.setText(rMessage);
                                 replaceOutputProblem.setText(rProblem);
                                 replaceOutputDesc.setText(rProblemDesc);
-
+                            } else {
+                                // Document doesn't exist
+                                // Handle the scenario when the document doesn't exist
+                                Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            // Error getting the document
+                            // Handle the error scenario
+                            Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
 
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
+
                 });
 
 
@@ -186,34 +181,34 @@ public class ReplaceActivity extends AppCompatActivity {
     }
 
     private void flagSet() {
-        firestore.collection("OrderDetail")
-                .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                .collection("User")
+        firestore.collection("orderDetailedUpdate")
+                .document(orderId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Get the data from the document
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
                                 boolean flag = document.getBoolean("flag");
-                                if(flag) {
+                                if (flag) {
                                     replaceLInput.setVisibility(View.GONE);
                                     replaceLOutput.setVisibility(View.VISIBLE);
                                     replacementOutput();
                                 }
-
-
                             }
                         } else {
-
+                            // Handle error
+                            Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(ReplaceActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 }

@@ -125,13 +125,26 @@ public class OrderTrackingActivity extends AppCompatActivity {
                                 order_address.setText(orderAddress);
                                 Glide.with(getApplicationContext()).load(imgUrl).into(imageView);
 
+                                if(orderStatus.equals("Delivered")){
+                                    btn_cancel.setVisibility(View.GONE);
+                                    if(replaceData.equals("yes")){
+                                        btn_replace.setVisibility(View.VISIBLE);
+                                    }
+                                    if(returnData.equals("yes")){
+                                        btn_return.setVisibility(View.VISIBLE);
+                                    }
+                                }
+
                             } else {
                                 // Document doesn't exist
                                 // Handle the scenario when the document doesn't exist
+                                Toast.makeText(OrderTrackingActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+
                             }
                         } else {
                             // Error getting the document
                             // Handle the error scenario
+                            Toast.makeText(OrderTrackingActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -144,15 +157,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
         doucmentId = getIntent().getStringExtra("documentId");
 
 
-        if(orderStatus.equals("Delivered")){
-            btn_cancel.setVisibility(View.GONE);
-            if(replaceData.equals("yes")){
-                btn_replace.setVisibility(View.VISIBLE);
-            }
-            if(returnData.equals("yes")){
-                btn_return.setVisibility(View.VISIBLE);
-            }
-        }
+
 
 
 
@@ -160,7 +165,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(OrderTrackingActivity.this,ReturnActivity.class);
-               // intent.putExtra("OrderId",orderId);
+                intent.putExtra("OrderId",orderId);
                 intent.putExtra("productPrice",prductPrice);
                 intent.putExtra("productUrl",producturl);
                 intent.putExtra("productName",productName);
@@ -171,7 +176,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(OrderTrackingActivity.this,ReplaceActivity.class);
-         //       intent.putExtra("OrderId",orderId);
+               intent.putExtra("OrderId",orderId);
                 intent.putExtra("productPrice",prductPrice);
                 intent.putExtra("productUrl",producturl);
                 intent.putExtra("productName",productName);

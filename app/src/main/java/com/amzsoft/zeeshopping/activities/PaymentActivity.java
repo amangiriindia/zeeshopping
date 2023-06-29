@@ -164,8 +164,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("userCode", userCode);
         orderMap.put("currentTime", saveCurrentTime);
         orderMap.put("currentDate", saveCurrentDate);
-        orderMap.put("delivaryTime", delivaryTime);
-        orderMap.put("delivaryCharge", delevaryCharge);
+        orderMap.put("delivery_time", delivaryTime);
+        orderMap.put("delivery", delevaryCharge);
         orderMap.put("returnData", returnData);
         orderMap.put("replaceData", replaceData);
         orderMap.put("flag", false);
@@ -183,6 +183,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         } else {
                             // Failed to add data
                             // Handle the failure scenario here
+                            Toast.makeText(PaymentActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -207,8 +209,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("userCode", userCode);
         cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
-        cartMap.put("delivaryTime",delivaryTime);
-        cartMap.put("delivaryCharge",delevaryCharge);
+        cartMap.put("delivery_time",delivaryTime);
+        cartMap.put("delivery",delevaryCharge);
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
         cartMap.put("flag",false);
@@ -260,8 +262,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("userCode", userCode);
         orderMap.put("currentTime", saveCurrentTime);
         orderMap.put("currentDate", saveCurrentDate);
-        orderMap.put("delivaryTime",delivaryTime);
-        orderMap.put("delivaryCharge",delevaryCharge);
+        orderMap.put("delivery_time",delivaryTime);
+        orderMap.put("delivery",delevaryCharge);
         orderMap.put("returnData",returnData);
         orderMap.put("replaceData",replaceData);
         orderMap.put("flag",false);
@@ -302,8 +304,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         cartMap.put("userCode", userCode);
         cartMap.put("currentTime", saveCurrentTime);
         cartMap.put("currentDate", saveCurrentDate);
-        cartMap.put("delivaryTime",delivaryTime);
-        cartMap.put("delivaryCharge",delevaryCharge);
+        cartMap.put("delivery_time",delivaryTime);
+        cartMap.put("delivery",delevaryCharge);
         cartMap.put("returnData",returnData);
         cartMap.put("replaceData",replaceData);
         cartMap.put("flag",false);
@@ -330,34 +332,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     }
 
-//    public static String randomOrderId() {
-//
-//
-//        String s = "";
-//        Random random = new Random();
-//
-//
-//        for (int i = 0; i < 3; i++) {
-//            int randomNumber = random.nextInt(9);
-//            s += randomNumber;
-//        }
-//        s += "-";
-//        for (int i = 0; i < 3; i++) {
-//            int randomNumber = random.nextInt(9);
-//            s += randomNumber;
-//        }
-//        s += "-";
-//        for (int i = 0; i < 3; i++) {
-//            int randomNumber = random.nextInt(9);
-//            s += randomNumber;
-//        }
-//        s += "-";
-//        for (int i = 0; i < 3; i++) {
-//            int randomNumber = random.nextInt(9);
-//            s += randomNumber;
-//        }
-//        return s;
-//    }
+
 
     public static String randomOrderId () {
         String orderId = "";
