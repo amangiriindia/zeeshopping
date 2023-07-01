@@ -123,6 +123,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             }
         });
 
+        paymentBtn.setVisibility(View.GONE);
 
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
