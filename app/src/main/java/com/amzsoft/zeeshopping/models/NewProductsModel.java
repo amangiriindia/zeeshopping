@@ -13,13 +13,37 @@ public class NewProductsModel implements Serializable {
     String replace;
     String return1;
     int offer;
-    String type;
-    boolean outOfStock;
+    String type,productId;
+    boolean outOfStock,colorFlag,sizeFlag;
 
     public NewProductsModel() {
     }
 
-    public NewProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer, String type,boolean outOfStock ) {
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public boolean isColorFlag() {
+        return colorFlag;
+    }
+
+    public void setColorFlag(boolean colorFlag) {
+        this.colorFlag = colorFlag;
+    }
+
+    public boolean isSizeFlag() {
+        return sizeFlag;
+    }
+
+    public void setSizeFlag(boolean sizeFlag) {
+        this.sizeFlag = sizeFlag;
+    }
+
+    public NewProductsModel(String description, String name, double rating, int price, String img_url, int delivery, String delivery_time, String replace, String return1, int offer, String type, boolean outOfStock , boolean colorFlag, boolean sizeFlag, String productId) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -32,6 +56,7 @@ public class NewProductsModel implements Serializable {
         this.offer = offer;
         this.type = type;
         this.outOfStock =outOfStock;
+
     }
 
     public String getType() {

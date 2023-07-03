@@ -23,9 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
 import com.amzsoft.zeeshopping.adapters.ShowAllAdapter;
@@ -33,12 +30,16 @@ import com.amzsoft.zeeshopping.models.DiscountModel;
 import com.amzsoft.zeeshopping.models.NewProductsModel;
 import com.amzsoft.zeeshopping.models.PopularProductsModel;
 import com.amzsoft.zeeshopping.models.ShowAllModel;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -65,6 +66,8 @@ public class DetailedActivity extends AppCompatActivity {
     int delevaryCharge =0;
     String replacment ="";
     String returnPolicy ="",type="";
+    TextView colorBoxLabel,colorBox0,colorBox1,colorBox2,colorBox3,colorBox4,colorBox5,colorBox6,colorBox7,colorBox8,colorBox9;
+    TextView sizeBoxLabel,sizeBox0,sizeBox1,sizeBox2,sizeBox3,sizeBox4,sizeBox5,sizeBox6,sizeBox7,sizeBox8,sizeBox9;
 
     // New Product
     NewProductsModel newProductsModel = null;
@@ -88,12 +91,20 @@ public class DetailedActivity extends AppCompatActivity {
     ShowAllAdapter showAllAdapter;
     List<ShowAllModel> showAllModelList;
     boolean outOfStock =false;
+    private View[] colorBoxes = new View[10];
+    private int lastClickedColorBoxIndex = -1;
+    boolean colorFlag ,sizeFlag ;
+    String  colorBoxArray[] = new String[10] ;
+    String  sizeBoxArray[] = new String[10];
+
+    public static String colorTextOutput = "N/A",productId="";
+    public static String sizeTextOutput = "N/A";
 
 
 
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +130,33 @@ public class DetailedActivity extends AppCompatActivity {
         similarProductRecyclarview =findViewById(R.id.similar_product_rec);
         out_of_stock =findViewById(R.id.out_of_stock);
 
+        colorBoxLabel =findViewById(R.id.color_box_label);
+        colorBox0 =findViewById(R.id.color_box0);
+        colorBox1 =findViewById(R.id.color_box1);
+        colorBox2 =findViewById(R.id.color_box2);
+        colorBox3 =findViewById(R.id.color_box3);
+        colorBox4 =findViewById(R.id.color_box4);
+        colorBox5 =findViewById(R.id.color_box5);
+        colorBox6 =findViewById(R.id.color_box6);
+        colorBox7 =findViewById(R.id.color_box7);
+        colorBox8 =findViewById(R.id.color_box8);
+        colorBox9 =findViewById(R.id.color_box9);
+
+
+        sizeBoxLabel =findViewById(R.id.size_box_label);
+        sizeBox0 = findViewById(R.id.size_box0);
+        sizeBox1 = findViewById(R.id.size_box1);
+        sizeBox2 = findViewById(R.id.size_box2);
+        sizeBox3 = findViewById(R.id.size_box3);
+        sizeBox4 = findViewById(R.id.size_box4);
+        sizeBox5 = findViewById(R.id.size_box5);
+        sizeBox6 = findViewById(R.id.size_box6);
+        sizeBox7 = findViewById(R.id.size_box7);
+        sizeBox8 = findViewById(R.id.size_box8);
+        sizeBox9 = findViewById(R.id.size_box9);
+
+        TextView[] sizeBoxes = new TextView[]{sizeBox0, sizeBox1, sizeBox2, sizeBox3, sizeBox4, sizeBox5, sizeBox6, sizeBox7, sizeBox8, sizeBox9};
+        TextView[] colorBoxes = new TextView[]{colorBox0, colorBox1, colorBox2, colorBox3, colorBox4, colorBox5, colorBox6, colorBox7, colorBox8, colorBox9};
 
 
 
@@ -166,6 +204,9 @@ public class DetailedActivity extends AppCompatActivity {
             setRating(ratingValue);
             deliveryTimeTextView.setText(newProductsModel.getDelivery_time());
             delevaryCharge = newProductsModel.getDelivery();
+            colorFlag = newProductsModel.isColorFlag();
+            sizeFlag = newProductsModel.isSizeFlag();
+            productId =newProductsModel.getProductId();
             if(delevaryCharge>0){
               delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
             }
@@ -216,6 +257,9 @@ public class DetailedActivity extends AppCompatActivity {
 
             deliveryTimeTextView.setText(popularProductsModel.getDelivery_time());
             delevaryCharge = popularProductsModel.getDelivery();
+            colorFlag = popularProductsModel.isColorFlag();
+            sizeFlag = popularProductsModel.isSizeFlag();
+            productId =popularProductsModel.getProductId();
             if(delevaryCharge>0){
                 delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
             }
@@ -266,6 +310,9 @@ public class DetailedActivity extends AppCompatActivity {
 
             deliveryTimeTextView.setText(showAllModel.getDelivery_time());
             delevaryCharge = showAllModel.getDelivery();
+            colorFlag = showAllModel.isColorFlag();
+            sizeFlag = showAllModel.isSizeFlag();
+            productId = showAllModel.getProductId();
             if(delevaryCharge>0){
                 delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
             }
@@ -346,6 +393,112 @@ public class DetailedActivity extends AppCompatActivity {
 
         }
 
+
+
+
+        if(sizeFlag){
+            sizeBoxLabel.setVisibility(View.VISIBLE);
+            firestore.collection("ShowAll")
+                    .whereEqualTo("productId", productId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                List<String> sizeBoxList = new ArrayList<>();
+                                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                    List<String> sizeBox = (List<String>) doc.get("sizeBoxList");
+                                    if (sizeBox != null) {
+                                        sizeBoxList.addAll(sizeBox);
+                                    }
+                                }
+                                // Convert colorBoxList to an array if needed
+                                sizeBoxArray = sizeBoxList.toArray(new String[0]);
+                                // Use the colorBoxArray as needed
+
+                                for (int i = 0; i < sizeBoxArray.length; i++) {
+                                    TextView box = sizeBoxes[i];
+                                    box.setVisibility(View.VISIBLE);
+                                    box.setText(sizeBoxArray[i]);
+                                }
+
+
+                            } else {
+                                // Handle errors
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(DetailedActivity.this, "Please Wait....", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+
+
+
+        }
+
+
+
+        if(colorFlag){
+            colorBoxLabel.setVisibility(View.VISIBLE);
+            firestore.collection("ShowAll")
+                    .whereEqualTo("productId", productId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                List<String> colorBoxList = new ArrayList<>();
+                                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                    List<String> colorBox = (List<String>) doc.get("colorBoxList");
+                                    if (colorBox != null) {
+                                        colorBoxList.addAll(colorBox);
+                                    }
+                                }
+                                // Convert colorBoxList to an array if needed
+                                colorBoxArray = colorBoxList.toArray(new String[0]);
+                                // Use the colorBoxArray as needed
+
+                                for (int i = 0; i < colorBoxArray.length; i++) {
+                                    TextView box = colorBoxes[i];
+                                    box.setVisibility(View.VISIBLE);
+                                    box.setText(colorBoxArray[i]);
+                                }
+
+                            } else {
+                                // Handle errors
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(DetailedActivity.this, "Please Wait....", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+
+
+        }
+
+
+
+        setupColorBoxListeners();
+        setupSizeBoxListeners();
+
+
+
+
+
+
+
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -358,28 +511,7 @@ public class DetailedActivity extends AppCompatActivity {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(outOfStock){
-                    Toast.makeText(DetailedActivity.this, "Product is out of stock", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(DetailedActivity.this, AddressActivity.class);
-                if (newProductsModel != null) {
-                    intent.putExtra("item", newProductsModel);
-                    intent.putExtra("Qty", totalQuantity);
-                }
-                if (popularProductsModel != null) {
-                    intent.putExtra("item", popularProductsModel);
-                    intent.putExtra("Qty", totalQuantity);
-                }
-                if (showAllModel != null) {
-                    intent.putExtra("item", showAllModel);
-                    intent.putExtra("Qty", totalQuantity);
-                }
-                if (discountModel != null) {
-                    intent.putExtra("item", discountModel);
-                    intent.putExtra("Qty", totalQuantity);
-                }
-                startActivity(intent);
+              buyNow();
             }
         });
         //Add To Cart
@@ -500,6 +632,101 @@ public class DetailedActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+    private TextView setupColorBoxListeners() {
+        for (int i = 0; i < 10; i++) {
+            int colorBoxId = getResources().getIdentifier("color_box" + i, "id", getPackageName());
+            colorBoxes[i] = findViewById(colorBoxId);
+            final int index = i;
+
+            colorBoxes[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleColorBoxClick(index);
+                }
+            });
+        }
+
+        // Return the last clicked color box TextView
+        if (lastClickedColorBoxIndex != -1) {
+            return (TextView) colorBoxes[lastClickedColorBoxIndex];
+        } else {
+            return null;
+        }
+    }
+
+    private void handleColorBoxClick(int clickedIndex) {
+        // Get the clicked color text
+        String colorOutput = colorBoxArray[clickedIndex];
+        colorTextOutput = colorOutput;
+        // Update the colorBoxLabel with the clicked color text
+       // colorBoxLabel.setText(colorTextOutput);
+
+
+        // Reset the background color of the previously clicked box
+        if (lastClickedColorBoxIndex != -1) {
+            colorBoxes[lastClickedColorBoxIndex].setBackgroundResource(R.drawable.product_box_boder);
+        }
+
+        // Change the background color of the clicked box (if desired)
+        colorBoxes[clickedIndex].setBackgroundResource(R.drawable.product_color_box_output);
+
+        // Update the last clicked box index
+        lastClickedColorBoxIndex = clickedIndex;
+    }
+
+
+
+    private View[] sizeBoxes = new View[10];
+    private int lastClickedSizeBoxIndex = -1;
+
+    private TextView setupSizeBoxListeners() {
+        for (int i = 0; i < 10; i++) {
+            int sizeBoxId = getResources().getIdentifier("size_box" + i, "id", getPackageName());
+            sizeBoxes[i] = findViewById(sizeBoxId);
+            final int index = i;
+
+            sizeBoxes[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleSizeBoxClick(index);
+                }
+            });
+        }
+
+        // Return the last clicked size box TextView
+        if (lastClickedSizeBoxIndex != -1) {
+            return (TextView) sizeBoxes[lastClickedSizeBoxIndex];
+        } else {
+            return null;
+        }
+    }
+
+    private void handleSizeBoxClick(int clickedIndex) {
+        // Reset the background color of the previously clicked box
+        String sizeOutput = sizeBoxArray[clickedIndex];
+        sizeTextOutput  =sizeOutput;
+      //  sizeBoxLabel.setText(sizeTextOutput);
+        if (lastClickedSizeBoxIndex != -1) {
+            sizeBoxes[lastClickedSizeBoxIndex].setBackgroundResource(R.drawable.product_size_box_border);
+        }
+
+        // Change the background color of the clicked box
+        sizeBoxes[clickedIndex].setBackgroundResource(R.drawable.product_size_box_output);
+
+        // Update the last clicked box index
+        lastClickedSizeBoxIndex = clickedIndex;
+    }
+
+
+
+
+
+
+
     public void setRating(float ratingValue) {
         RatingBar ratingBar = findViewById(R.id.my_rating);
         int maxStars = 5; // Set the maximum number of stars
@@ -529,8 +756,13 @@ public class DetailedActivity extends AppCompatActivity {
 
 
     private void addToCart() {
+
         if(outOfStock){
             Toast.makeText(DetailedActivity.this, "Product is out of stock", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(colorFlag || sizeFlag){
+            Toast.makeText(this, "You can easily order this product without adding a card. Thank you!", Toast.LENGTH_SHORT).show();
             return;
         }
         String saveCurrentTime, saveCurrentDate;
@@ -550,6 +782,7 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("totalPrice", (afterofferPrice*totalQuantity));
         cartMap.put("productImgurl", ImgUrl);
 
+
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
                 .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
@@ -565,6 +798,55 @@ public class DetailedActivity extends AppCompatActivity {
                 });
 
     }
+
+    public void buyNow() {
+        if (outOfStock) {
+            Toast.makeText(this, "Product is out of stock", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+            if(colorFlag) {
+                if (colorTextOutput.equalsIgnoreCase("N/A")) {
+                    Toast.makeText(this, "Please select any color,Thanks!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            if(sizeFlag) {
+                if (sizeTextOutput.equalsIgnoreCase("N/A")) {
+                    Toast.makeText(this, "Please select any size,Thanks!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+
+
+
+        Intent intent = new Intent(this, AddressActivity.class);
+        if (newProductsModel != null) {
+            intent.putExtra("item", newProductsModel);
+            intent.putExtra("Qty", totalQuantity);
+            intent.putExtra("productColor", colorTextOutput);
+            intent.putExtra("productSize", sizeTextOutput);
+        } else if (popularProductsModel != null) {
+            intent.putExtra("item", popularProductsModel);
+            intent.putExtra("Qty", totalQuantity);
+            intent.putExtra("productColor", colorTextOutput);
+            intent.putExtra("productSize", sizeTextOutput);
+        } else if (showAllModel != null) {
+            intent.putExtra("item", showAllModel);
+            intent.putExtra("Qty", totalQuantity);
+            intent.putExtra("productColor", colorTextOutput);
+            intent.putExtra("productSize", sizeTextOutput);
+        } else if (discountModel != null) {
+            intent.putExtra("item", discountModel);
+            intent.putExtra("Qty", totalQuantity);
+            intent.putExtra("productColor", colorTextOutput);
+            intent.putExtra("productSize", sizeTextOutput);
+        }
+
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart() {

@@ -47,7 +47,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     String productImgUrl = "";
     String productDesc = "";
     static String orderId = randomOrderId();
-    String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
+    String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "",productColor="",productSize="";
     String delivaryTime ="",returnData ="",replaceData ="";
     int delevaryCharge =0;
     Button paymentBtn, cashOnDel;
@@ -95,6 +95,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         delevaryCharge = getIntent().getIntExtra("delivaryCharge",0);
         returnData =getIntent().getStringExtra("returnData");
         replaceData = getIntent().getStringExtra("replaceData");
+        productColor =getIntent().getStringExtra("productColor");
+        productSize = getIntent().getStringExtra("productSize");
 
 
         subTotal = findViewById(R.id.sub_total);
@@ -169,6 +171,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("delivery", delevaryCharge);
         orderMap.put("returnData", returnData);
         orderMap.put("replaceData", replaceData);
+        orderMap.put("productColor",productColor);
+        orderMap.put("productSize",productSize);
         orderMap.put("flag", false);
         orderMap.put("rnFlag", false);
 
@@ -252,6 +256,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("currentTime", saveCurrentTime);
         orderMap.put("currentDate", saveCurrentDate);
         orderMap.put("delivery_time",delivaryTime);
+        orderMap.put("productColor",productColor);
+        orderMap.put("productSize",productSize);
         orderMap.put("delivery",delevaryCharge);
         orderMap.put("returnData",returnData);
         orderMap.put("replaceData",replaceData);

@@ -38,7 +38,7 @@ import java.util.Objects;
 public class AddressActivity extends AppCompatActivity implements AddressAdapter.SelectedAddress {
 
     Button addAddress;
-    String cartProductName = "", cartProductImgUrl = "";
+    String cartProductName = "", cartProductImgUrl = "",productColor="",productSize ="";
     int cartProductPrice = 0, cartProductQty = 0, qty = 0;
 
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
@@ -77,6 +77,10 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         userAddDeatail = getIntent().getStringExtra("userAddDeatail");
         userCity = getIntent().getStringExtra("userCity");
         userCode = getIntent().getStringExtra("userCode");
+        productSize =getIntent().getStringExtra("productSize");
+        productColor =getIntent().getStringExtra("productColor");
+
+
 
 
         // get data form cart
@@ -213,6 +217,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     intent.putExtra("userAddDeatail", userAddDeatail);
                     intent.putExtra("userCity", userCity);
                     intent.putExtra("userCode", userCode);
+                    intent.putExtra("productColor",productColor);
+                    intent.putExtra("productSize",productSize);
                     intent.putExtra("delivaryTime",delevryTime);
                     intent.putExtra("delivaryCharge",delivaryChage);
                     intent.putExtra("returnData",returnPolicy);

@@ -13,15 +13,15 @@ public class ShowAllModel implements Serializable {
     String type;
     int delivery;
     String delivery_time;
-    String replace;
+    String replace,productId;
     String return1;
-    boolean outOfStock;
+    boolean outOfStock ,colorFlag,sizeFlag;
 
 
     public ShowAllModel() {
     }
 
-    public ShowAllModel(String description, String name, double rating, int price, int offer, String img_url, String type, int delivery, String delivery_time, String replace, String return1,boolean outOfStock ) {
+    public ShowAllModel(String description, String name, double rating, int price, int offer, String img_url, String type, int delivery, String delivery_time, String replace, String return1,boolean outOfStock ,boolean colorFlag,boolean sizeFlag,String productId) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -34,6 +34,9 @@ public class ShowAllModel implements Serializable {
         this.replace = replace;
         this.return1 = return1;
         this.outOfStock =outOfStock;
+        this.colorFlag =colorFlag;
+        this.sizeFlag =sizeFlag;
+        this.productId =productId;
     }
 
     public int getOffer() {
@@ -133,5 +136,29 @@ public class ShowAllModel implements Serializable {
 
     public void setOutOfStock(boolean outOfStock) {
         this.outOfStock = outOfStock;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public boolean isColorFlag() {
+        return colorFlag;
+    }
+
+    public void setColorFlag(boolean colorFlag) {
+        this.colorFlag = colorFlag;
+    }
+
+    public boolean isSizeFlag() {
+        return sizeFlag;
+    }
+
+    public void setSizeFlag(boolean sizeFlag) {
+        this.sizeFlag = sizeFlag;
     }
 }
