@@ -3,6 +3,7 @@ package com.amzsoft.zeeshopping.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -805,50 +806,110 @@ public class DetailedActivity extends AppCompatActivity {
             return;
         }
 
-            if(colorFlag) {
-                if (colorTextOutput.equalsIgnoreCase("N/A")) {
-                    Toast.makeText(this, "Please select any color,Thanks!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        if (colorFlag) {
+            if (colorTextOutput.equalsIgnoreCase("N/A")) {
+                Toast.makeText(this, "Please select any color,Thanks!", Toast.LENGTH_SHORT).show();
+                return;
             }
-            if(sizeFlag) {
-                if (sizeTextOutput.equalsIgnoreCase("N/A")) {
-                    Toast.makeText(this, "Please select any size,Thanks!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        }
+        if (sizeFlag) {
+            if (sizeTextOutput.equalsIgnoreCase("N/A")) {
+                Toast.makeText(this, "Please select any size,Thanks!", Toast.LENGTH_SHORT).show();
+                return;
             }
-
-
-
-
-        Intent intent = new Intent(this, AddressActivity.class);
-        if (newProductsModel != null) {
-            intent.putExtra("item", newProductsModel);
-            intent.putExtra("Qty", totalQuantity);
-            intent.putExtra("productColor", colorTextOutput);
-            intent.putExtra("productSize", sizeTextOutput);
-        } else if (popularProductsModel != null) {
-            intent.putExtra("item", popularProductsModel);
-            intent.putExtra("Qty", totalQuantity);
-            intent.putExtra("productColor", colorTextOutput);
-            intent.putExtra("productSize", sizeTextOutput);
-        } else if (showAllModel != null) {
-            intent.putExtra("item", showAllModel);
-            intent.putExtra("Qty", totalQuantity);
-            intent.putExtra("productColor", colorTextOutput);
-            intent.putExtra("productSize", sizeTextOutput);
-        } else if (discountModel != null) {
-            intent.putExtra("item", discountModel);
-            intent.putExtra("Qty", totalQuantity);
-            intent.putExtra("productColor", colorTextOutput);
-            intent.putExtra("productSize", sizeTextOutput);
         }
 
+
+
+        double totalamount = 0.0;
+        double amount = 0.0;
+        String productDesc = "";
+        int delivaryChage =0;
+        String returnPolicy ="";
+        String replacement ="";
+        String delevryTime ="";
+        String productName="";
+        String productImgUrl ="";
+// Check the specific model and save its data
+        if (newProductsModel != null) {
+            // Handle newProductsModel
+            amount = newProductsModel.getPrice();
+            productName = newProductsModel.getName();
+            productImgUrl = newProductsModel.getImg_url();
+            productDesc = newProductsModel.getDescription();
+            delivaryChage = newProductsModel.getDelivery();
+            returnPolicy = newProductsModel.getReturn1();
+            replacement = newProductsModel.getReplace();
+            delevryTime = newProductsModel.getDelivery_time();
+            totalamount =amount*totalQuantity;
+        } else if (popularProductsModel != null) {
+            amount = popularProductsModel.getPrice();
+            productName = popularProductsModel.getName();
+            productImgUrl = popularProductsModel.getImg_url();
+            productDesc = popularProductsModel.getDescription();
+            delivaryChage = popularProductsModel.getDelivery();
+            returnPolicy = popularProductsModel.getReturn1();
+            replacement = popularProductsModel.getReplace();
+            delevryTime = popularProductsModel.getDelivery_time();
+            totalamount =amount*totalQuantity;
+
+        } else if (showAllModel != null) {
+
+
+            amount = showAllModel.getPrice();
+            productName = showAllModel.getName();
+            productImgUrl = showAllModel.getImg_url();
+            productDesc = showAllModel.getDescription();
+            delivaryChage = showAllModel.getDelivery();
+            returnPolicy = showAllModel.getReturn1();
+            replacement = showAllModel.getReplace();
+            delevryTime = showAllModel.getDelivery_time();
+            totalamount =amount*totalQuantity;
+
+
+        } else if (discountModel != null) {
+
+            amount = discountModel.getPrice();
+            productName = discountModel.getName();
+            productImgUrl = discountModel.getImg_url();
+            productDesc = discountModel.getDescription();
+            delivaryChage = discountModel.getDelivery();
+            returnPolicy = discountModel.getReturn1();
+            replacement = discountModel.getReplace();
+            delevryTime = discountModel.getDelivery_time();
+            totalamount =amount*totalQuantity;
+
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("productName", productName);
+        editor.putInt("productamount", (int) amount);
+        editor.putString("productImgUrl", productImgUrl);
+        editor.putString("productDesc", productDesc);
+        editor.putInt("delivaryCharge", delivaryChage);
+        editor.putString("returnPolicy", returnPolicy);
+        editor.putString("replacement", replacement);
+        editor.putString("delevryTime", delevryTime);
+        editor.putString("productColor", colorTextOutput);
+        editor.putString("productSize", sizeTextOutput);
+        editor.putInt("totalQuantity", totalQuantity);
+        editor.putFloat("totalAmount", (float) totalamount);
+
+// Commit the changes
+        editor.apply();
+
+
+
+
+// Start the new activity
+        Intent intent = new Intent(this, AddressActivity.class);
         startActivity(intent);
+
     }
 
-
-    @Override
+        @Override
     protected void onStart() {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
@@ -861,3 +922,69 @@ public class DetailedActivity extends AppCompatActivity {
         super.onStop();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        if (obj instanceof NewProductsModel) {
+//            NewProductsModel newProductsModel = (NewProductsModel) obj;
+//
+//
+//        } else if (obj instanceof PopularProductsModel) {
+//            PopularProductsModel popularProductsModel = (PopularProductsModel) obj;
+//            amount = popularProductsModel.getPrice();
+//            productName = popularProductsModel.getName();
+//            productImgUrl = popularProductsModel.getImg_url();
+//            productDesc = popularProductsModel.getDescription();
+//            productQty = qty;
+//            delivaryChage = popularProductsModel.getDelivery();
+//            returnPolicy = popularProductsModel.getReturn1();
+//            replacement = popularProductsModel.getReplace();
+//            delevryTime = popularProductsModel.getDelivery_time();
+//            amount =amount*qty;
+//        } else if (obj instanceof ShowAllModel) {
+//            ShowAllModel showAllModel = (ShowAllModel) obj;
+//            amount = showAllModel.getPrice();
+//            productName = showAllModel.getName();
+//            productImgUrl = showAllModel.getImg_url();
+//            productDesc = showAllModel.getDescription();
+//            productQty = qty;
+//            delivaryChage = showAllModel.getDelivery();
+//            returnPolicy = showAllModel.getReturn1();
+//            replacement = showAllModel.getReplace();
+//            delevryTime = showAllModel.getDelivery_time();
+//            amount =amount*qty;
+//        }else if (obj instanceof DiscountModel) {
+//            DiscountModel discountModel = (DiscountModel) obj;
+//            amount = discountModel.getPrice();
+//            productName = discountModel.getName();
+//            productImgUrl = discountModel.getImg_url();
+//            productDesc = discountModel.getDescription();
+//            productQty = qty;
+//            delivaryChage = discountModel.getDelivery();
+//            returnPolicy = discountModel.getReturn1();
+//            replacement = discountModel.getReplace();
+//            delevryTime = discountModel.getDelivery_time();
+//            amount =amount*qty;
+//        } else {
+//            productName = cartProductName;
+//            amount = cartProductPrice;
+//            productImgUrl = cartProductImgUrl;
+//            productQty = cartProductQty;
+//            delevryTime = "With in 1 Day";
+//            delivaryChage = 0;
+//        }

@@ -19,10 +19,6 @@ import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.Utility.NetworkChangeListener;
 import com.amzsoft.zeeshopping.adapters.AddressAdapter;
 import com.amzsoft.zeeshopping.models.AddressModel;
-import com.amzsoft.zeeshopping.models.DiscountModel;
-import com.amzsoft.zeeshopping.models.NewProductsModel;
-import com.amzsoft.zeeshopping.models.PopularProductsModel;
-import com.amzsoft.zeeshopping.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -43,6 +39,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
     RecyclerView recyclerView;
+    String productName = "";
+    String productImgUrl = "";
     private AddressAdapter addressAdapter;
     private List<AddressModel> addressModelList;
     FirebaseFirestore firestore;
@@ -132,97 +130,33 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     }
                 });
 
+        addAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AddressActivity.this, AddAddressActivity.class));
+                finish();
+            }
+        });
+
 
         paymentBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                double amount = 0.0;
-                String productName = "";
-                String productImgUrl = "";
-                String productDesc = "";
-                int productQty = 1;
-                int delivaryChage =0;
-                String returnPolicy ="";
-                String replacement ="";
-                String delevryTime ="";
-                if (obj instanceof NewProductsModel) {
-                    NewProductsModel newProductsModel = (NewProductsModel) obj;
-                    amount = newProductsModel.getPrice();
-                    productName = newProductsModel.getName();
-                    productImgUrl = newProductsModel.getImg_url();
-                    productDesc = newProductsModel.getDescription();
-                    productQty = qty;
-                    delivaryChage = newProductsModel.getDelivery();
-                    returnPolicy = newProductsModel.getReturn1();
-                    replacement = newProductsModel.getReplace();
-                    delevryTime = newProductsModel.getDelivery_time();
-                    amount =amount*qty;
 
-                } else if (obj instanceof PopularProductsModel) {
-                    PopularProductsModel popularProductsModel = (PopularProductsModel) obj;
-                    amount = popularProductsModel.getPrice();
-                    productName = popularProductsModel.getName();
-                    productImgUrl = popularProductsModel.getImg_url();
-                    productDesc = popularProductsModel.getDescription();
-                    productQty = qty;
-                    delivaryChage = popularProductsModel.getDelivery();
-                    returnPolicy = popularProductsModel.getReturn1();
-                    replacement = popularProductsModel.getReplace();
-                    delevryTime = popularProductsModel.getDelivery_time();
-                    amount =amount*qty;
-                } else if (obj instanceof ShowAllModel) {
-                    ShowAllModel showAllModel = (ShowAllModel) obj;
-                    amount = showAllModel.getPrice();
-                    productName = showAllModel.getName();
-                    productImgUrl = showAllModel.getImg_url();
-                    productDesc = showAllModel.getDescription();
-                    productQty = qty;
-                    delivaryChage = showAllModel.getDelivery();
-                    returnPolicy = showAllModel.getReturn1();
-                    replacement = showAllModel.getReplace();
-                    delevryTime = showAllModel.getDelivery_time();
-                    amount =amount*qty;
-                }else if (obj instanceof DiscountModel) {
-                        DiscountModel discountModel = (DiscountModel) obj;
-                        amount = discountModel.getPrice();
-                        productName = discountModel.getName();
-                        productImgUrl = discountModel.getImg_url();
-                        productDesc = discountModel.getDescription();
-                        productQty = qty;
-                        delivaryChage = discountModel.getDelivery();
-                        returnPolicy = discountModel.getReturn1();
-                        replacement = discountModel.getReplace();
-                        delevryTime = discountModel.getDelivery_time();
-                        amount =amount*qty;
-                } else {
-                    productName = cartProductName;
-                    amount = cartProductPrice;
-                    productImgUrl = cartProductImgUrl;
-                    productQty = cartProductQty;
-                    delevryTime = "With in 1 Day";
-                    delivaryChage = 0;
-                }
+
+
+
 
                 if (flagAddress) {
                     Intent intent = new Intent(AddressActivity.this, PaymentActivity.class);
-                    intent.putExtra("amount", amount);
-                    intent.putExtra("productName", productName);
-                    intent.putExtra("productImgUrl", productImgUrl);
-                    intent.putExtra("productDesc", productDesc);
-                    intent.putExtra("productQty", productQty);
+
                     intent.putExtra("userName", userName);
                     intent.putExtra("userNumber", userNumber);
                     intent.putExtra("userDistict", userDistict);
                     intent.putExtra("userAddDeatail", userAddDeatail);
                     intent.putExtra("userCity", userCity);
                     intent.putExtra("userCode", userCode);
-                    intent.putExtra("productColor",productColor);
-                    intent.putExtra("productSize",productSize);
-                    intent.putExtra("delivaryTime",delevryTime);
-                    intent.putExtra("delivaryCharge",delivaryChage);
-                    intent.putExtra("returnData",returnPolicy);
-                    intent.putExtra("replaceData",replacement);
                     startActivity(intent);
                 } else {
                     Toast.makeText(AddressActivity.this, "Please Add Address!", Toast.LENGTH_SHORT).show();
@@ -232,13 +166,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
             }
         });
 
-        addAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AddressActivity.this, AddAddressActivity.class));
-                finish();
-            }
-        });
+
     }
 
     @Override

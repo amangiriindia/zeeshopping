@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +42,8 @@ import java.util.Random;
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
     Toolbar toolbar;
-    double productAmount = 0.0,totalAmount =0.0;
+    double productAmount = 0.0,
+            totalAmount =0.0;
     int productQty = 0;
     String productName = "";
     String productImgUrl = "";
@@ -76,27 +78,36 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 finish();
             }
         });
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+
+        productName = sharedPreferences.getString("productName", "");
+         productImgUrl = sharedPreferences.getString("productImgUrl", "");
+        productDesc = sharedPreferences.getString("productDesc", "");
+        delevaryCharge = sharedPreferences.getInt("delivaryCharge", 0);
+        int productorgprice = sharedPreferences.getInt("productamount",0);
+         returnData = sharedPreferences.getString("returnPolicy", "");
+         replaceData = sharedPreferences.getString("replacement", "");
+         delivaryTime = sharedPreferences.getString("delevryTime", "");
+         productColor = sharedPreferences.getString("productColor", "");
+         productSize = sharedPreferences.getString("productSize", "");
+        productQty = sharedPreferences.getInt("totalQuantity", 0);
+        productAmount = sharedPreferences.getFloat("totalAmount", 0.0f);
+
+       // Now you can use these values in your AddressActivity
+
         //data base
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         //geting value for the intent
-        productAmount = getIntent().getDoubleExtra("amount", 0.0);
-        productName = getIntent().getStringExtra("productName");
-        productImgUrl = getIntent().getStringExtra("productImgUrl");
-        productDesc = getIntent().getStringExtra("productDesc");
-        productQty = getIntent().getIntExtra("productQty", 0);
+
         userName = getIntent().getStringExtra("userName");
         userNumber = getIntent().getStringExtra("userNumber");
         userDistict = getIntent().getStringExtra("userDistict");
         userAddDeatail = getIntent().getStringExtra("userAddDeatail");
         userCity = getIntent().getStringExtra("userCity");
         userCode = getIntent().getStringExtra("userCode");
-        delivaryTime = getIntent().getStringExtra("delivaryTime");
-        delevaryCharge = getIntent().getIntExtra("delivaryCharge",0);
-        returnData =getIntent().getStringExtra("returnData");
-        replaceData = getIntent().getStringExtra("replaceData");
-        productColor =getIntent().getStringExtra("productColor");
-        productSize = getIntent().getStringExtra("productSize");
+
 
 
         subTotal = findViewById(R.id.sub_total);
