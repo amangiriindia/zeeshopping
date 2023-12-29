@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -90,11 +91,24 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "Please Add Item On Cart", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 Intent intent = new Intent(CartActivity.this, AddressActivity.class);
-                intent.putExtra("cartProductName", cartProductName);
-                intent.putExtra("cartProductImg", cartProductImg);
-                intent.putExtra("cartProductPrice", carttotalPrice);
-                intent.putExtra("cartProductQty", cartTotalQty);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("productName", cartProductName);
+                editor.putString("productImgUrl", cartProductImg);
+                editor.putInt("totalQuantity", cartTotalQty);
+                editor.putFloat("totalAmount", carttotalPrice);
+//                editor.putString("productDesc", "");  // You may want to provide a default value or modify as needed
+//                editor.putInt("delivaryCharge", 0);   // Provide a default value if needed
+//                editor.putString("returnPolicy", "");  // Provide a default value if needed
+//                editor.putString("replacement", "");   // Provide a default value if needed
+//                editor.putString("delevryTime", "");   // Provide a default value if needed
+//                editor.putString("productColor", "");   // Provide a default value if needed
+//                editor.putString("productSize", "");    // Provide a default value if needed
+                editor.apply();
+
                 startActivity(intent);
             }
         });

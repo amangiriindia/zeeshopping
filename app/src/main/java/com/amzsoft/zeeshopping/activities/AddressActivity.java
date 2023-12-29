@@ -34,8 +34,6 @@ import java.util.Objects;
 public class AddressActivity extends AppCompatActivity implements AddressAdapter.SelectedAddress {
 
     Button addAddress;
-    String cartProductName = "", cartProductImgUrl = "",productColor="",productSize ="";
-    int cartProductPrice = 0, cartProductQty = 0, qty = 0;
 
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
     RecyclerView recyclerView;
@@ -66,26 +64,11 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
             }
         });
 
-        //get data form detailed activity
-        Object obj = getIntent().getSerializableExtra("item");
-        qty = getIntent().getIntExtra("Qty", 0);
-        userName = getIntent().getStringExtra("userName");
-        userNumber = getIntent().getStringExtra("userNumber");
-        userDistict = getIntent().getStringExtra("userDistict");
-        userAddDeatail = getIntent().getStringExtra("userAddDeatail");
-        userCity = getIntent().getStringExtra("userCity");
-        userCode = getIntent().getStringExtra("userCode");
-        productSize =getIntent().getStringExtra("productSize");
-        productColor =getIntent().getStringExtra("productColor");
 
 
 
 
-        // get data form cart
-        cartProductName = getIntent().getStringExtra("cartProductName");
-        cartProductImgUrl = getIntent().getStringExtra("cartProductImg");
-        cartProductPrice = getIntent().getIntExtra("cartProductPrice", 0);
-        cartProductQty = getIntent().getIntExtra("cartProductQty", 0);
+
 
         firestore = FirebaseFirestore.getInstance();
 

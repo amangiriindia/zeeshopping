@@ -146,13 +146,6 @@ public class AddAddressActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(AddAddressActivity.this, "Address Added", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(AddAddressActivity.this, AddressActivity.class);
-                                        intent.putExtra("userName", userName);
-                                        intent.putExtra("userNumber", userNumber);
-                                        intent.putExtra("userDistict", userDistict);
-                                        intent.putExtra("userAdd_deatil", userAddDeatail);
-                                        intent.putExtra("userCity", userCity);
-                                        intent.putExtra("userCode", userCode);
-
                                         startActivity(intent);
                                         finish();
                                     }
