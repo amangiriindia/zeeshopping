@@ -1,8 +1,10 @@
 package com.amzsoft.zeeshopping.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -37,13 +39,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "";
     RecyclerView recyclerView;
-    String productName = "";
-    String productImgUrl = "";
+
     private AddressAdapter addressAdapter;
     private List<AddressModel> addressModelList;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
-    Button addAddressBtn, paymentBtn;
+    private SharedPreferences sharedPreferences;
+    Button  paymentBtn;
     boolean flagAddress;
     Toolbar toolbar;
     String mAddress = "";
@@ -64,6 +66,9 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
             }
         });
 
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
 
 
@@ -94,15 +99,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
                                 AddressModel addressModel = doc.toObject(AddressModel.class);
                                 addressModelList.add(addressModel);
-
-                                addressAdapter.notifyDataSetChanged();
-
                                 userName = addressModel.getUserName();
                                 userNumber = addressModel.getUserNumber();
                                 userCity = addressModel.getUserCity();
                                 userDistict = addressModel.getUserDistict();
                                 userAddDeatail = addressModel.getUserAddress_detailed();
                                 userCode = addressModel.getUserCode();
+                                addressAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -160,9 +163,17 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     }
 
     @Override
-    public void setAddress(String address) {
-        mAddress = address;
+    public void onAddressSelected(String address) {
+
+        // Save the selected address in SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("selectedAddress", address);
+        editor.apply();
+
+
     }
+
+
 
     @Override
     protected void onStart() {

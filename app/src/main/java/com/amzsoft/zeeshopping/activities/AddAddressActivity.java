@@ -107,27 +107,45 @@ public class AddAddressActivity extends AppCompatActivity {
                 }
 
 
+                // Updated code
+                String final_address = "";
+
                 if (!userName.isEmpty()) {
                     final_address += userName + ", ";
                 }
-                if (!userCity.isEmpty()) {
-                    final_address += userCity + ", ";
+
+                if (!userNumber.isEmpty()) {
+                    final_address += userNumber + ", ";
                 }
-                if (!userAddress.isEmpty()) {
-                    final_address += userAddress + ", ";
-                }
-                if (!userCode.isEmpty()) {
-                    final_address += userCode + ", ";
-                }
+
                 if (!userDistict.isEmpty()) {
                     final_address += userDistict + ", ";
                 }
+
+                if (!userCity.isEmpty()) {
+                    final_address += userCity + ", ";
+                }
+
+                if (!userCode.isEmpty()) {
+                    final_address += userCode + ", ";
+                }
+
+                if (!userAddress.isEmpty()) {
+                    final_address += userAddress + ", ";
+                }
+
                 if (!userAddDeatail.isEmpty()) {
                     final_address += userAddDeatail + ", ";
                 }
-                if (!userNumber.isEmpty()) {
-                    final_address += userNumber + ".";
+
+// Remove the trailing comma and space if the string is not empty
+                if (!final_address.isEmpty()) {
+                    final_address = final_address.substring(0, final_address.length() - 2);
                 }
+
+// Add the final period
+                final_address += ".";
+
                 if (!userName.isEmpty() && !userCity.isEmpty() && !userAddress.isEmpty() && !userCode.isEmpty() && !userNumber.isEmpty() && !userDistict.isEmpty() && !userAddDeatail.isEmpty()) {
                     Map<String, String> map = new HashMap<>();
 

@@ -53,6 +53,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     String delivaryTime ="",returnData ="",replaceData ="";
     int delevaryCharge =0;
     Button paymentBtn, cashOnDel;
+    String selectedAddress="";
     TextView subTotal, name, total,delivaryChargeText;
     ImageView pro_img;
     FirebaseFirestore firestore;
@@ -93,6 +94,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
          productSize = sharedPreferences.getString("productSize", "");
         productQty = sharedPreferences.getInt("totalQuantity", 0);
         productAmount = sharedPreferences.getFloat("totalAmount", 0.0f);
+        selectedAddress = sharedPreferences.getString("selectedAddress", "");
 
        // Now you can use these values in your AddressActivity
 
@@ -172,7 +174,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("userName", userName);
         orderMap.put("userNumber", userNumber);
         orderMap.put("userDistict", userDistict);
-        orderMap.put("userAddress_detailed", userAddDeatail);
+        orderMap.put("userAddress_detailed", selectedAddress);
         orderMap.put("orderId", orderId);
         orderMap.put("userCity", userCity);
         orderMap.put("userCode", userCode);
@@ -255,12 +257,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("productDesc", productDesc);
         orderMap.put("productQuantity", productQty + "");
         orderMap.put("productImgUrl", productImgUrl);
+
         orderMap.put("Method", "Cash On Delevery");
         orderMap.put("orderStatus", "Ordered");
         orderMap.put("userName", userName);
         orderMap.put("userNumber", userNumber);
         orderMap.put("userDistict", userDistict);
-        orderMap.put("userAddress_detailed", userAddDeatail);
+        orderMap.put("userAddress_detailed", selectedAddress);
         orderMap.put("orderId", orderId);
         orderMap.put("userCity", userCity);
         orderMap.put("userCode", userCode);

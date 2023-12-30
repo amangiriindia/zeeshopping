@@ -18,9 +18,9 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
 
-    Context context;
-    List<AddressModel> addressModelList;
-    SelectedAddress selectedAddress;
+    private Context context;
+    private List<AddressModel> addressModelList;
+    private SelectedAddress selectedAddress;
 
     public AddressAdapter(Context context, List<AddressModel> addressModelList, SelectedAddress selectedAddress) {
         this.context = context;
@@ -30,12 +30,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
     @NonNull
     @Override
-    public AddressAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddressAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         AddressModel addressModel = addressModelList.get(position);
         holder.address.setText(addressModel.getUserAddress());
         holder.radioButton.setChecked(addressModel.isSelected());
@@ -48,22 +48,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                 }
                 addressModel.setSelected(true);
                 notifyDataSetChanged();
-                selectedAddress.setAddress(addressModel.getUserAddress());
-            }
-        });
-        holder.radioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (AddressModel address : addressModelList) {
-                    address.setSelected(false);
-                }
-                addressModelList.get(position).setSelected(true);
-                notifyDataSetChanged();
-                selectedAddress.setAddress(addressModelList.get(position).getUserAddress());
+                selectedAddress.onAddressSelected(addressModel.getUserAddress());
                 selectedAddress.onRadioButtonSelected(true);
+                // Show a toast message indicating the selected address
+               // Toast.makeText(context, "Selected address: " + addressModel.getUserAddress(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -83,10 +75,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     }
 
     public interface SelectedAddress {
-        void setAddress(String address);
+        void onAddressSelected(String address);
         void onRadioButtonSelected(boolean flag);
     }
+
+
 }
-
-
-
