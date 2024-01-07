@@ -48,7 +48,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     String productName = "";
     String productImgUrl = "";
     String productDesc = "";
-    static String orderId = randomOrderId();
+    static String orderId;
     String userName = " ", userNumber = " ", userDistict = " ", userAddDeatail = " ", userCity = " ", userCode = "",productColor="",productSize="";
     String delivaryTime ="",returnData ="",replaceData ="";
     int delevaryCharge =0;
@@ -152,7 +152,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
     private void comfirmOrderOnline() {
-
+        orderId =  randomOrderId();
         String saveCurrentTime, saveCurrentDate;
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
@@ -241,6 +241,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 });
     }
 
+
+
+
+
+
+
     private void comfirmOrderCod() {
 
         String saveCurrentTime, saveCurrentDate;
@@ -250,7 +256,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime = currentTime.format(calForDate.getTime());
-
+        orderId =  randomOrderId();
         final HashMap<String, Object> orderMap = new HashMap<>();
         orderMap.put("productName", productName);
         orderMap.put("productPrice", productAmount + "");
@@ -277,6 +283,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderMap.put("replaceData",replaceData);
         orderMap.put("flag",false);
         orderMap.put("rnFlag",false);
+
         firestore.collection("orderDetailedUpdate")
                 .document(orderId)
                 .set(orderMap)
@@ -331,23 +338,32 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
 
 
-    public static String randomOrderId () {
+    public static String randomOrderId() {
         String orderId = "";
         Random random = new Random();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSSS");
+
+        // Generate a timestamp
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssS");
         String timestamp = dateFormat.format(new Date());
 
-        // Generate a random number with enough digits to fit the remaining length
+        // Calculate the remaining length to achieve a total length of 16
         int remainingLength = 16 - timestamp.length();
+
+        // Adjust the length to a minimum of 0
+        remainingLength = Math.max(0, remainingLength);
+
+        // Generate a random number with enough digits to complete the total length
         int maxRandomNumber = (int) Math.pow(10, remainingLength) - 1;
         int randomNumber = random.nextInt(maxRandomNumber);
 
-        String randomDigits = String.format("%0" + remainingLength + "d", randomNumber);
-
-        orderId = timestamp + randomDigits;
+        // Combine timestamp and random number to achieve a total length of 16
+        orderId = timestamp + String.format("%0" + remainingLength + "d", randomNumber);
 
         return orderId;
     }
+
+
+
 
 
     private void paymentMethod(double amount) {
