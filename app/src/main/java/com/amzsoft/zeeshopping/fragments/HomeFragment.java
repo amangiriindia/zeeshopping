@@ -198,7 +198,7 @@ public class HomeFragment extends Fragment {
                             Intent intent =new Intent(getContext(),DetailedActivity.class);
                             intent.putExtra("productid",myHashMap.get(i));
 //                            startActivity(intent);
-                            Toast.makeText(getContext(), "Clicked on image " + (i + 1)+myHashMap.get(i)+"" , Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Clicked on image " + (i + 1)+myHashMap.get(i)+"" , Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

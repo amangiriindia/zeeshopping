@@ -55,8 +55,8 @@ import java.util.Objects;
 
 public class DetailedActivity extends AppCompatActivity {
 
-    ImageView detailedImg;
-    TextView rating, name, description, price, quantity,out_of_stock;
+
+    TextView  name, description, price, quantity,out_of_stock;
     Button addToCart, buyNow;
     ImageView addItems, removeItems;
     Toolbar toolbar;
@@ -131,7 +131,6 @@ public class DetailedActivity extends AppCompatActivity {
         offerPrice =findViewById(R.id.detailed_off_price);
         similarProductRecyclarview =findViewById(R.id.similar_product_rec);
         out_of_stock =findViewById(R.id.out_of_stock);
-
         colorBoxLabel =findViewById(R.id.color_box_label);
         colorBox0 =findViewById(R.id.color_box0);
         colorBox1 =findViewById(R.id.color_box1);
@@ -1036,19 +1035,19 @@ public class DetailedActivity extends AppCompatActivity {
         editor.putInt("totalQuantity", totalQuantity);
         editor.putFloat("totalAmount", (float) totalamount);
 
-// Commit the changes
+        // Commit the changes
         editor.apply();
 
 
 
 
-// Start the new activity
+        // Start the new activity
         Intent intent = new Intent(this, AddressActivity.class);
         startActivity(intent);
 
     }
 
-        @Override
+    @Override
     protected void onStart() {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
@@ -1062,68 +1061,3 @@ public class DetailedActivity extends AppCompatActivity {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        if (obj instanceof NewProductsModel) {
-//            NewProductsModel newProductsModel = (NewProductsModel) obj;
-//
-//
-//        } else if (obj instanceof PopularProductsModel) {
-//            PopularProductsModel popularProductsModel = (PopularProductsModel) obj;
-//            amount = popularProductsModel.getPrice();
-//            productName = popularProductsModel.getName();
-//            productImgUrl = popularProductsModel.getImg_url();
-//            productDesc = popularProductsModel.getDescription();
-//            productQty = qty;
-//            delivaryChage = popularProductsModel.getDelivery();
-//            returnPolicy = popularProductsModel.getReturn1();
-//            replacement = popularProductsModel.getReplace();
-//            delevryTime = popularProductsModel.getDelivery_time();
-//            amount =amount*qty;
-//        } else if (obj instanceof ShowAllModel) {
-//            ShowAllModel showAllModel = (ShowAllModel) obj;
-//            amount = showAllModel.getPrice();
-//            productName = showAllModel.getName();
-//            productImgUrl = showAllModel.getImg_url();
-//            productDesc = showAllModel.getDescription();
-//            productQty = qty;
-//            delivaryChage = showAllModel.getDelivery();
-//            returnPolicy = showAllModel.getReturn1();
-//            replacement = showAllModel.getReplace();
-//            delevryTime = showAllModel.getDelivery_time();
-//            amount =amount*qty;
-//        }else if (obj instanceof DiscountModel) {
-//            DiscountModel discountModel = (DiscountModel) obj;
-//            amount = discountModel.getPrice();
-//            productName = discountModel.getName();
-//            productImgUrl = discountModel.getImg_url();
-//            productDesc = discountModel.getDescription();
-//            productQty = qty;
-//            delivaryChage = discountModel.getDelivery();
-//            returnPolicy = discountModel.getReturn1();
-//            replacement = discountModel.getReplace();
-//            delevryTime = discountModel.getDelivery_time();
-//            amount =amount*qty;
-//        } else {
-//            productName = cartProductName;
-//            amount = cartProductPrice;
-//            productImgUrl = cartProductImgUrl;
-//            productQty = cartProductQty;
-//            delevryTime = "With in 1 Day";
-//            delivaryChage = 0;
-//        }

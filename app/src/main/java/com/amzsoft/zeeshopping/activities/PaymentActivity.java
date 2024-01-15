@@ -2,9 +2,12 @@ package com.amzsoft.zeeshopping.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -362,6 +365,77 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         return orderId;
     }
+
+
+
+
+
+
+
+
+        private static MediaPlayer mediaPlayer;
+
+        public static void playSound(Context context) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+
+            // Request audio focus
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            int result = audioManager.requestAudioFocus(
+                    new AudioManager.OnAudioFocusChangeListener() {
+                        @Override
+                        public void onAudioFocusChange(int focusChange) {
+                            // Handle audio focus changes appropriately
+                            // (e.g., pause/resume playback, duck volume, etc.)
+                        }
+                    },
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+            );
+
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                mediaPlayer = MediaPlayer.create(context, R.raw.orderconfirmed); // Replace with your sound file
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                        audioManager.abandonAudioFocus(null);
+                    }
+                });
+                mediaPlayer.start();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void orderSoundFlag() {
         final HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("soundFlag", true);
@@ -371,7 +445,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(PaymentActivity.this, "Confirmed: Sound flag updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PaymentActivity.this, "Confirmed order", Toast.LENGTH_SHORT).show();
+                        playSound(PaymentActivity.this);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
