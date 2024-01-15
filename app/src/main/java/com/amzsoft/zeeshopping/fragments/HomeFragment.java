@@ -17,10 +17,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.interfaces.ItemClickListener;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.amzsoft.zeeshopping.R;
 import com.amzsoft.zeeshopping.activities.CategotyActivity;
 import com.amzsoft.zeeshopping.activities.DetailedActivity;
@@ -35,6 +31,10 @@ import com.amzsoft.zeeshopping.models.DiscountModel;
 import com.amzsoft.zeeshopping.models.NewProductsModel;
 import com.amzsoft.zeeshopping.models.PopularProductsModel;
 import com.amzsoft.zeeshopping.models.ShowAllModel;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -45,6 +45,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -168,59 +169,62 @@ public class HomeFragment extends Fragment {
         linearLayout.setVisibility(View.GONE);
 
 
+//image slider
 
-        //image slider
-        ImageSlider imageSlider =root.findViewById(R.id.image_slider);
-        List<SlideModel> slideModels =new ArrayList<>();
+        ImageSlider imageSlider = root.findViewById(R.id.image_slider);
+        List<SlideModel> slideModels = new ArrayList<>();
 
         db.collection("Slider").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot queryDocumentSnapshot :task.getResult()){
-                         String imgUrl =queryDocumentSnapshot.getString("img_url");
-                         String tittle =queryDocumentSnapshot.getString("sliderHeading");
-                        slideModels.add(new SlideModel(imgUrl,tittle,ScaleTypes.FIT));
+                if (task.isSuccessful()) {
+                    HashMap<Integer, String> myHashMap = new HashMap<>();
+                    int k =0;
 
-
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                        String imgUrl = queryDocumentSnapshot.getString("img_url");
+                        String tittle = queryDocumentSnapshot.getString("sliderHeading");
+                        String productid = queryDocumentSnapshot.getString("productid");
+                        myHashMap.put(k++,productid);
+                        slideModels.add(new SlideModel(imgUrl, tittle, ScaleTypes.FIT));
                     }
-                    imageSlider.setImageList(slideModels,ScaleTypes.FIT);
-                }else {
+
+                    imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+
+                    // Set the click listener after images are loaded
+                    imageSlider.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onItemSelected(int i) {
+                            Intent intent =new Intent(getContext(),DetailedActivity.class);
+                            intent.putExtra("productid",myHashMap.get(i));
+//                            startActivity(intent);
+                            Toast.makeText(getContext(), "Clicked on image " + (i + 1)+myHashMap.get(i)+"" , Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void doubleClick(int i) {
+                            switch (i) {
+                                case 0:
+                                case 1:
+                                case 2:
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+                } else {
                     Toast.makeText(getActivity(), "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
                 }
             }
-        })  .addOnFailureListener(new OnFailureListener() {
+        }) .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(), "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-
-
-
-        imageSlider.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemSelected(int i) {
-
-            }
-
-            @Override
-            public void doubleClick(int i) {
-                switch (i) {
-                    case 0:
-                    case 2:
-                    case 1:
-                        DocumentReference docRef = db.collection("Slider").document("BdqjN5uqG43qL8O0Vjjn").collection("product_detail").document("VCTL4l0ghPMAkXPXmmui");
-                        gotoDetailed(docRef);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        });
 
 
 

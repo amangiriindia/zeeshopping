@@ -97,6 +97,7 @@ public class DetailedActivity extends AppCompatActivity {
     boolean colorFlag ,sizeFlag ;
     String  colorBoxArray[] = new String[10] ;
     String  sizeBoxArray[] = new String[10];
+    FirebaseFirestore db;
 
     public static String colorTextOutput = "N/A",productId="";
     public static String sizeTextOutput = "N/A";
@@ -159,7 +160,7 @@ public class DetailedActivity extends AppCompatActivity {
         TextView[] sizeBoxes = new TextView[]{sizeBox0, sizeBox1, sizeBox2, sizeBox3, sizeBox4, sizeBox5, sizeBox6, sizeBox7, sizeBox8, sizeBox9};
         TextView[] colorBoxes = new TextView[]{colorBox0, colorBox1, colorBox2, colorBox3, colorBox4, colorBox5, colorBox6, colorBox7, colorBox8, colorBox9};
 
-
+        List<SlideModel> slideModels = new ArrayList<>();
 
 
 
@@ -186,11 +187,30 @@ public class DetailedActivity extends AppCompatActivity {
         }
 
 
+
+
         addToCart = findViewById(R.id.add_to_cart);
         buyNow = findViewById(R.id.buy_now);
 
         addItems = findViewById(R.id.add_item);
         removeItems = findViewById(R.id.remove_item);
+        db =FirebaseFirestore.getInstance();
+        // Retrieve the values from the Intent
+        String sliderProductId = getIntent().getStringExtra("productid");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //New Products
@@ -201,6 +221,9 @@ public class DetailedActivity extends AppCompatActivity {
             ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
             description.setText(newProductsModel.getDescription());
             ImgUrl = newProductsModel.getImg_url();
+            if (ImgUrl != "") {
+                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+            }
             ratingValue = (float) newProductsModel.getRating();
             setRating(ratingValue);
             deliveryTimeTextView.setText(newProductsModel.getDelivery_time());
@@ -253,6 +276,9 @@ public class DetailedActivity extends AppCompatActivity {
             ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
             description.setText(popularProductsModel.getDescription());
             ImgUrl = popularProductsModel.getImg_url();
+            if (ImgUrl != "") {
+                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+            }
             ratingValue = (float) popularProductsModel.getRating();
             setRating(ratingValue);
 
@@ -306,6 +332,9 @@ public class DetailedActivity extends AppCompatActivity {
             ratingTextView.setText(String.valueOf(showAllModel.getRating()));
             description.setText(showAllModel.getDescription());
             ImgUrl = showAllModel.getImg_url();
+            if (ImgUrl != "") {
+                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+            }
             ratingValue = (float) +showAllModel.getRating();
             setRating(ratingValue);
 
@@ -350,6 +379,80 @@ public class DetailedActivity extends AppCompatActivity {
 
         }
         //discount
+        if (sliderProductId != null) {
+            db.collection("ShowAll")
+                    .whereEqualTo("productId", sliderProductId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Directly retrieve data from the document
+                                description.setText(document.getString("description"));
+                                name.setText(document.getString("name"));
+                                ratingTextView.setText(document.getDouble("rating").toString());
+                                double rating = document.getDouble("rating");
+                                setRating((float) rating);
+                                productPrice = document.getLong("price").intValue();
+                                ImgUrl = document.getString("img_url");
+                                if (ImgUrl != "") {
+                                    slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+                                }
+                                delevaryCharge = document.getLong("delivery").intValue();
+                                deliveryTimeTextView.setText(document.getString("delivery_time"));
+                                replacment = document.getString("replace");
+                                returnPolicy = document.getString("return1");
+                                offerPercent = document.getLong("offer").intValue();
+                                type = document.getString("type");
+                                outOfStock = document.getBoolean("outOfStock");
+                                colorFlag = document.getBoolean("colorFlag");
+                                sizeFlag = document.getBoolean("sizeFlag");
+                                productId = document.getString("productId");
+
+                                if(delevaryCharge>0){
+                                    delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+                                }
+                                if(returnPolicy.equals("yes")){
+                                    returnHeadTextView.setVisibility(View.VISIBLE);
+                                    returnDataTextView.setVisibility(View.VISIBLE);
+                                }
+                                if(replacment.equalsIgnoreCase("yes")){
+                                    replaceHeadTextView.setVisibility(View.VISIBLE);
+                                    replaceDataTextView.setVisibility(View.VISIBLE);
+                                }
+
+
+                                afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
+                                //newProductsModel.setPrice(afterofferPrice);
+                                if(offerPercent>0){
+                                    productOffer.setVisibility(View.VISIBLE);
+                                    price.setVisibility(View.VISIBLE);
+                                    price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                    productOffer.setText(offerPercent+"% off");
+                                    price.setText(""+productPrice);
+                                    offerPrice.setText("₹"+afterofferPrice);
+                                }else {
+                                    offerPrice.setText("₹ " +afterofferPrice);
+                                }
+
+                                if(outOfStock){
+                                    out_of_stock.setVisibility(View.VISIBLE);
+                                }
+
+
+
+                            }
+                        } else {
+                            // Handle the task failure
+                            Toast.makeText(DetailedActivity.this, "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(DetailedActivity.this, "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    });
+        }
+
+
+
         if (discountModel != null) {
 
             type =   discountModel.getType();
@@ -357,6 +460,9 @@ public class DetailedActivity extends AppCompatActivity {
             ratingTextView.setText(String.valueOf(discountModel.getRating()));
             description.setText(discountModel.getDescription());
             ImgUrl = discountModel.getImg_url();
+            if (ImgUrl != "") {
+                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+            }
             ratingValue = (float) +discountModel.getRating();
             setRating(ratingValue);
 
@@ -393,6 +499,39 @@ public class DetailedActivity extends AppCompatActivity {
             }
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -543,10 +682,10 @@ public class DetailedActivity extends AppCompatActivity {
 
         //  for img slider
 
-        List<SlideModel> slideModels = new ArrayList<>();
-        if (ImgUrl != "") {
-            slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-        }
+
+//        if (ImgUrl != "") {
+//            slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
+//        }
 //        slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
 //        slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
         final String[] documentId = {""};
