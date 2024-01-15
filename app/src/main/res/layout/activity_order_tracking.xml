@@ -311,6 +311,7 @@
                 android:orientation="vertical"
                 android:background="@drawable/white_box"
                 android:padding="20dp" >
+
                 <LinearLayout
                     android:id="@+id/order_time"
                     android:layout_width="match_parent"
@@ -351,6 +352,37 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     />
+                <LinearLayout
+                    android:id="@+id/order_costmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="3dp"
+                    android:visibility="visible"
+                    >
+                    <ImageView
+                        android:id="@+id/order_call_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/calling_logo"
+                        android:tint="@color/black"
+                        tools:ignore="UseAppTint" />
+
+
+
+
+                    <TextView
+                        android:id="@+id/order_custmer_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="   +91 7860473224"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
 

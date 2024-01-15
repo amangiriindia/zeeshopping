@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -52,7 +53,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         orderId=getIntent().getStringExtra("orderId");
 
-
+        // Find the TextView by its ID
+        TextView phoneNumberTextView = findViewById(R.id.order_custmer_number);
 
 
         order_id = findViewById(R.id.order_id);
@@ -82,6 +84,29 @@ public class OrderTrackingActivity extends AppCompatActivity {
             }
         });
 
+
+        // Set an OnClickListener for the TextView
+        phoneNumberTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the phone number from the TextView
+                String phoneNumber = phoneNumberTextView.getText().toString().trim();
+
+                // Create an implicit intent to make a phone call
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+                dialIntent.setData(Uri.parse("tel:" + phoneNumber));
+
+                // Check if there is an app available to handle the intent
+                if (dialIntent.resolveActivity(getPackageManager()) != null) {
+                    // Start the activity with the intent
+                    startActivity(dialIntent);
+                } else {
+                    // Handle the case where there is no app to handle the phone call
+                    // (e.g., show a toast or dialog)
+                    // You can customize this part based on your app's requirements
+                }
+            }
+        });
 
 
 
