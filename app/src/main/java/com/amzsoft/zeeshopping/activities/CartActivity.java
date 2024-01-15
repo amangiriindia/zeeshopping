@@ -100,10 +100,10 @@ public class CartActivity extends AppCompatActivity {
                 editor.putString("productImgUrl", cartProductImg);
                 editor.putInt("totalQuantity", cartTotalQty);
                 editor.putFloat("totalAmount", carttotalPrice);
-//                editor.putString("productDesc", "");  // You may want to provide a default value or modify as needed
-//                editor.putInt("delivaryCharge", 0);   // Provide a default value if needed
-//                editor.putString("returnPolicy", "");  // Provide a default value if needed
-//                editor.putString("replacement", "");   // Provide a default value if needed
+                editor.putString("productDesc", "");  // You may want to provide a default value or modify as needed
+                editor.putInt("delivaryCharge", 0);   // Provide a default value if needed
+                editor.putString("returnPolicy", "");  // Provide a default value if needed
+                editor.putString("replacement", "");   // Provide a default value if needed
 //                editor.putString("delevryTime", "");   // Provide a default value if needed
 //                editor.putString("productColor", "");   // Provide a default value if needed
 //                editor.putString("productSize", "");    // Provide a default value if needed

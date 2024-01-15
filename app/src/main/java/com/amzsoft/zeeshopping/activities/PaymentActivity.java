@@ -292,6 +292,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             // Success
+                            orderSoundFlag();
                             // startActivity(new Intent(PaymentActivity.this, OrderConfirmActivity.class));
                             //  finish();
                         } else {
@@ -361,6 +362,29 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         return orderId;
     }
+    private void orderSoundFlag() {
+        final HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("soundFlag", true);
+
+
+        firestore.collection("tempdata").document("ZAlWZ3wsbRgsRJzVQPyM").set(dataMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(PaymentActivity.this, "Confirmed: Sound flag updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PaymentActivity.this, "Failed to update sound flag", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
+
 
 
 
