@@ -78,7 +78,8 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(context, DetailedActivity.class);
-                intent.putExtra("detailed",list.get(position));
+//                intent.putExtra("detailed",list.get(position));
+                intent.putExtra("productid",list.get(position).getProductId());
                 context.startActivity(intent);
             }
         });

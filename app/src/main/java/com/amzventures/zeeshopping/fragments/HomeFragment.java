@@ -38,8 +38,6 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -169,7 +167,7 @@ public class HomeFragment extends Fragment {
         linearLayout.setVisibility(View.GONE);
 
 
-//image slider
+          //image slider
 
         ImageSlider imageSlider = root.findViewById(R.id.image_slider);
         List<SlideModel> slideModels = new ArrayList<>();
@@ -197,7 +195,7 @@ public class HomeFragment extends Fragment {
                         public void onItemSelected(int i) {
                             Intent intent =new Intent(getContext(),DetailedActivity.class);
                             intent.putExtra("productid",myHashMap.get(i));
-//                            startActivity(intent);
+                            startActivity(intent);
 //                            Toast.makeText(getContext(), "Clicked on image " + (i + 1)+myHashMap.get(i)+"" , Toast.LENGTH_SHORT).show();
                         }
 
@@ -434,42 +432,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
-
-
         return root;
     }
 
-    private void gotoDetailed(DocumentReference docRef) {
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String imgUrl = document.getString("img_url");
-                        String name = document.getString("name");
-                        double price = document.getDouble("price");
-                        String productStatus = document.getString("product_status");
-                        double rating = document.getDouble("rating");
-                        String type = document.getString("type");
-                        String description =document.getString("description");
-
-                        // Use the retrieved field values as needed
-                        Intent intent =new Intent(getContext(), DetailedActivity.class);
-                        intent.putExtra("img_url",imgUrl);
-                        intent.putExtra("name",name);
-                        intent.putExtra("price",price);
-                        intent.putExtra("product_status",productStatus);
-                        intent.putExtra("rating",rating);
-                        intent.putExtra("description",description);
-                        startActivity(intent);
-
-                    } else {
-                        // Document does not exist
-                    }
-                }
-            }
-        });
-    }
 }

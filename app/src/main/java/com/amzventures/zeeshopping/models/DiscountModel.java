@@ -16,6 +16,8 @@ public class DiscountModel implements Serializable {
     String replace;
     String return1;
 
+    String productid;
+
     public DiscountModel() {
     }
 
@@ -109,6 +111,14 @@ public class DiscountModel implements Serializable {
         return replace;
     }
 
+    public String getProductid() {
+        return productid;
+    }
+
+    public void setProductid(String productid) {
+        this.productid = productid;
+    }
+
     public void setReplace(String replace) {
         this.replace = replace;
     }
@@ -120,4 +130,7 @@ public class DiscountModel implements Serializable {
     public void setReturn1(String return1) {
         this.return1 = return1;
     }
+
+
+
 }

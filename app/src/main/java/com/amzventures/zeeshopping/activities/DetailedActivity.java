@@ -1,5 +1,7 @@
 package com.amzventures.zeeshopping.activities;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -10,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,9 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amzventures.zeeshopping.R;
 import com.amzventures.zeeshopping.Utility.NetworkChangeListener;
 import com.amzventures.zeeshopping.adapters.ShowAllAdapter;
-import com.amzventures.zeeshopping.models.DiscountModel;
-import com.amzventures.zeeshopping.models.NewProductsModel;
-import com.amzventures.zeeshopping.models.PopularProductsModel;
 import com.amzventures.zeeshopping.models.ShowAllModel;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -69,14 +69,6 @@ public class DetailedActivity extends AppCompatActivity {
     String returnPolicy ="",type="";
     TextView colorBoxLabel,colorBox0,colorBox1,colorBox2,colorBox3,colorBox4,colorBox5,colorBox6,colorBox7,colorBox8,colorBox9;
     TextView sizeBoxLabel,sizeBox0,sizeBox1,sizeBox2,sizeBox3,sizeBox4,sizeBox5,sizeBox6,sizeBox7,sizeBox8,sizeBox9;
-
-    // New Product
-    NewProductsModel newProductsModel = null;
-    //Popular Products
-    PopularProductsModel popularProductsModel = null;
-    //show All
-    ShowAllModel showAllModel = null;
-    DiscountModel discountModel =null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
     static float ratingValue = 0;
@@ -101,9 +93,9 @@ public class DetailedActivity extends AppCompatActivity {
 
     public static String colorTextOutput = "N/A",productId="";
     public static String sizeTextOutput = "N/A";
-
-
-
+    private String productname="";
+    private String product_desc="";
+    private String delevary_time="";
 
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -142,8 +134,6 @@ public class DetailedActivity extends AppCompatActivity {
         colorBox7 =findViewById(R.id.color_box7);
         colorBox8 =findViewById(R.id.color_box8);
         colorBox9 =findViewById(R.id.color_box9);
-
-
         sizeBoxLabel =findViewById(R.id.size_box_label);
         sizeBox0 = findViewById(R.id.size_box0);
         sizeBox1 = findViewById(R.id.size_box1);
@@ -155,15 +145,14 @@ public class DetailedActivity extends AppCompatActivity {
         sizeBox7 = findViewById(R.id.size_box7);
         sizeBox8 = findViewById(R.id.size_box8);
         sizeBox9 = findViewById(R.id.size_box9);
-
         TextView[] sizeBoxes = new TextView[]{sizeBox0, sizeBox1, sizeBox2, sizeBox3, sizeBox4, sizeBox5, sizeBox6, sizeBox7, sizeBox8, sizeBox9};
         TextView[] colorBoxes = new TextView[]{colorBox0, colorBox1, colorBox2, colorBox3, colorBox4, colorBox5, colorBox6, colorBox7, colorBox8, colorBox9};
-
-        List<SlideModel> slideModels = new ArrayList<>();
-
-
-
+        addToCart = findViewById(R.id.add_to_cart);
+        buyNow = findViewById(R.id.buy_now);
+        addItems = findViewById(R.id.add_item);
+        removeItems = findViewById(R.id.remove_item);
         toolbar = findViewById(R.id.detailed_toolbar);
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -174,210 +163,14 @@ public class DetailedActivity extends AppCompatActivity {
         });
 
 
-        final Object obj = getIntent().getSerializableExtra("detailed");
-        if (obj instanceof NewProductsModel) {
-            newProductsModel = (NewProductsModel) obj;
-        } else if (obj instanceof PopularProductsModel) {
-            popularProductsModel = (PopularProductsModel) obj;
-        } else if (obj instanceof ShowAllModel) {
-            showAllModel = (ShowAllModel) obj;
-        }else if(obj instanceof DiscountModel){
-            discountModel =(DiscountModel) obj;
-        }
 
 
-
-
-        addToCart = findViewById(R.id.add_to_cart);
-        buyNow = findViewById(R.id.buy_now);
-
-        addItems = findViewById(R.id.add_item);
-        removeItems = findViewById(R.id.remove_item);
         db =FirebaseFirestore.getInstance();
         // Retrieve the values from the Intent
         String sliderProductId = getIntent().getStringExtra("productid");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //New Products
-        if (newProductsModel != null) {
-
-            type =newProductsModel.getType();
-            name.setText(newProductsModel.getName());
-            ratingTextView.setText(String.valueOf(newProductsModel.getRating()));
-            description.setText(newProductsModel.getDescription());
-            ImgUrl = newProductsModel.getImg_url();
-            if (ImgUrl != "") {
-                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-            }
-            ratingValue = (float) newProductsModel.getRating();
-            setRating(ratingValue);
-            deliveryTimeTextView.setText(newProductsModel.getDelivery_time());
-            delevaryCharge = newProductsModel.getDelivery();
-            colorFlag = newProductsModel.isColorFlag();
-            sizeFlag = newProductsModel.isSizeFlag();
-            productId =newProductsModel.getProductId();
-            if(delevaryCharge>0){
-              delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
-            }
-
-            returnPolicy = newProductsModel.getReturn1();
-            if(returnPolicy.equals("yes")){
-                returnHeadTextView.setVisibility(View.VISIBLE);
-                returnDataTextView.setVisibility(View.VISIBLE);
-            }
-
-            replacment =newProductsModel.getReplace();
-            if(replacment.equalsIgnoreCase("yes")){
-                replaceHeadTextView.setVisibility(View.VISIBLE);
-                replaceDataTextView.setVisibility(View.VISIBLE);
-            }
-
-            productPrice =newProductsModel.getPrice();
-            offerPercent = newProductsModel.getOffer();
-             afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
-            newProductsModel.setPrice(afterofferPrice);
-            if(offerPercent>0){
-                productOffer.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                productOffer.setText(offerPercent+"% off");
-                price.setText(""+productPrice);
-                offerPrice.setText("₹"+afterofferPrice);
-            }else {
-                offerPrice.setText("₹ " +afterofferPrice);
-            }
-            outOfStock = newProductsModel.isOutOfStock();
-            if(outOfStock){
-                out_of_stock.setVisibility(View.VISIBLE);
-            }
-
-
-
-        }
-        //popular Products
-        if (popularProductsModel != null) {
-            type =popularProductsModel.getType();
-            name.setText(popularProductsModel.getName());
-            ratingTextView.setText(String.valueOf(popularProductsModel.getRating()));
-            description.setText(popularProductsModel.getDescription());
-            ImgUrl = popularProductsModel.getImg_url();
-            if (ImgUrl != "") {
-                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-            }
-            ratingValue = (float) popularProductsModel.getRating();
-            setRating(ratingValue);
-
-            deliveryTimeTextView.setText(popularProductsModel.getDelivery_time());
-            delevaryCharge = popularProductsModel.getDelivery();
-            colorFlag = popularProductsModel.isColorFlag();
-            sizeFlag = popularProductsModel.isSizeFlag();
-            productId =popularProductsModel.getProductId();
-            if(delevaryCharge>0){
-                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
-            }
-
-            returnPolicy = popularProductsModel.getReturn1();
-            if(returnPolicy.equals("yes")){
-                returnHeadTextView.setVisibility(View.VISIBLE);
-                returnDataTextView.setVisibility(View.VISIBLE);
-            }
-
-            replacment =popularProductsModel.getReplace();
-            if(replacment.equalsIgnoreCase("yes")){
-                replaceHeadTextView.setVisibility(View.VISIBLE);
-                replaceDataTextView.setVisibility(View.VISIBLE);
-            }
-            //PRICE
-            productPrice =popularProductsModel.getPrice();
-            offerPercent = popularProductsModel.getOffer();
-            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
-            popularProductsModel.setPrice(afterofferPrice);
-            if(offerPercent>0){
-                productOffer.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                productOffer.setText(offerPercent+"% off");
-                price.setText(""+productPrice);
-                offerPrice.setText("₹"+afterofferPrice);
-            }else {
-                offerPrice.setText("₹ " +afterofferPrice);
-            }
-            outOfStock = popularProductsModel.isOutOfStock();
-            if(outOfStock){
-                out_of_stock.setVisibility(View.VISIBLE);
-            }
-
-
-        }
-        //Show All
-        if (showAllModel != null) {
-
-            type =   showAllModel.getType();
-            name.setText(showAllModel.getName());
-            ratingTextView.setText(String.valueOf(showAllModel.getRating()));
-            description.setText(showAllModel.getDescription());
-            ImgUrl = showAllModel.getImg_url();
-            if (ImgUrl != "") {
-                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-            }
-            ratingValue = (float) +showAllModel.getRating();
-            setRating(ratingValue);
-
-            deliveryTimeTextView.setText(showAllModel.getDelivery_time());
-            delevaryCharge = showAllModel.getDelivery();
-            colorFlag = showAllModel.isColorFlag();
-            sizeFlag = showAllModel.isSizeFlag();
-            productId = showAllModel.getProductId();
-            if(delevaryCharge>0){
-                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
-            }
-
-            returnPolicy = showAllModel.getReturn1();
-            if(returnPolicy.equals("yes")){
-                returnHeadTextView.setVisibility(View.VISIBLE);
-                returnDataTextView.setVisibility(View.VISIBLE);
-            }
-
-            replacment =showAllModel.getReplace();
-            if(replacment.equalsIgnoreCase("yes")){
-                replaceHeadTextView.setVisibility(View.VISIBLE);
-                replaceDataTextView.setVisibility(View.VISIBLE);
-            }
-            productPrice =showAllModel.getPrice();
-            offerPercent =showAllModel.getOffer();
-            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
-            showAllModel.setPrice(afterofferPrice);
-            if(offerPercent>0){
-                productOffer.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                productOffer.setText(offerPercent+"% off");
-                price.setText(""+productPrice);
-                offerPrice.setText("₹"+afterofferPrice);
-            }else {
-                offerPrice.setText("₹ " +afterofferPrice);
-            }
-            outOfStock = showAllModel.isOutOfStock();
-            if(outOfStock){
-                out_of_stock.setVisibility(View.VISIBLE);
-            }
-
-        }
-        //discount
+//        productid
         if (sliderProductId != null) {
             db.collection("ShowAll")
                     .whereEqualTo("productId", sliderProductId)
@@ -388,14 +181,12 @@ public class DetailedActivity extends AppCompatActivity {
                                 // Directly retrieve data from the document
                                 description.setText(document.getString("description"));
                                 name.setText(document.getString("name"));
-                                ratingTextView.setText(document.getDouble("rating").toString());
+                                ratingTextView.setText(String.valueOf(document.getDouble("rating")));
                                 double rating = document.getDouble("rating");
                                 setRating((float) rating);
                                 productPrice = document.getLong("price").intValue();
                                 ImgUrl = document.getString("img_url");
-                                if (ImgUrl != "") {
-                                    slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-                                }
+                                imageSliderFromFirestore( ImgUrl);
                                 delevaryCharge = document.getLong("delivery").intValue();
                                 deliveryTimeTextView.setText(document.getString("delivery_time"));
                                 replacment = document.getString("replace");
@@ -406,134 +197,37 @@ public class DetailedActivity extends AppCompatActivity {
                                 colorFlag = document.getBoolean("colorFlag");
                                 sizeFlag = document.getBoolean("sizeFlag");
                                 productId = document.getString("productId");
+                                productname =document.getString("name");
+                                product_desc =document.getString("description");
+                                delevary_time =document.getString("delivery_time");
 
-                                if(delevaryCharge>0){
-                                    delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
+                                if (delevaryCharge > 0) {
+                                    delevaryFree.setText("Delivery charge : ₹" + delevaryCharge);
                                 }
-                                if(returnPolicy.equals("yes")){
+                                if (returnPolicy.equals("yes")) {
                                     returnHeadTextView.setVisibility(View.VISIBLE);
                                     returnDataTextView.setVisibility(View.VISIBLE);
                                 }
-                                if(replacment.equalsIgnoreCase("yes")){
+                                if (replacment.equalsIgnoreCase("yes")) {
                                     replaceHeadTextView.setVisibility(View.VISIBLE);
                                     replaceDataTextView.setVisibility(View.VISIBLE);
                                 }
 
-
-                                afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
-                                //newProductsModel.setPrice(afterofferPrice);
-                                if(offerPercent>0){
+                                afterofferPrice = (productPrice * (100 - offerPercent)) / 100;
+                                if (offerPercent > 0) {
                                     productOffer.setVisibility(View.VISIBLE);
                                     price.setVisibility(View.VISIBLE);
                                     price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                                    productOffer.setText(offerPercent+"% off");
-                                    price.setText(""+productPrice);
-                                    offerPrice.setText("₹"+afterofferPrice);
-                                }else {
-                                    offerPrice.setText("₹ " +afterofferPrice);
+                                    productOffer.setText(offerPercent + "% off");
+                                    price.setText(String.valueOf(productPrice));
+                                    offerPrice.setText("₹" + afterofferPrice);
+                                } else {
+                                    offerPrice.setText("₹" + afterofferPrice);
                                 }
 
-                                if(outOfStock){
+                                if (outOfStock) {
                                     out_of_stock.setVisibility(View.VISIBLE);
                                 }
-
-
-
-                            }
-                        } else {
-                            // Handle the task failure
-                            Toast.makeText(DetailedActivity.this, "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(DetailedActivity.this, "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
-                    });
-        }
-
-
-
-        if (discountModel != null) {
-
-            type =   discountModel.getType();
-            name.setText(discountModel.getName());
-            ratingTextView.setText(String.valueOf(discountModel.getRating()));
-            description.setText(discountModel.getDescription());
-            ImgUrl = discountModel.getImg_url();
-            if (ImgUrl != "") {
-                slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-            }
-            ratingValue = (float) +discountModel.getRating();
-            setRating(ratingValue);
-
-            deliveryTimeTextView.setText(discountModel.getDelivery_time());
-            delevaryCharge = discountModel.getDelivery();
-            if(delevaryCharge>0){
-                delevaryFree.setText("Delivery charge : ₹"+delevaryCharge);
-            }
-
-            returnPolicy = discountModel.getReturn1();
-            if(returnPolicy.equals("yes")){
-                returnHeadTextView.setVisibility(View.VISIBLE);
-                returnDataTextView.setVisibility(View.VISIBLE);
-            }
-
-            replacment =discountModel.getReplace();
-            if(replacment.equalsIgnoreCase("yes")){
-                replaceHeadTextView.setVisibility(View.VISIBLE);
-                replaceDataTextView.setVisibility(View.VISIBLE);
-            }
-            productPrice =discountModel.getPrice();
-            offerPercent =discountModel.getOffer();
-            afterofferPrice =(productPrice * (100 - offerPercent)) / 100;
-            discountModel.setPrice(afterofferPrice);
-            if(offerPercent>0){
-                productOffer.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-                price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                productOffer.setText(offerPercent+"% off");
-                price.setText(""+productPrice);
-                offerPrice.setText("₹"+afterofferPrice);
-            }else {
-                offerPrice.setText("₹ " +afterofferPrice);
-            }
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         if(sizeFlag){
             sizeBoxLabel.setVisibility(View.VISIBLE);
@@ -574,14 +268,7 @@ public class DetailedActivity extends AppCompatActivity {
                         }
                     });
 
-
-
-
-
-
         }
-
-
 
         if(colorFlag){
             colorBoxLabel.setVisibility(View.VISIBLE);
@@ -626,16 +313,8 @@ public class DetailedActivity extends AppCompatActivity {
 
 
         }
-
-
-
         setupColorBoxListeners();
         setupSizeBoxListeners();
-
-
-
-
-
 
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -644,7 +323,6 @@ public class DetailedActivity extends AppCompatActivity {
                 addToCart();
             }
         });
-
 
         //Buy Now
         buyNow.setOnClickListener(new View.OnClickListener() {
@@ -679,60 +357,6 @@ public class DetailedActivity extends AppCompatActivity {
             }
         });
 
-        //  for img slider
-
-
-//        if (ImgUrl != "") {
-//            slideModels.add(new SlideModel(ImgUrl, ScaleTypes.FIT));
-//        }
-//        slideModels.add(new SlideModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", ScaleTypes.FIT));
-//        slideModels.add(new SlideModel("https://img.freepik.com/free-photo/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy_1258-154643.jpg", ScaleTypes.FIT));
-        final String[] documentId = {""};
-
-        CollectionReference collectionRef = firestore.collection("ShowAll");
-
-        collectionRef.whereEqualTo("img_url", ImgUrl)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                documentId[0] = document.getId();
-
-                                // Execute the second query to retrieve data from the "slider" collection
-                                firestore.collection("ShowAll")
-                                        .document(documentId[0])
-                                        .collection("slider")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                                                        String imgUrl = queryDocumentSnapshot.getString("img_url");
-                                                        slideModels.add(new SlideModel(imgUrl, ScaleTypes.FIT));
-                                                    }
-                                                    imageSlider.setImageList(slideModels);
-                                                } else {
-                                                    // Handle exceptions or errors in retrieving the documents from "slider" collection
-                                                }
-                                            }
-                                        });
-                            }
-                        } else {
-                            // Handle exceptions or errors in retrieving the document
-                            Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(DetailedActivity.this, "Restart or Please wait ...", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
         //similar Product
         similarProductRecyclarview.setLayoutManager(new GridLayoutManager(this, 2));
         showAllModelList =new ArrayList<>();
@@ -744,15 +368,15 @@ public class DetailedActivity extends AppCompatActivity {
                 .whereEqualTo("type", type.toLowerCase())  // Add your where condition here
                 .limit(6)  // Set the maximum limit to 6
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
+                .addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task1.getResult();
                         int count = 0;
-                        for (QueryDocumentSnapshot document : querySnapshot) {
+                        for (QueryDocumentSnapshot document1 : querySnapshot) {
                             if (count >= 6) {
                                 break;  // Exit the loop if 6 items have been added
                             }
-                            ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
+                            ShowAllModel showAllModel = document1.toObject(ShowAllModel.class);
                             showAllModelList.add(showAllModel);
                             showAllAdapter.notifyDataSetChanged();
                             count++;
@@ -768,11 +392,77 @@ public class DetailedActivity extends AppCompatActivity {
                 });
 
 
+                            }
+                        } else {
+                            // Handle the task failure
+                            Toast.makeText(DetailedActivity.this, "Restart or Please Wait...", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(DetailedActivity.this, "Restart or Please Wait....", Toast.LENGTH_SHORT).show();
+                    });
+
+        }
+
+
+
 
     }
 
 
 
+    private void imageSliderFromFirestore(String imgUrl) {
+        // Show the URL being fetched in a Toast message
+//        Toast.makeText(this, "Fetching images for URL: " + imgUrl, Toast.LENGTH_SHORT).show();
+
+        // Create a list to hold the SlideModels
+        List<SlideModel> slideModels = new ArrayList<>();
+        slideModels.add(new SlideModel(imgUrl, ScaleTypes.FIT));
+
+        // Get a reference to the Firestore collection
+        CollectionReference collectionRef = firestore.collection("ShowAll");
+
+        // Query Firestore to find documents with the given imgUrl
+        collectionRef.whereEqualTo("img_url", imgUrl)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String documentId = document.getId();
+
+                            // Execute the second query to retrieve data from the "slider" collection
+                            firestore.collection("ShowAll")
+                                    .document(documentId)
+                                    .collection("slider")
+                                    .get()
+                                    .addOnCompleteListener(sliderTask -> {
+                                        if (sliderTask.isSuccessful()) {
+                                            for (QueryDocumentSnapshot queryDocumentSnapshot : sliderTask.getResult()) {
+                                                String imageUrl = queryDocumentSnapshot.getString("img_url");
+                                                if (imageUrl != null && !imageUrl.isEmpty()) {
+                                                    slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
+                                                }
+                                            }
+                                            // Set image list for the slider
+                                            imageSlider.setImageList(slideModels);
+                                        } else {
+                                            // Handle exceptions or errors in retrieving the documents from "slider" collection
+                                            Log.e(TAG, "Error fetching slider images: ", sliderTask.getException());
+                                        }
+                                    });
+                        }
+                    } else {
+                        // Handle exceptions or errors in retrieving the document
+                        Log.e(TAG, "Error fetching document: ", task.getException());
+                        Toast.makeText(DetailedActivity.this, "Failed to fetch document", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failures in Firestore queries
+                    Log.e(TAG, "Firestore query failed: ", e);
+                    Toast.makeText(DetailedActivity.this, "Firestore query failed", Toast.LENGTH_SHORT).show();
+                });
+    }
 
 
     private TextView setupColorBoxListeners() {
@@ -861,37 +551,39 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     public void setRating(float ratingValue) {
         RatingBar ratingBar = findViewById(R.id.my_rating);
-        int maxStars = 5; // Set the maximum number of stars
-        ratingBar.setMax(maxStars);
+        if (ratingBar != null) {
+            int maxStars = 5; // Set the maximum number of stars
+            ratingBar.setMax(maxStars);
 
-// Set the rating value for the RatingBar
-        float stepSize = 1.0f; // Set the step size
-        float rating = ratingValue / stepSize;
-        ratingBar.setRating(rating);
+            // Set the rating value for the RatingBar
+            float stepSize = 1.0f; // Set the step size
+            float rating = ratingValue / stepSize;
+            ratingBar.setRating(rating);
 
-// Customize the progress drawable
-        Drawable progressDrawable = ratingBar.getProgressDrawable();
-        if (progressDrawable instanceof LayerDrawable) {
-            LayerDrawable stars = (LayerDrawable) progressDrawable;
-            Drawable filledStars = stars.getDrawable(2);
-            Drawable halfFilledStars = stars.getDrawable(1);
-            Drawable emptyStars = stars.getDrawable(0);
+            // Customize the progress drawable
+            Drawable progressDrawable = ratingBar.getProgressDrawable();
+            if (progressDrawable instanceof LayerDrawable) {
+                LayerDrawable stars = (LayerDrawable) progressDrawable;
+                Drawable filledStars = stars.getDrawable(2);
+                Drawable halfFilledStars = stars.getDrawable(1);
+                Drawable emptyStars = stars.getDrawable(0);
 
-            filledStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
-            halfFilledStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
-            emptyStars.setColorFilter(ContextCompat.getColor(this, R.color.green), PorterDuff.Mode.SRC_ATOP);
+                // Set the color filter for filled, half-filled, and empty stars
+                int color = ContextCompat.getColor(this, R.color.green);
+                filledStars.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                halfFilledStars.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                emptyStars.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
+
+            // Set the progress drawable back to the RatingBar
+            ratingBar.setProgressDrawable(progressDrawable);
+        } else {
+            Log.e(TAG, "RatingBar not found");
         }
-
-// Set the progress drawable back to the RatingBar
-        ratingBar.setProgressDrawable(progressDrawable);
     }
+
 
 
     private void addToCart() {
@@ -957,89 +649,24 @@ public class DetailedActivity extends AppCompatActivity {
             }
         }
 
-
-
-        double totalamount = 0.0;
-        double amount = 0.0;
-        String productDesc = "";
-        int delivaryChage =0;
-        String returnPolicy ="";
-        String replacement ="";
-        String delevryTime ="";
-        String productName="";
-        String productImgUrl ="";
-// Check the specific model and save its data
-        if (newProductsModel != null) {
-            // Handle newProductsModel
-            amount = newProductsModel.getPrice();
-            productName = newProductsModel.getName();
-            productImgUrl = newProductsModel.getImg_url();
-            productDesc = newProductsModel.getDescription();
-            delivaryChage = newProductsModel.getDelivery();
-            returnPolicy = newProductsModel.getReturn1();
-            replacement = newProductsModel.getReplace();
-            delevryTime = newProductsModel.getDelivery_time();
-            totalamount =amount*totalQuantity;
-        } else if (popularProductsModel != null) {
-            amount = popularProductsModel.getPrice();
-            productName = popularProductsModel.getName();
-            productImgUrl = popularProductsModel.getImg_url();
-            productDesc = popularProductsModel.getDescription();
-            delivaryChage = popularProductsModel.getDelivery();
-            returnPolicy = popularProductsModel.getReturn1();
-            replacement = popularProductsModel.getReplace();
-            delevryTime = popularProductsModel.getDelivery_time();
-            totalamount =amount*totalQuantity;
-
-        } else if (showAllModel != null) {
-
-
-            amount = showAllModel.getPrice();
-            productName = showAllModel.getName();
-            productImgUrl = showAllModel.getImg_url();
-            productDesc = showAllModel.getDescription();
-            delivaryChage = showAllModel.getDelivery();
-            returnPolicy = showAllModel.getReturn1();
-            replacement = showAllModel.getReplace();
-            delevryTime = showAllModel.getDelivery_time();
-            totalamount =amount*totalQuantity;
-
-
-        } else if (discountModel != null) {
-
-            amount = discountModel.getPrice();
-            productName = discountModel.getName();
-            productImgUrl = discountModel.getImg_url();
-            productDesc = discountModel.getDescription();
-            delivaryChage = discountModel.getDelivery();
-            returnPolicy = discountModel.getReturn1();
-            replacement = discountModel.getReplace();
-            delevryTime = discountModel.getDelivery_time();
-            totalamount =amount*totalQuantity;
-
-        }
-
+        double totalamount = (afterofferPrice * totalQuantity );
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("productName", productName);
-        editor.putInt("productamount", (int) amount);
-        editor.putString("productImgUrl", productImgUrl);
-        editor.putString("productDesc", productDesc);
-        editor.putInt("delivaryCharge", delivaryChage);
+        editor.putString("productName", productname);
+        editor.putInt("productamount", (int) afterofferPrice);
+        editor.putString("productImgUrl", ImgUrl);
+        editor.putString("productDesc", product_desc);
+        editor.putInt("delivaryCharge", delevaryCharge);
         editor.putString("returnPolicy", returnPolicy);
-        editor.putString("replacement", replacement);
-        editor.putString("delevryTime", delevryTime);
+        editor.putString("replacement", replacment);
+        editor.putString("delevryTime", delevary_time);
         editor.putString("productColor", colorTextOutput);
         editor.putString("productSize", sizeTextOutput);
         editor.putInt("totalQuantity", totalQuantity);
         editor.putFloat("totalAmount", (float) totalamount);
 
-        // Commit the changes
         editor.apply();
-
-
-
 
         // Start the new activity
         Intent intent = new Intent(this, AddressActivity.class);

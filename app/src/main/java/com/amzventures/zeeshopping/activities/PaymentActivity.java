@@ -99,6 +99,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         productAmount = sharedPreferences.getFloat("totalAmount", 0.0f);
         selectedAddress = sharedPreferences.getString("selectedAddress", "");
 
+
        // Now you can use these values in your AddressActivity
 
         //data base
@@ -124,6 +125,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         delivaryChargeText =findViewById(R.id.delivary_Charge);
 
        totalAmount =productAmount +delevaryCharge;
+
         subTotal.setText("₹ " + productAmount);
         total.setText("₹ " + totalAmount);
         if(delevaryCharge >0){
@@ -168,7 +170,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         final HashMap<String, Object> orderMap = new HashMap<>();
         orderMap.put("productName", productName);
-        orderMap.put("productPrice", productAmount + "");
+        orderMap.put("productPrice", totalAmount + "");
         orderMap.put("productQuantity", productQty + "");
         orderMap.put("productDesc", productDesc);
         orderMap.put("productImgUrl", productImgUrl);
@@ -262,11 +264,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         orderId =  randomOrderId();
         final HashMap<String, Object> orderMap = new HashMap<>();
         orderMap.put("productName", productName);
-        orderMap.put("productPrice", productAmount + "");
+        orderMap.put("productPrice", totalAmount + "");
         orderMap.put("productDesc", productDesc);
         orderMap.put("productQuantity", productQty + "");
         orderMap.put("productImgUrl", productImgUrl);
-
         orderMap.put("Method", "Cash On Delevery");
         orderMap.put("orderStatus", "Ordered");
         orderMap.put("userName", userName);
@@ -309,7 +310,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("productName", productName);
-        cartMap.put("productPrice", productAmount + "");
+        cartMap.put("productPrice", totalAmount + "");
         cartMap.put("productQuantity", productQty + "");
         cartMap.put("productImgUrl", productImgUrl);
         cartMap.put("Method", "Cash on delivery");

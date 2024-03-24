@@ -47,7 +47,8 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailedActivity.class);
-                intent.putExtra("detailed",discountModelList.get(position));
+//                intent.putExtra("detailed",discountModelList.get(position));
+                intent.putExtra("productid",discountModelList.get(position).getProductid());
                 context.startActivity(intent);
             }
         });
