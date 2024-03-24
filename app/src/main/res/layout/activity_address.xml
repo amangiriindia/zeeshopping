@@ -30,30 +30,37 @@
         app:layout_constraintTop_toBottomOf="@+id/address_toolbar"
         tools:listitem="@layout/address_item" />
 
-    <Button
-        android:id="@+id/add_address_btn"
-        android:layout_marginTop="20dp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bg"
-        android:backgroundTint="@color/btnFirst"
-        android:text="Add Address"
-        android:textColor="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_recycler" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/payment_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_bg"
-        android:backgroundTint="@color/btnSecond"
-        android:text="Confirm order"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_address_btn" />
+        <Button
+            android:id="@+id/add_address_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_text_bg"
+            android:backgroundTint="@color/btnFirst"
+            android:layout_margin="10dp"
+            android:text="Add Address"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/payment_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_bg"
+            android:backgroundTint="@color/btnSecond"
+            android:text="Confirm order"
+            android:layout_marginBottom="30dp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
