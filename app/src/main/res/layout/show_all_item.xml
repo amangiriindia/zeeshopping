@@ -1,110 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/card_boder"
-    app:cardCornerRadius="4dp"
-    android:layout_margin="10dp"
-    app:cardElevation="8dp">
 
-<LinearLayout
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:gravity="center">
-
-<ImageView
-    android:id="@+id/item_image"
-    android:layout_width="175dp"
-    android:layout_height="280dp"
-    android:scaleType="centerCrop"
-    app:srcCompat="@drawable/milk" />
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="15dp"
-    android:background="@color/white">
-
-    <TextView
-        android:id="@+id/item_nam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/textColorPrimary"
-        android:text="Woman T shirt"
-        android:fontFamily="@font/amethysta"/>
-
-    <RatingBar
-        android:id="@+id/my_rating"
-        style="?android:attr/ratingBarStyleSmall"
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:stepSize="0.1"
-        tools:ignore="RtlHardcoded" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="3dp">
+    android:layout_margin="8dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="10dp"
+        android:background="@drawable/card_boder">
 
-        <TextView
-            android:id="@+id/item_cost"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amethysta"
-            android:text="200"
-            android:textColor="@color/grey_font"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginStart="7dp"
-            android:visibility="gone"
-            tools:ignore="HardcodedText" />
-        <TextView
-            android:id="@+id/item_off_price"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="175dp"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/milk" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amethysta"
-            android:text="₹200"
-            android:textColor="@color/textColorPrimary"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginStart="7dp"
-            tools:ignore="HardcodedText" />
-    </LinearLayout>
+            android:gravity="center"
+            android:padding="15dp"
+            android:orientation="vertical"
+            android:background="@color/white">
 
-    <TextView
-        android:id="@+id/item_offer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:fontFamily="@font/amethysta"
-        android:text="60% off"
-        android:textStyle="bold"
-        android:textColor="@color/green"
-        android:textSize="16sp"
-        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/item_delevary_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:textSize="14sp"
-        android:text="Free delivery "
-        android:visibility="gone"/>
-</LinearLayout>
-</LinearLayout>
+            <TextView
+                android:id="@+id/item_nam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColorPrimary"
+                android:text="Woman T shirt"
+                android:fontFamily="@font/amethysta"/>
 
-</androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RatingBar
+                    android:id="@+id/my_rating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="3dp">
+
+
+                <TextView
+                    android:id="@+id/item_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amethysta"
+                    android:text="200"
+                    android:textColor="@color/grey_font"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginStart="7dp"
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
+                <TextView
+                    android:id="@+id/item_off_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amethysta"
+                    android:text="₹200"
+                    android:textColor="@color/textColorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginStart="7dp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <TextView
+                   android:id="@+id/item_offer"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="3dp"
+                   android:layout_toStartOf="@+id/my_rating"
+                   android:fontFamily="@font/amethysta"
+                   android:text="60% off"
+                   android:textStyle="bold"
+                   android:textColor="@color/green"
+                   android:textSize="16sp"
+                   android:visibility="gone"/>
+           </LinearLayout>
+
+
+
+
+
+
+            <TextView
+                android:textColor="@color/textColorPrimary"
+                android:fontFamily="@font/amethysta"
+                android:id="@+id/item_delevary_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textSize="14sp"
+                android:text="Free delivery "
+                android:visibility="gone"/>
+        </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
