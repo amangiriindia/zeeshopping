@@ -33,8 +33,9 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:fontFamily="@font/amethysta"
-                android:text="Category"
-                android:textColor="@color/textColorPrimary"                android:textSize="21sp"
+                android:text="Shop by category"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="21sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -55,24 +56,20 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rec_category"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="10dp" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_marginTop="10dp"
-            android:elevation="6dp"
-            app:cardCornerRadius="5dp">
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -124,13 +121,12 @@
                     android:padding="5dp" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorFregment1">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -186,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/white">
+            >
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -235,7 +231,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/colorFregment1">
+            android:id="@+id/special_offer_liner_layout"
+            android:visibility="gone"
+            tools:ignore="InvalidId">
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

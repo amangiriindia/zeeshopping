@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace 'com.amzsoft.zeeshopping'
+    namespace 'com.amzventures.zeeshopping'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.amzsoft.zeeshopping"
+        applicationId "com.amzventures.zeeshopping"
         minSdk 21
         targetSdk 33
-        versionCode 7
-        versionName "1.6"
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
